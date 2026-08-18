@@ -137,12 +137,24 @@ body.cover-open{overflow:hidden;}
 .cover .hero-title{font-size:clamp(31px,10.5vw,46px);}
 .cover .hero-rule{margin:22px auto 18px;width:76px;}
 .cover .hero-note{margin-top:16px;}
+.cover-to{
+  margin:0 0 20px;font-family:var(--serif);
+  font-size:13px;letter-spacing:.24em;text-indent:.24em;font-weight:600;
+  color:rgba(255,255,255,.8);
+  opacity:0;animation:fadeUp .8s cubic-bezier(.2,.8,.3,1) forwards;
+}
 .cover-tap{
   position:absolute;left:0;right:0;
   bottom:calc(38px + env(safe-area-inset-bottom));
   text-align:center;font-size:10px;letter-spacing:.34em;text-indent:.34em;
   color:rgba(255,255,255,.55);
   opacity:0;animation:tapIn 1s 1.3s forwards, tapPulse 2.6s 2.3s ease-in-out infinite;
+}
+/* 10月3日まではカウントダウン表示（点滅させない） */
+.cover.wait .cover-tap{
+  font-size:11px;letter-spacing:.22em;text-indent:.22em;
+  color:var(--gold-l);
+  animation:tapIn 1s .9s forwards;
 }
 @keyframes tapIn{to{opacity:1}}
 @keyframes tapPulse{0%,100%{opacity:1}50%{opacity:.4}}
@@ -693,14 +705,15 @@ body.cover-open{overflow:hidden;}
 
 <!-- ============ COVER ============ -->
 <div class="cover" id="cover">
-  <div class="inner">
+  <div class="inner" id="coverInner">
+    <p class="cover-to">あーちゃんへ</p>
     <p class="hero-kicker">✦ FOR YOU ✦</p>
     <h1 class="hero-title">Happy<br>Birthday Trip</h1>
     <div class="hero-rule"></div>
     <p class="hero-sub">2026.10.03〜04 SPECIAL TRIP</p>
     <p class="hero-note">みなとみらい ＆ 江ノ島 / 1泊2日</p>
   </div>
-  <span class="cover-tap">TAP TO OPEN</span>
+  <span class="cover-tap" id="coverTap">TAP TO OPEN</span>
 </div>
 
 <div class="app">
@@ -1018,10 +1031,41 @@ body.cover-open{overflow:hidden;}
   var $  = function(s,c){ return (c||document).querySelector(s); };
   var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
 
-  /* ---------------- cover ---------------- */
+  /* ---------------- cover ----------------
+     10/3 0:00（日本時間）まで表紙は開かない。
+     ただし ?open 付き・ローカル表示・一度解除した端末は素通りする。 */
   var cover = $("#cover");
   if(cover){
+    var OPEN_AT  = Date.UTC(2026, 9, 2, 15, 0, 0);   /* = 2026-10-03 00:00 JST */
+    var FREE_KEY = "bday-cover-free";
+    var tapEl    = $("#coverTap");
+    var countTxt = "", waitTimer;
+
+    var free = false;
+    try{ free = !!localStorage.getItem(FREE_KEY); }catch(e){}
+    if(/[?&]open\b/.test(location.search) || location.protocol === "file:"){
+      free = true;
+      try{ localStorage.setItem(FREE_KEY, "1"); }catch(e){}
+    }
+
+    var waiting = !free && Date.now() < OPEN_AT;
+    if(waiting){
+      cover.classList.add("wait");
+      countTxt = "10.03 まで あと " + Math.max(1, Math.ceil((OPEN_AT - Date.now()) / 86400000)) + " 日";
+      tapEl.textContent = countTxt;
+    }
+
     var enter = function(){
+      if(waiting){
+        var inner = $("#coverInner");
+        inner.classList.remove("shake");
+        void inner.offsetWidth;
+        inner.classList.add("shake");
+        tapEl.textContent = "10月3日にひらきます";
+        clearTimeout(waitTimer);
+        waitTimer = setTimeout(function(){ tapEl.textContent = countTxt; }, 2600);
+        return;
+      }
       cover.classList.add("gone");
       document.body.classList.remove("cover-open");
       cover.removeEventListener("click", enter);
