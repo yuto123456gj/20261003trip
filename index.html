@@ -456,17 +456,17 @@ body.is-locked-scroll{overflow:hidden;}
   margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
 }
 .album-foot .cnt{font-size:10px;letter-spacing:.2em;color:var(--ink-mute);}
-.photo-cta{margin-top:26px;text-align:center;}
-.photo-cta p{
-  margin:8px 0 0;font-size:11px;letter-spacing:.06em;color:var(--ink-mute);
+.dh-row{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
 }
+.dh-row h2{margin:4px 0;}
 .add-photo{
-  display:block;width:100%;padding:14px;
-  border-radius:14px;text-align:center;text-decoration:none;
-  font-size:13.5px;font-weight:700;letter-spacing:.06em;color:var(--navy);
+  flex:0 0 auto;white-space:nowrap;text-decoration:none;
+  padding:8px 13px;border-radius:999px;
+  font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--navy);
   border:1px solid rgba(194,161,92,.45);
   background:linear-gradient(135deg,#FFFCF6,#F8EEDC);
-  box-shadow:0 6px 16px -12px rgba(158,129,68,.9);
+  box-shadow:0 5px 14px -10px rgba(158,129,68,.9);
   transition:transform .25s cubic-bezier(.2,.8,.3,1);
 }
 .add-photo:active{transform:scale(.985);}
@@ -677,7 +677,10 @@ body.is-locked-scroll{overflow:hidden;}
   <section class="day active" id="day-1" role="tabpanel">
     <div class="day-head">
       <div class="label">DAY 1 — MINATO MIRAI</div>
-      <h2>海風と夜景の街へ</h2>
+      <div class="dh-row">
+        <h2>海風と夜景の街へ</h2>
+        <a class="add-photo" href="upload.html">📸 写真を追加</a>
+      </div>
     </div>
 
     <div class="timeline">
@@ -757,7 +760,10 @@ body.is-locked-scroll{overflow:hidden;}
   <section class="day" id="day-2" role="tabpanel">
     <div class="day-head">
       <div class="label">DAY 2 — ENOSHIMA</div>
-      <h2>潮風と夕日の島へ</h2>
+      <div class="dh-row">
+        <h2>潮風と夕日の島へ</h2>
+        <a class="add-photo" href="upload.html">📸 写真を追加</a>
+      </div>
     </div>
 
     <div class="timeline">
@@ -854,11 +860,6 @@ body.is-locked-scroll{overflow:hidden;}
   </section>
 
   <!-- ============ FINALE ============ -->
-  <div class="photo-cta">
-    <a class="add-photo" href="upload.html">📸 写真を追加する</a>
-    <p>撮った写真をここに残していこう</p>
-  </div>
-
   <div class="finale">
     <p class="lead">21:00 — LAST SECRET</p>
     <p class="lead-sub">今日いちばん大事なおしらせがあります。</p>
