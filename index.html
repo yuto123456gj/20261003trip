@@ -460,8 +460,13 @@ body.is-locked-scroll{overflow:hidden;}
   display:flex;align-items:center;justify-content:space-between;gap:12px;
 }
 .dh-row h2{margin:4px 0;}
+.dh-add{flex:0 0 auto;text-align:center;}
+.add-note{
+  display:block;margin-top:5px;
+  font-size:10px;letter-spacing:.04em;color:var(--ink-mute);
+}
 .add-photo{
-  flex:0 0 auto;white-space:nowrap;text-decoration:none;
+  display:inline-block;white-space:nowrap;text-decoration:none;
   padding:8px 13px;border-radius:999px;
   font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--navy);
   border:1px solid rgba(194,161,92,.45);
@@ -679,7 +684,10 @@ body.is-locked-scroll{overflow:hidden;}
       <div class="label">DAY 1 — MINATO MIRAI</div>
       <div class="dh-row">
         <h2>海風と夜景の街へ</h2>
-        <a class="add-photo" href="upload.html">📸 写真を追加</a>
+        <div class="dh-add">
+          <a class="add-photo" href="upload.html">📸 写真を追加</a>
+          <span class="add-note">旅の写真をあげてね</span>
+        </div>
       </div>
     </div>
 
@@ -762,7 +770,10 @@ body.is-locked-scroll{overflow:hidden;}
       <div class="label">DAY 2 — ENOSHIMA</div>
       <div class="dh-row">
         <h2>潮風と夕日の島へ</h2>
-        <a class="add-photo" href="upload.html">📸 写真を追加</a>
+        <div class="dh-add">
+          <a class="add-photo" href="upload.html">📸 写真を追加</a>
+          <span class="add-note">旅の写真をあげてね</span>
+        </div>
       </div>
     </div>
 
