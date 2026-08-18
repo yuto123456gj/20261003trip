@@ -112,6 +112,42 @@ body.is-locked-scroll{overflow:hidden;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 /* ============================================================
+   Cover（表紙）
+   ============================================================ */
+body.cover-open{overflow:hidden;}
+.cover{
+  position:fixed;inset:0;z-index:9800;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 28px;cursor:pointer;overflow:hidden;
+  background:linear-gradient(165deg,#243244 0%,#1E2A38 55%,#18222E 100%);
+  color:#fff;
+  transition:opacity .85s ease,visibility .85s,transform .85s cubic-bezier(.4,0,.2,1);
+}
+.cover::before,.cover::after{content:"";position:absolute;border-radius:50%;pointer-events:none;}
+.cover::before{
+  width:340px;height:340px;top:-130px;right:-110px;
+  background:radial-gradient(circle,rgba(226,199,140,.28),rgba(226,199,140,0) 68%);
+}
+.cover::after{
+  width:300px;height:300px;bottom:-120px;left:-90px;
+  background:radial-gradient(circle,rgba(227,196,182,.26),rgba(227,196,182,0) 68%);
+}
+.cover.gone{opacity:0;visibility:hidden;transform:scale(1.05);pointer-events:none;}
+.cover .inner{position:relative;z-index:1;text-align:center;}
+.cover .hero-title{font-size:clamp(31px,10.5vw,46px);}
+.cover .hero-rule{margin:22px auto 18px;width:76px;}
+.cover .hero-note{margin-top:16px;}
+.cover-tap{
+  position:absolute;left:0;right:0;
+  bottom:calc(38px + env(safe-area-inset-bottom));
+  text-align:center;font-size:10px;letter-spacing:.34em;text-indent:.34em;
+  color:rgba(255,255,255,.55);
+  opacity:0;animation:tapIn 1s 1.3s forwards, tapPulse 2.6s 2.3s ease-in-out infinite;
+}
+@keyframes tapIn{to{opacity:1}}
+@keyframes tapPulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ============================================================
    Tabs
    ============================================================ */
 .tabs{
@@ -653,7 +689,19 @@ body.is-locked-scroll{overflow:hidden;}
 }
 </style>
 </head>
-<body>
+<body class="cover-open">
+
+<!-- ============ COVER ============ -->
+<div class="cover" id="cover">
+  <div class="inner">
+    <p class="hero-kicker">✦ FOR YOU ✦</p>
+    <h1 class="hero-title">Happy<br>Birthday Trip</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">2026.10.03〜04 SPECIAL TRIP</p>
+    <p class="hero-note">みなとみらい ＆ 江ノ島 / 1泊2日</p>
+  </div>
+  <span class="cover-tap">TAP TO OPEN</span>
+</div>
 
 <div class="app">
 
@@ -969,6 +1017,18 @@ body.is-locked-scroll{overflow:hidden;}
 
   var $  = function(s,c){ return (c||document).querySelector(s); };
   var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+
+  /* ---------------- cover ---------------- */
+  var cover = $("#cover");
+  if(cover){
+    var enter = function(){
+      cover.classList.add("gone");
+      document.body.classList.remove("cover-open");
+      cover.removeEventListener("click", enter);
+      setTimeout(function(){ if(cover.parentNode) cover.parentNode.removeChild(cover); }, 950);
+    };
+    cover.addEventListener("click", enter);
+  }
 
   /* ---------------- toast ---------------- */
   var toastEl = $("#toast"), toastTimer;
