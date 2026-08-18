@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1E2A38">
+<title>写真を追加</title>
+<style>
+:root{
+  --navy:#1E2A38; --navy-2:#2B3B4E; --navy-soft:#5A6B7D;
+  --gold:#C2A15C; --gold-l:#E2C78C; --gold-d:#9E8144;
+  --pink:#E3C4B6; --cream:#FBF5F0; --card:#fff;
+  --ink:#33404E; --ink-mute:#8A96A3; --line:rgba(30,42,56,.10);
+  --ok:#3F8F6B; --ng:#C05B54;
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{
+  margin:0;font-family:var(--sans);color:var(--ink);background:var(--cream);
+  line-height:1.75;-webkit-font-smoothing:antialiased;
+  padding:0 18px calc(40px + env(safe-area-inset-bottom));
+}
+.wrap{max-width:480px;margin:0 auto;}
+header{
+  margin:0 -18px 24px;padding:calc(34px + env(safe-area-inset-top)) 24px 28px;
+  background:linear-gradient(165deg,#243244,#18222E);color:#fff;
+  border-radius:0 0 26px 26px;text-align:center;
+}
+header .k{font-size:9px;letter-spacing:.34em;color:var(--gold-l);font-weight:700;}
+header h1{font-family:var(--serif);font-size:21px;margin:8px 0 0;letter-spacing:.1em;font-weight:600;}
+header .repo{margin:10px 0 0;font-size:10.5px;color:rgba(255,255,255,.45);letter-spacing:.04em;word-break:break-all;}
+
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:18px;margin-bottom:14px;box-shadow:0 4px 14px -6px rgba(30,42,56,.22);
+}
+.card h2{
+  font-size:12px;letter-spacing:.18em;color:var(--gold-d);margin:0 0 10px;font-weight:700;
+}
+.card p{margin:0 0 12px;font-size:12.5px;color:var(--ink-mute);}
+input[type="password"],input[type="text"]{
+  width:100%;font-family:inherit;font-size:14px;color:var(--ink);
+  padding:12px 14px;border:1px solid var(--line);border-radius:12px;
+  background:#FDFAF7;
+}
+input:focus{outline:none;border-color:var(--gold);}
+button{
+  appearance:none;border:0;cursor:pointer;font-family:inherit;
+  width:100%;padding:15px;border-radius:14px;
+  font-size:14px;font-weight:700;letter-spacing:.1em;color:#fff;
+  background:linear-gradient(135deg,var(--navy-2),var(--navy));
+  transition:transform .2s ease,opacity .2s ease;
+}
+button:active{transform:scale(.985);}
+button[disabled]{opacity:.45;cursor:default;}
+button.ghost{
+  background:none;color:var(--gold-d);border:1px solid rgba(194,161,92,.45);
+  font-size:12px;padding:11px;margin-top:8px;
+}
+.pick{
+  display:block;width:100%;text-align:center;cursor:pointer;
+  padding:26px 16px;border-radius:16px;
+  border:1.5px dashed rgba(194,161,92,.55);
+  background:linear-gradient(135deg,#FFFCF6,#F8EEDC);
+  transition:transform .2s ease;
+}
+.pick:active{transform:scale(.99);}
+.pick .em{font-size:30px;display:block;}
+.pick b{display:block;font-size:14.5px;color:var(--navy);margin-top:8px;letter-spacing:.04em;}
+.pick small{display:block;font-size:11px;color:var(--ink-mute);margin-top:2px;}
+#file{display:none;}
+
+.bar{height:5px;border-radius:999px;background:rgba(30,42,56,.08);overflow:hidden;margin:14px 0 6px;display:none;}
+.bar.on{display:block;}
+.bar i{display:block;height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,var(--pink),var(--gold));transition:width .3s ease;}
+.status{font-size:12px;color:var(--ink-mute);text-align:center;min-height:20px;}
+.log{list-style:none;margin:12px 0 0;padding:0;font-size:11.5px;max-height:220px;overflow-y:auto;}
+.log li{display:flex;gap:8px;padding:5px 0;border-top:1px solid var(--line);word-break:break-all;}
+.log li .s{flex:0 0 auto;}
+.log li.ok .s{color:var(--ok);}
+.log li.ng .s{color:var(--ng);}
+.note{font-size:11px;color:var(--ink-mute);line-height:1.9;margin:0;}
+.warn{
+  background:rgba(192,91,84,.08);border:1px solid rgba(192,91,84,.25);
+  color:#8E4842;border-radius:12px;padding:12px 14px;font-size:12px;margin-bottom:14px;
+}
+a{color:var(--gold-d);}
+.hidden{display:none !important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="k">PRIVATE</div>
+    <h1>写真を追加</h1>
+    <p class="repo" id="repo">—</p>
+  </header>
+
+  <div class="warn hidden" id="localWarn">
+    このページはサイトを公開（GitHub Pages）してから使えます。いまはファイルを直接開いているため、アップロードできません。
+  </div>
+
+  <!-- token -->
+  <div class="card" id="tokenCard">
+    <h2>SETUP</h2>
+    <p>GitHubのアクセストークンを一度だけ貼り付けてください。この端末の中だけに保存され、サイトには一切書き込まれません。</p>
+    <input type="password" id="token" placeholder="github_pat_… を貼り付け" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button id="saveToken" style="margin-top:12px;">保存する</button>
+  </div>
+
+  <!-- upload -->
+  <div class="card hidden" id="uploadCard">
+    <h2>ADD PHOTOS</h2>
+    <label class="pick" for="file">
+      <span class="em">📸</span>
+      <b>写真を選ぶ</b>
+      <small>まとめて選択できます</small>
+    </label>
+    <input type="file" id="file" accept="image/*" multiple>
+    <div class="bar" id="bar"><i></i></div>
+    <p class="status" id="status"></p>
+    <ul class="log" id="log"></ul>
+    <button class="ghost" id="forget">トークンを削除する</button>
+  </div>
+
+  <div class="card">
+    <h2>MEMO</h2>
+    <p class="note">
+      ・アップロードした写真は1〜2分でアルバムに反映されます。<br>
+      ・送信前に自動で長辺1600pxに縮小するので、通信量は写真1枚あたり200〜400KB程度です。<br>
+      ・撮影日時の順に並ぶようファイル名を付けています。<br>
+      ・このページのURLは、しおりのQRコードには含まれていません。
+    </p>
+    <button class="ghost" id="toAlbum" style="margin-top:10px;">しおりを開く →</button>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+
+  var KEY = "bday-upload-token";
+  var MAX = 1600;      /* 長辺の最大px */
+  var Q   = 0.82;      /* JPEG品質 */
+
+  /* ---- リポジトリ情報を URL から判定 ---- */
+  function repoInfo(){
+    var h = location.hostname, p = location.pathname.split("/").filter(Boolean);
+    if(!/\.github\.io$/i.test(h)) return null;
+    var owner = h.replace(/\.github\.io$/i, "");
+    var seg = (p.length && !/\.html?$/i.test(p[0])) ? p[0] : null;
+    return { owner:owner, repo:seg || (owner + ".github.io"), base:seg ? "/" + seg + "/" : "/" };
+  }
+  var info = repoInfo();
+  $("#repo").textContent = info ? (info.owner + "/" + info.repo) : "ローカル表示中";
+  if(!info) $("#localWarn").classList.remove("hidden");
+
+  /* ---- トークン ---- */
+  function token(){ try{ return localStorage.getItem(KEY) || ""; }catch(e){ return ""; } }
+  function showUI(){
+    var has = !!token();
+    $("#tokenCard").classList.toggle("hidden", has);
+    $("#uploadCard").classList.toggle("hidden", !has);
+  }
+  $("#saveToken").addEventListener("click", function(){
+    var v = $("#token").value.trim();
+    if(!v){ alert("トークンを貼り付けてください。"); return; }
+    try{ localStorage.setItem(KEY, v); }catch(e){}
+    $("#token").value = "";
+    showUI();
+  });
+  $("#forget").addEventListener("click", function(){
+    if(!confirm("この端末からトークンを削除しますか？")) return;
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    showUI();
+  });
+  $("#toAlbum").addEventListener("click", function(){
+    location.href = info ? info.base : "index.html";
+  });
+  showUI();
+
+  /* ---- 画像を縮小して base64 に ---- */
+  function shrink(file){
+    return new Promise(function(resolve, reject){
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function(){
+        var w = img.naturalWidth, h = img.naturalHeight;
+        var s = Math.min(1, MAX / Math.max(w, h));
+        var c = document.createElement("canvas");
+        c.width  = Math.round(w * s);
+        c.height = Math.round(h * s);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        var d = c.toDataURL("image/jpeg", Q);
+        resolve(d.slice(d.indexOf(",") + 1));
+      };
+      img.onerror = function(){ URL.revokeObjectURL(url); reject(new Error("画像を読めません")); };
+      img.src = url;
+    });
+  }
+
+  function stamp(file){
+    var d = new Date(file.lastModified || Date.now());
+    var p = function(n){ return (n < 10 ? "0" : "") + n; };
+    return d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + "-" +
+           p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds()) + "-" +
+           Math.random().toString(36).slice(2, 6) + ".jpg";
+  }
+
+  function put(name, b64){
+    return fetch("https://api.github.com/repos/" + info.owner + "/" + info.repo + "/contents/photos/" + name, {
+      method:"PUT",
+      headers:{
+        "Authorization":"Bearer " + token(),
+        "Accept":"application/vnd.github+json",
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({ message:"add photo " + name, content:b64 })
+    }).then(function(r){
+      if(r.ok) return true;
+      if(r.status === 401 || r.status === 403) throw new Error("権限エラー（トークンを確認）");
+      if(r.status === 404) throw new Error("リポジトリが見つかりません");
+      throw new Error("送信失敗 " + r.status);
+    });
+  }
+
+  /* ---- アップロード ---- */
+  var busy = false;
+  $("#file").addEventListener("change", function(e){
+    var files = Array.prototype.slice.call(e.target.files || []);
+    e.target.value = "";
+    if(!files.length || busy) return;
+    if(!info){ alert("公開したサイト上で使ってください。"); return; }
+
+    busy = true;
+    var bar = $("#bar"), fill = bar.querySelector("i"), log = $("#log");
+    bar.classList.add("on");
+    var done = 0, ng = 0;
+
+    function step(i){
+      if(i >= files.length){
+        busy = false;
+        $("#status").textContent = "完了：" + done + "枚を追加" + (ng ? "／" + ng + "枚は失敗" : "") +
+                                   (done ? "（1〜2分でアルバムに出ます）" : "");
+        return;
+      }
+      var f = files[i];
+      $("#status").textContent = "送信中… " + (i + 1) + " / " + files.length;
+      fill.style.width = (i / files.length * 100) + "%";
+
+      shrink(f)
+        .then(function(b64){ return put(stamp(f), b64); })
+        .then(function(){
+          done++;
+          var li = document.createElement("li");
+          li.className = "ok";
+          li.innerHTML = '<span class="s">✓</span><span>' + f.name + "</span>";
+          log.insertBefore(li, log.firstChild);
+        })
+        .catch(function(err){
+          ng++;
+          var li = document.createElement("li");
+          li.className = "ng";
+          li.innerHTML = '<span class="s">✕</span><span>' + f.name + " — " + err.message + "</span>";
+          log.insertBefore(li, log.firstChild);
+        })
+        .then(function(){
+          fill.style.width = ((i + 1) / files.length * 100) + "%";
+          step(i + 1);
+        });
+    }
+    step(0);
+  });
+})();
+</script>
+</body>
+</html>
