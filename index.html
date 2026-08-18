@@ -1289,7 +1289,10 @@ body.is-locked-scroll{overflow:hidden;}
     albumLoaded = true;
     albumMsg.textContent = "読み込み中…";
     fetch("https://api.github.com/repos/" + info.owner + "/" + info.repo + "/contents/photos?t=" + Date.now())
-      .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function(r){
+        if(r.status === 404) return [];   /* photos/ がまだ無い＝写真ゼロ */
+        return r.ok ? r.json() : Promise.reject(r.status);
+      })
       .then(function(list){
         var names = (list || [])
           .filter(function(f){ return f.type === "file" && /\.(jpe?g|png|gif|webp|heic)$/i.test(f.name); })
