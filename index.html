@@ -1033,21 +1033,14 @@ body.cover-open{overflow:hidden;}
 
   /* ---------------- cover ----------------
      10/3 0:00（日本時間）まで表紙は開かない。
-     ただし ?open 付き・ローカル表示・一度解除した端末は素通りする。 */
+     素通りできるのは ?open 付きURLとローカル表示のときだけ（記憶はしない）。 */
   var cover = $("#cover");
   if(cover){
     var OPEN_AT  = Date.UTC(2026, 9, 2, 15, 0, 0);   /* = 2026-10-03 00:00 JST */
-    var FREE_KEY = "bday-cover-free";
     var tapEl    = $("#coverTap");
     var countTxt = "", waitTimer;
 
-    var free = false;
-    try{ free = !!localStorage.getItem(FREE_KEY); }catch(e){}
-    if(/[?&]open\b/.test(location.search) || location.protocol === "file:"){
-      free = true;
-      try{ localStorage.setItem(FREE_KEY, "1"); }catch(e){}
-    }
-
+    var free = /[?&]open\b/.test(location.search) || location.protocol === "file:";
     var waiting = !free && Date.now() < OPEN_AT;
     if(waiting){
       cover.classList.add("wait");
