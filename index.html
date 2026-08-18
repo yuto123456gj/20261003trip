@@ -456,6 +456,17 @@ body.is-locked-scroll{overflow:hidden;}
   margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
 }
 .album-foot .cnt{font-size:10px;letter-spacing:.2em;color:var(--ink-mute);}
+.add-photo{
+  display:none;width:100%;margin-top:16px;padding:14px;
+  border-radius:14px;text-align:center;text-decoration:none;
+  font-size:13.5px;font-weight:700;letter-spacing:.06em;color:var(--navy);
+  border:1px solid rgba(194,161,92,.45);
+  background:linear-gradient(135deg,#FFFCF6,#F8EEDC);
+  box-shadow:0 6px 16px -12px rgba(158,129,68,.9);
+  transition:transform .25s cubic-bezier(.2,.8,.3,1);
+}
+.add-photo.on{display:block;}
+.add-photo:active{transform:scale(.985);}
 .album-foot .rl{
   appearance:none;border:0;background:none;cursor:pointer;font-family:inherit;
   font-size:10px;letter-spacing:.16em;color:var(--gold-d);font-weight:700;padding:4px;
@@ -863,6 +874,7 @@ body.is-locked-scroll{overflow:hidden;}
     </div>
     <div class="grid" id="albumGrid"></div>
     <p class="album-msg" id="albumMsg">読み込み中…</p>
+    <a class="add-photo" id="addPhoto" href="upload.html">📸 写真を追加する</a>
     <div class="album-foot">
       <span class="cnt" id="albumCnt"></span>
       <button class="rl" id="albumReload" type="button">↻ 更新</button>
@@ -1314,6 +1326,11 @@ body.is-locked-scroll{overflow:hidden;}
   }
 
   $("#albumReload").addEventListener("click", function(){ loadAlbum(true); });
+
+  /* 追加ボタンは、この端末にトークンを保存済みのときだけ出す */
+  try{
+    if(localStorage.getItem("bday-upload-token")) $("#addPhoto").classList.add("on");
+  }catch(e){}
   $(".veil", albumEl).addEventListener("click", function(){
     toast("旅のさいごにひらきます🔒");
   });
