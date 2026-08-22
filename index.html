@@ -807,7 +807,7 @@ body.cover-open{overflow:hidden;}
       </article>
 
       <article class="ev locked">
-        <div class="ev-time">17:30</div>
+        <div class="ev-time">18:30</div>
         <div class="ev-card">
           <div class="ev-lock">
             <span class="lk">🔒</span>
@@ -823,7 +823,7 @@ body.cover-open{overflow:hidden;}
       </article>
 
       <article class="ev locked">
-        <div class="ev-time">18:30</div>
+        <div class="ev-time">19:30</div>
         <div class="ev-card">
           <div class="ev-lock">
             <span class="lk">🔒</span>
@@ -839,7 +839,7 @@ body.cover-open{overflow:hidden;}
       </article>
 
       <article class="ev locked">
-        <div class="ev-time">19:00</div>
+        <div class="ev-time">20:00</div>
         <div class="ev-card">
           <div class="ev-lock">
             <span class="lk">🔒</span>
@@ -855,7 +855,7 @@ body.cover-open{overflow:hidden;}
       </article>
 
       <article class="ev locked">
-        <div class="ev-time">20:30</div>
+        <div class="ev-time">21:00</div>
         <div class="ev-card">
           <div class="ev-lock">
             <span class="lk">🔒</span>
@@ -871,7 +871,7 @@ body.cover-open{overflow:hidden;}
       </article>
 
       <article class="ev locked" data-opens="secret">
-        <div class="ev-time">21:00</div>
+        <div class="ev-time">21:30</div>
         <div class="ev-card">
           <div class="ev-lock">
             <span class="lk">🔒</span>
@@ -890,11 +890,11 @@ body.cover-open{overflow:hidden;}
 
   <!-- ============ FINALE ============ -->
   <div class="finale">
-    <p class="lead">21:00 — OPEN ME</p>
+    <p class="lead">21:30 — OPEN ME</p>
     <p class="lead-sub">押してみてね。</p>
     <button class="secret-btn is-locked" id="secretBtn">
       <span>あけてみて</span>
-      <small id="secretSub">🔒 21:00 を解放してから</small>
+      <small id="secretSub">🔒 21:30 を解放してから</small>
     </button>
   </div>
   </section>
@@ -1371,7 +1371,7 @@ body.cover-open{overflow:hidden;}
   }
   secretBtn.addEventListener("click", function(){
     if(secretBtn.classList.contains("is-locked")){
-      nudge(secretBtn, "DAY 1 の 21:00 を解放すると開けます🔒");
+      nudge(secretBtn, "DAY 1 の 21:30 を解放すると開けます🔒");
       return;
     }
     openModal();
