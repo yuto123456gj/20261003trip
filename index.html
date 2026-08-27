@@ -472,6 +472,98 @@ body.cover-open{overflow:hidden;}
   font-size:10px;letter-spacing:.16em;color:var(--gold-d);font-weight:700;padding:4px;
 }
 
+/* ============================================================
+   Album story viewer（おしゃれアルバム）
+   ============================================================ */
+.album-open{
+  display:none;width:100%;margin-top:16px;padding:16px;
+  appearance:none;border:0;cursor:pointer;position:relative;overflow:hidden;
+  border-radius:16px;font-family:var(--serif);
+  font-size:15px;font-weight:600;letter-spacing:.14em;color:#fff;
+  background:linear-gradient(135deg,#2B3B4E,#1E2A38);
+  box-shadow:0 14px 30px -16px rgba(30,42,56,.9);
+  transition:transform .25s cubic-bezier(.2,.8,.3,1);
+}
+.album-open.on{display:block;}
+.album-open:active{transform:scale(.985);}
+.album-open small{
+  display:block;font-family:var(--sans);font-size:9.5px;
+  letter-spacing:.3em;color:var(--gold-l);margin-top:5px;font-weight:700;
+}
+.album-open::after{
+  content:"";position:absolute;top:0;left:-140%;width:55%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.2),transparent);
+  transform:skewX(-18deg);animation:sheen 3.6s ease-in-out infinite;
+}
+
+.story{
+  position:fixed;inset:0;z-index:9700;background:#121820;
+  opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s;
+  overflow:hidden;
+}
+.story.show{opacity:1;visibility:visible;}
+.st-stage{position:absolute;inset:0;}
+.st-slide{
+  position:absolute;inset:0;opacity:0;
+  transition:opacity .7s ease;
+  display:flex;align-items:center;justify-content:center;
+}
+.st-slide.on{opacity:1;}
+.st-slide img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.st-slide.on img{animation:kenburns 5.5s ease-out both;}
+@keyframes kenburns{from{transform:scale(1.09)}to{transform:scale(1)}}
+.st-shade{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(18,24,32,.55) 0%,rgba(18,24,32,0) 26%,rgba(18,24,32,0) 62%,rgba(18,24,32,.6) 100%);
+}
+.st-num{
+  position:absolute;right:22px;bottom:calc(30px + env(safe-area-inset-bottom));
+  font-size:10.5px;letter-spacing:.24em;color:rgba(255,255,255,.72);
+  font-variant-numeric:tabular-nums;
+}
+
+/* 表紙と最後のページ */
+.st-card{
+  flex-direction:column;text-align:center;padding:40px 34px;
+  background:radial-gradient(120% 70% at 50% 0%,rgba(194,161,92,.18),rgba(18,24,32,0) 62%),#121820;
+}
+.st-card .k{
+  font-size:10px;letter-spacing:.42em;text-indent:.42em;
+  color:var(--gold-l);font-weight:700;margin:0 0 18px;
+}
+.st-card h2{
+  font-family:var(--serif);font-size:clamp(25px,8vw,34px);
+  line-height:1.32;margin:0;letter-spacing:.07em;font-weight:600;
+  background:linear-gradient(100deg,#F4E3BE,#C2A15C 45%,#F7EBD2 70%,#C2A15C);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.st-card .rule{width:60px;height:1px;margin:20px auto;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.st-card p{margin:0;font-size:13.5px;line-height:2.1;color:rgba(255,255,255,.82);letter-spacing:.06em;}
+
+.st-bars{
+  position:absolute;top:calc(14px + env(safe-area-inset-top));left:14px;right:14px;
+  display:flex;gap:4px;z-index:3;
+}
+.st-bars .b{flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,.26);overflow:hidden;}
+.st-bars .b i{display:block;height:100%;width:0;background:rgba(255,255,255,.95);}
+.st-bars .b.done i{width:100%;}
+.st-bars .b.now i{animation:barfill linear forwards;}
+@keyframes barfill{from{width:0}to{width:100%}}
+
+.st-close{
+  position:absolute;top:calc(30px + env(safe-area-inset-top));right:14px;z-index:4;
+  width:40px;height:40px;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(255,255,255,.14);color:#fff;font-size:16px;
+  display:grid;place-items:center;
+}
+.st-tap{position:absolute;inset:0;z-index:2;display:flex;}
+.st-tap span{flex:1;cursor:pointer;}
+.st-tap span:first-child{flex:0 0 32%;}
+
 /* veil over locked panels */
 .veil{
   position:absolute;inset:0;z-index:2;
@@ -987,6 +1079,10 @@ body.cover-open{overflow:hidden;}
       <div class="rule"></div>
     </div>
     <div class="grid" id="albumGrid"></div>
+    <button class="album-open" id="albumOpen" type="button">
+      ✦ アルバムにする ✦
+      <small>SLIDE SHOW</small>
+    </button>
     <p class="album-msg" id="albumMsg">読み込み中…</p>
     <div class="album-foot">
       <span class="cnt" id="albumCnt"></span>
@@ -1025,6 +1121,16 @@ body.cover-open{overflow:hidden;}
       ILoveYou♡</p>
     <button class="modal-close" id="modalClose">とじる</button>
   </div>
+</div>
+
+<!-- ============ ALBUM STORY ============ -->
+<div class="story" id="story">
+  <div class="st-stage" id="stStage"></div>
+  <div class="st-shade"></div>
+  <div class="st-bars" id="stBars"></div>
+  <div class="st-tap"><span id="stPrev"></span><span id="stNext"></span></div>
+  <button class="st-close" id="stClose" type="button" aria-label="とじる">✕</button>
+  <div class="st-num" id="stNum"></div>
 </div>
 
 <!-- ============ IMAGE LIGHTBOX ============ -->
@@ -1310,6 +1416,7 @@ body.cover-open{overflow:hidden;}
     if(e.key !== "Escape") return;
     closeModal();
     if(typeof closeLb === "function") closeLb();
+    if(typeof closeStory === "function") closeStory();
   });
 
   /* ---------------- lightbox ---------------- */
@@ -1401,6 +1508,8 @@ body.cover-open{overflow:hidden;}
       grid.appendChild(img);
     });
     albumCnt.textContent = names.length + " PHOTOS";
+    photos = names.map(function(n){ return base + "photos/" + encodeURIComponent(n); });
+    stOpen.classList.toggle("on", photos.length > 0);
   }
 
   function loadAlbum(force){
@@ -1426,6 +1535,8 @@ body.cover-open{overflow:hidden;}
         if(!names.length){
           albumMsg.textContent = "写真はこれから増えていきます📸";
           albumCnt.textContent = "";
+          photos = [];
+          stOpen.classList.remove("on");
           return;
         }
         albumMsg.textContent = "";
@@ -1439,6 +1550,121 @@ body.cover-open{overflow:hidden;}
   }
 
   $("#albumReload").addEventListener("click", function(){ loadAlbum(true); });
+
+  /* ---------------- album story ----------------
+     写真をスライドショーとして順に見せる。表紙 → 写真 → 締めのページ。 */
+  var story   = $("#story"),
+      stStage = $("#stStage"),
+      stBars  = $("#stBars"),
+      stNum   = $("#stNum"),
+      stOpen  = $("#albumOpen"),
+      photos  = [],
+      slides  = [],
+      sIdx    = 0,
+      sTimer  = null;
+
+  var COVER = 3000, SHOT = 4000, ENDING = 7000;
+
+  function slideEl(html, cls){
+    var d = document.createElement("div");
+    d.className = "st-slide" + (cls ? " " + cls : "");
+    d.innerHTML = html;
+    return d;
+  }
+
+  function buildStory(){
+    stStage.innerHTML = "";
+    stBars.innerHTML = "";
+    slides = [];
+
+    slides.push(slideEl(
+      '<div><p class="k">✦ THE ALBUM ✦</p>' +
+      '<h2>ふたりの<br>2日間</h2>' +
+      '<div class="rule"></div>' +
+      '<p>2026.10.03 – 04<br>みなとみらい ＆ 江ノ島</p></div>', "st-card"));
+
+    photos.forEach(function(src){
+      var d = slideEl("");
+      var img = document.createElement("img");
+      img.src = src;
+      img.alt = "";
+      d.appendChild(img);
+      slides.push(d);
+    });
+
+    slides.push(slideEl(
+      '<div><p class="k">✦ THE END ✦</p>' +
+      '<h2>また行こうね</h2>' +
+      '<div class="rule"></div>' +
+      '<p>たくさん歩いて、たくさん笑った2日間。<br>ぜんぶ宝物になりました。</p></div>', "st-card"));
+
+    slides.forEach(function(el){
+      stStage.appendChild(el);
+      var b = document.createElement("div");
+      b.className = "b";
+      b.innerHTML = "<i></i>";
+      stBars.appendChild(b);
+    });
+  }
+
+  function dur(i){
+    if(i === 0) return COVER;
+    if(i === slides.length - 1) return ENDING;
+    return SHOT;
+  }
+
+  function show(i){
+    if(i < 0) i = 0;
+    if(i >= slides.length){ closeStory(); return; }
+    sIdx = i;
+
+    slides.forEach(function(el, n){ el.classList.toggle("on", n === i); });
+    $$(".b", stBars).forEach(function(b, n){
+      b.classList.toggle("done", n < i);
+      b.classList.remove("now");
+      var fill = $("i", b);
+      fill.style.animation = "";
+      if(n === i){
+        void b.offsetWidth;
+        fill.style.animationDuration = dur(i) + "ms";
+        b.classList.add("now");
+      }
+    });
+
+    var isShot = i > 0 && i < slides.length - 1;
+    stNum.textContent = isShot ? ("0" + i).slice(-2) + " / " + ("0" + photos.length).slice(-2) : "";
+
+    clearTimeout(sTimer);
+    if(i < slides.length - 1){
+      sTimer = setTimeout(function(){ show(sIdx + 1); }, dur(i));
+    }
+  }
+
+  function openStory(){
+    if(!photos.length) return;
+    buildStory();
+    story.classList.add("show");
+    document.body.classList.add("is-locked-scroll");
+    show(0);
+  }
+  function closeStory(){
+    clearTimeout(sTimer);
+    story.classList.remove("show");
+    document.body.classList.remove("is-locked-scroll");
+    setTimeout(function(){ stStage.innerHTML = ""; }, 500);
+  }
+
+  stOpen.addEventListener("click", openStory);
+  $("#stClose").addEventListener("click", closeStory);
+  $("#stNext").addEventListener("click", function(){ show(sIdx + 1); });
+  $("#stPrev").addEventListener("click", function(){ show(sIdx - 1); });
+
+  var stX = 0;
+  story.addEventListener("touchstart", function(e){ stX = e.touches[0].clientX; }, { passive:true });
+  story.addEventListener("touchend", function(e){
+    var dx = e.changedTouches[0].clientX - stX;
+    if(Math.abs(dx) > 50) show(sIdx + (dx < 0 ? 1 : -1));
+  }, { passive:true });
   $(".veil", albumEl).addEventListener("click", function(){
     toast("旅のさいごにひらきます🔒");
   });
