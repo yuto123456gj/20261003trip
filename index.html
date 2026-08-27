@@ -348,186 +348,6 @@ body.cover-open{overflow:hidden;}
   box-shadow:var(--shadow-s);
   overflow:hidden;
 }
-.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:4px;}
-.panel-head h3{
-  font-family:var(--serif);font-size:16px;margin:0;letter-spacing:.06em;color:var(--navy);font-weight:600;
-}
-.panel-head .count{
-  font-size:11px;letter-spacing:.1em;color:var(--gold-d);font-weight:700;font-variant-numeric:tabular-nums;
-}
-.panel > .sub{margin:0 0 14px;font-size:12px;color:var(--ink-mute);}
-
-.bar{height:4px;border-radius:999px;background:rgba(30,42,56,.08);overflow:hidden;margin-bottom:16px;}
-.bar i{
-  display:block;height:100%;width:0%;border-radius:999px;
-  background:linear-gradient(90deg,var(--pink-d),var(--gold));
-  transition:width .55s cubic-bezier(.2,.8,.3,1);
-}
-
-.checks{list-style:none;margin:0;padding:0;}
-.checks li{
-  display:flex;align-items:center;gap:12px;
-  padding:11px 12px;margin-bottom:8px;
-  border:1px solid var(--line);border-radius:13px;
-  background:#FDFAF7;
-  cursor:pointer;
-  transition:background .3s ease,border-color .3s ease,transform .2s ease;
-}
-.checks li:last-child{margin-bottom:0;}
-.checks li:active{transform:scale(.985);}
-.box{
-  flex:0 0 auto;width:21px;height:21px;border-radius:7px;
-  border:1.5px solid #C9CFD6;background:#fff;
-  display:grid;place-items:center;
-  transition:background .3s ease,border-color .3s ease,transform .3s cubic-bezier(.2,1.6,.4,1);
-}
-.box svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none;
-  stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .35s ease .05s;}
-.checks .label{font-size:13.5px;letter-spacing:.02em;transition:color .3s ease;position:relative;}
-.checks .label::after{
-  content:"";position:absolute;left:0;top:52%;height:1px;width:100%;
-  background:var(--ink-mute);transform:scaleX(0);transform-origin:left;
-  transition:transform .35s cubic-bezier(.2,.8,.3,1);
-}
-.checks li.done{background:rgba(227,196,182,.20);border-color:rgba(194,161,92,.35);}
-.checks li.done .box{background:linear-gradient(140deg,var(--gold-l),var(--gold-d));border-color:var(--gold-d);transform:scale(1.06);}
-.checks li.done .box svg{stroke-dashoffset:0;}
-.checks li.done .label{color:var(--ink-mute);}
-.checks li.done .label::after{transform:scaleX(1);}
-.checks .emo{font-size:15px;flex:0 0 auto;}
-
-.all-done{
-  margin:14px 0 0;padding:11px;border-radius:12px;text-align:center;
-  font-size:12.5px;letter-spacing:.06em;color:var(--gold-d);font-weight:700;
-  background:linear-gradient(120deg,rgba(226,199,140,.22),rgba(227,196,182,.28));
-  display:none;
-}
-.all-done.show{display:block;animation:fadeUp .5s cubic-bezier(.2,.8,.3,1);}
-
-/* ============================================================
-   Route screenshot
-   ============================================================ */
-.shot{margin:14px 0 0;padding:0;}
-.shot img{display:none;} /* 実体はライトボックスで表示する */
-.shot-btn{
-  width:100%;display:flex;align-items:center;gap:11px;
-  appearance:none;cursor:pointer;font-family:inherit;text-align:left;
-  padding:12px 14px;border-radius:14px;
-  border:1px solid rgba(194,161,92,.45);
-  background:linear-gradient(135deg,#FFFCF6,#F8EEDC);
-  box-shadow:0 6px 16px -12px rgba(158,129,68,.9);
-  transition:transform .25s cubic-bezier(.2,.8,.3,1),box-shadow .3s ease;
-}
-.shot-btn:active{transform:scale(.985);box-shadow:0 3px 10px -10px rgba(158,129,68,.9);}
-.shot-btn .ic{flex:0 0 auto;font-size:18px;}
-.shot-btn .tx{flex:1;min-width:0;}
-.shot-btn .tx b{
-  display:block;font-size:13px;font-weight:700;
-  letter-spacing:.03em;color:var(--navy);
-}
-.shot-btn .tx small{
-  display:block;font-size:10.5px;letter-spacing:.04em;
-  color:var(--ink-mute);margin-top:1px;
-}
-.shot-btn .ar{
-  flex:0 0 auto;font-size:10px;font-weight:700;letter-spacing:.14em;
-  color:var(--gold-d);
-}
-
-.lightbox{
-  position:fixed;inset:0;z-index:9600;
-  display:flex;align-items:flex-start;justify-content:center;
-  padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  background:rgba(18,26,35,.94);
-  opacity:0;visibility:hidden;
-  transition:opacity .3s ease,visibility .3s;
-}
-.lightbox.show{opacity:1;visibility:visible;}
-.lightbox img{
-  width:100%;max-width:520px;height:auto;
-  border-radius:10px;margin:auto 0;
-}
-.lightbox .lb-hint{
-  position:fixed;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom));
-  text-align:center;font-size:10.5px;letter-spacing:.18em;
-  color:rgba(255,255,255,.6);pointer-events:none;
-}
-.lb-nav{
-  position:fixed;left:0;right:0;bottom:calc(42px + env(safe-area-inset-bottom));
-  display:none;align-items:center;justify-content:center;gap:18px;
-}
-.lightbox.multi .lb-nav{display:flex;}
-.lb-nav button{
-  appearance:none;border:0;cursor:pointer;
-  width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,.12);color:#fff;font-size:17px;
-  display:grid;place-items:center;
-  transition:background .25s ease,transform .2s ease;
-}
-.lb-nav button:active{transform:scale(.92);background:rgba(255,255,255,.22);}
-.lb-nav .n{
-  font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.75);
-  font-variant-numeric:tabular-nums;min-width:52px;text-align:center;
-}
-
-/* ============================================================
-   Album
-   ============================================================ */
-.album{margin-top:34px;}
-.album-head{text-align:center;margin-bottom:16px;}
-.album-head .label{
-  font-size:10px;letter-spacing:.34em;color:var(--gold-d);font-weight:700;
-}
-.album-head h3{
-  font-family:var(--serif);font-size:20px;margin:6px 0 2px;
-  letter-spacing:.08em;color:var(--navy);font-weight:600;
-}
-.album-head .sub{margin:0;font-size:11px;letter-spacing:.2em;color:var(--ink-mute);}
-.album-head .rule{
-  width:48px;height:1px;margin:12px auto 0;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
-.grid img{
-  width:100%;aspect-ratio:1/1;object-fit:cover;display:block;
-  border-radius:11px;background:#EFE8E2;cursor:zoom-in;
-  opacity:0;transform:scale(.96);
-  transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.3,1);
-}
-.grid img.in{opacity:1;transform:none;}
-.album-msg{
-  margin:0;padding:26px 10px;text-align:center;
-  font-size:12.5px;color:var(--ink-mute);line-height:2;
-}
-.album-foot{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
-}
-.album-foot .cnt{font-size:10px;letter-spacing:.2em;color:var(--ink-mute);}
-.dh-row{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-}
-.dh-row h2{margin:4px 0;}
-.dh-add{flex:0 0 auto;text-align:center;}
-.add-note{
-  display:block;margin-top:5px;
-  font-size:10px;letter-spacing:.04em;color:var(--ink-mute);
-}
-.add-photo{
-  display:inline-block;white-space:nowrap;text-decoration:none;
-  padding:8px 13px;border-radius:999px;
-  font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--navy);
-  border:1px solid rgba(194,161,92,.45);
-  background:linear-gradient(135deg,#FFFCF6,#F8EEDC);
-  box-shadow:0 5px 14px -10px rgba(158,129,68,.9);
-  transition:transform .25s cubic-bezier(.2,.8,.3,1);
-}
-.add-photo:active{transform:scale(.985);}
-.album-foot .rl{
-  appearance:none;border:0;background:none;cursor:pointer;font-family:inherit;
-  font-size:10px;letter-spacing:.16em;color:var(--gold-d);font-weight:700;padding:4px;
-}
-
 /* veil over locked panels */
 .veil{
   position:absolute;inset:0;z-index:2;
@@ -946,7 +766,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked" data-opens="checklist">
+      <article class="ev locked">
         <div class="ev-time">14:30</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -956,7 +776,7 @@ body.cover-open{overflow:hidden;}
           <div class="ev-body">
             <span class="ev-tag">STREET FOOD</span>
             <h3>仲見世で食べ歩き</h3>
-            <p>橋を渡って島へ。参道の仲見世通りでつまみ食いしながら進もう。下のチェックリストを埋めていこう！</p>
+            <p>橋を渡って島へ。参道の仲見世通りで、つまみ食いしながら進もう。</p>
             <div class="ev-meta"><span>🍤 たこせんべい</span><span>🥟 食べ歩き</span><span>⛩ 参道</span></div>
           </div>
         </div>
@@ -1028,28 +848,6 @@ body.cover-open{overflow:hidden;}
 
     </div>
 
-    <!-- checklist -->
-    <div class="panel locked-panel" id="checkPanel">
-      <div class="veil">
-        <b>🔒 ??????</b>
-        <small>「11:30 江ノ島到着」を解放するとひらきます</small>
-      </div>
-      <div class="panel-head">
-        <h3>江ノ島 体験チェックリスト</h3>
-        <span class="count"><i id="ckDone">0</i> / <i id="ckAll">0</i></span>
-      </div>
-      <p class="sub">やったことをタップしてチェック！全部できたらミッションクリア✨</p>
-      <div class="bar"><i id="ckBar"></i></div>
-      <ul class="checks" id="checks">
-        <li data-ck="tako"><span class="box"><svg viewBox="0 0 16 16"><polyline points="2,8.5 6.2,12.5 14,3.5"/></svg></span><span class="emo">🍤</span><span class="label">たこせんべいを食べる</span></li>
-        <li data-ck="shirasu"><span class="box"><svg viewBox="0 0 16 16"><polyline points="2,8.5 6.2,12.5 14,3.5"/></svg></span><span class="emo">🍚</span><span class="label">しらす丼を食べる</span></li>
-        <li data-ck="jinja"><span class="box"><svg viewBox="0 0 16 16"><polyline points="2,8.5 6.2,12.5 14,3.5"/></svg></span><span class="emo">⛩</span><span class="label">江島神社でお参りする</span></li>
-        <li data-ck="candle"><span class="box"><svg viewBox="0 0 16 16"><polyline points="2,8.5 6.2,12.5 14,3.5"/></svg></span><span class="emo">🚡</span><span class="label">エスカーに乗る</span></li>
-        <li data-ck="sunset"><span class="box"><svg viewBox="0 0 16 16"><polyline points="2,8.5 6.2,12.5 14,3.5"/></svg></span><span class="emo">🌅</span><span class="label">サンセットを見る</span></li>
-        <li data-ck="photo"><span class="box"><svg viewBox="0 0 16 16"><polyline points="2,8.5 6.2,12.5 14,3.5"/></svg></span><span class="emo">📸</span><span class="label">2人で写真を撮る</span></li>
-      </ul>
-      <p class="all-done" id="allDone">🎉 ミッションコンプリート！最高の2日間をありがとう</p>
-    </div>
   </section>
 
   <!-- ============ ALBUM ============ -->
@@ -1126,12 +924,11 @@ body.cover-open{overflow:hidden;}
   var STORE = "bday-quest-v2";   /* 予定を組み替えたので進捗をリセット */
   var COLORS = ["#C2A15C","#E2C78C","#E3C4B6","#C99C89","#FBF5F0","#2B3B4E"];
 
-  var state = { step:0, checks:{} };
+  var state = { step:0 };
   try{
     var saved = JSON.parse(localStorage.getItem(STORE) || "{}");
     if(saved && typeof saved === "object"){
       state.step = (typeof saved.step === "number") ? saved.step : 0;
-      state.checks = saved.checks || {};
     }
   }catch(e){}
 
@@ -1271,7 +1068,6 @@ body.cover-open{overflow:hidden;}
   var celebrateEl = $("#celebrate");
   var secretBtn   = $("#secretBtn");
   var secretSub   = $("#secretSub");
-  var panel       = $("#checkPanel");
 
   /* 施錠されたカードを DOM 順（= 時系列順）に保持し、先頭から1枚ずつしか開けない */
   var steps = $$(".ev.locked");
@@ -1291,8 +1087,6 @@ body.cover-open{overflow:hidden;}
     if(opens === "album"){
       albumEl.classList.remove("locked-panel");
       loadAlbum(false);
-    }else if(opens === "checklist"){
-      panel.classList.remove("locked-panel");
     }else if(opens === "secret"){
       secretBtn.classList.remove("is-locked");
       secretSub.textContent = "✦ TAP TO OPEN ✦";
@@ -1367,43 +1161,6 @@ body.cover-open{overflow:hidden;}
       else nudge($(".ev-card", ev), waitMsg());
     });
   });
-
-  $(".veil", panel).addEventListener("click", function(){
-    toast("「江ノ島到着」を解放するとひらきます🔒");
-  });
-
-  /* ---------------- checklist ---------------- */
-  var items  = $$("#checks li");
-  var bar    = $("#ckBar");
-  var doneEl = $("#ckDone");
-  var allEl  = $("#ckAll");
-  var allDone= $("#allDone");
-  allEl.textContent = items.length;
-
-  function refresh(celebrateOnComplete){
-    var done = items.filter(function(li){ return li.classList.contains("done"); }).length;
-    doneEl.textContent = done;
-    bar.style.width = (done / items.length * 100) + "%";
-    var complete = (done === items.length);
-    if(complete && celebrateOnComplete && !allDone.classList.contains("show")){
-      party(false);
-    }
-    allDone.classList.toggle("show", complete);
-  }
-
-  items.forEach(function(li){
-    var key = li.getAttribute("data-ck");
-    if(state.checks[key]) li.classList.add("done");
-    li.addEventListener("click", function(){
-      if(panel.classList.contains("locked-panel")) return;
-      var on = li.classList.toggle("done");
-      state.checks[key] = on;
-      save();
-      if(on && navigator.vibrate){ try{ navigator.vibrate(12); }catch(e){} }
-      refresh(true);
-    });
-  });
-  refresh(false);
 
   /* ---------------- modal ---------------- */
   var modal = $("#modal");
