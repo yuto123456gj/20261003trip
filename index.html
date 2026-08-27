@@ -404,6 +404,20 @@ body.cover-open{overflow:hidden;}
 }
 .all-done.show{display:block;animation:fadeUp .5s cubic-bezier(.2,.8,.3,1);}
 
+/* 2択の選択肢カード */
+.pick2{display:grid;gap:8px;margin-top:12px;}
+.pick2 .opt{
+  padding:10px 12px;border-radius:11px;
+  border-left:3px solid var(--gold);
+  background:rgba(227,196,182,.18);
+}
+.pick2 .opt b{
+  display:block;font-size:12.5px;letter-spacing:.04em;color:var(--navy);
+}
+.pick2 .opt span{
+  display:block;font-size:11.5px;color:var(--ink);opacity:.8;margin-top:2px;
+}
+
 /* ============================================================
    Route screenshot
    ============================================================ */
@@ -1004,7 +1018,11 @@ body.cover-open{overflow:hidden;}
           <div class="ev-body">
             <span class="ev-tag">SUNSET</span>
             <h3>夕日を見に行く</h3>
-            <p>島の西側は、夕日がきれいに見える場所。その日いちばんの景色を見に行こう。</p>
+            <p>島の西側は、夕日がきれいに見える場所。どっちで見るか、ふたりで決めよう。</p>
+            <div class="pick2">
+              <div class="opt"><b>A ｜ シーキャンドル</b><span>展望台にのぼって、海も富士山もぜんぶ見渡す</span></div>
+              <div class="opt"><b>B ｜ 稚児ヶ淵</b><span>波打ち際まで下りて、目の高さで夕日を浴びる</span></div>
+            </div>
             <div class="ev-meta"><span>🌅 サンセット</span><span>📸 最後の1枚</span><span>🧥 冷えるかも</span></div>
           </div>
         </div>
