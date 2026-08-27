@@ -404,20 +404,6 @@ body.cover-open{overflow:hidden;}
 }
 .all-done.show{display:block;animation:fadeUp .5s cubic-bezier(.2,.8,.3,1);}
 
-/* 2択の選択肢カード */
-.pick2{display:grid;gap:8px;margin-top:12px;}
-.pick2 .opt{
-  padding:10px 12px;border-radius:11px;
-  border-left:3px solid var(--gold);
-  background:rgba(227,196,182,.18);
-}
-.pick2 .opt b{
-  display:block;font-size:12.5px;letter-spacing:.04em;color:var(--navy);
-}
-.pick2 .opt span{
-  display:block;font-size:11.5px;color:var(--ink);opacity:.8;margin-top:2px;
-}
-
 /* ============================================================
    Route screenshot
    ============================================================ */
@@ -1009,28 +995,23 @@ body.cover-open{overflow:hidden;}
       </article>
 
       <article class="ev locked">
-        <div class="ev-time">16:15</div>
+        <div class="ev-time">16:45</div>
         <div class="ev-card">
           <div class="ev-lock">
             <span class="lk">🔒</span>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
-            <span class="ev-tag">YOUR CHOICE</span>
-            <h3>最後はどこへ行く？</h3>
-            <p>島の奥にはこの3つ。ぜんぶ回るには時間が足りないので、行きたいところを選んでね。</p>
-            <div class="pick2">
-              <div class="opt"><b>A ｜ 江の島シーキャンドル</b><span>展望台にのぼって、海も富士山もぜんぶ見渡す</span></div>
-              <div class="opt"><b>B ｜ 稚児ヶ淵</b><span>波打ち際まで下りて、目の高さで夕日を浴びる</span></div>
-              <div class="opt"><b>C ｜ 江の島岩屋</b><span>ろうそくを持って、島のいちばん奥の洞窟を探検する</span></div>
-            </div>
-            <div class="ev-meta"><span>🌅 サンセット</span><span>📸 最後の1枚</span><span>🧥 冷えるかも</span></div>
+            <span class="ev-tag">SUNSET</span>
+            <h3>江の島シーキャンドルで夕日</h3>
+            <p>展望灯台にのぼって、海に沈む夕日を。晴れていれば富士山のシルエットも見えるよ。</p>
+            <div class="ev-meta"><span>🌅 サンセット</span><span>🔭 展望灯台</span><span>📸 最後の1枚</span></div>
           </div>
         </div>
       </article>
 
       <article class="ev locked" data-opens="album">
-        <div class="ev-time">18:15</div>
+        <div class="ev-time">18:00</div>
         <div class="ev-card">
           <div class="ev-lock">
             <span class="lk">🔒</span>
