@@ -1559,9 +1559,21 @@ body.cover-open{overflow:hidden;}
       stOpen  = $("#albumOpen"),
       photos  = [];
 
+  var COLLAGE_MAX = 12;   /* コラージュに出す枚数の上限 */
+
+  function pickPhotos(){
+    var a = photos.slice();
+    for(var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a.slice(0, COLLAGE_MAX);
+  }
+
   function buildCollage(){
     stStage.innerHTML = "";
-    var n = photos.length;
+    var shots = pickPhotos();
+    var n = shots.length;
     var W = stStage.clientWidth, H = stStage.clientHeight;
 
     /* 中央のメッセージが占める領域（ここに重なるマスは使わない） */
@@ -1600,7 +1612,7 @@ body.cover-open{overflow:hidden;}
       var t = cs[i]; cs[i] = cs[j]; cs[j] = t;
     }
 
-    photos.forEach(function(src, i){
+    shots.forEach(function(src, i){
       var cell = cs[i % cs.length];
       var jx = Math.max(cell.w - w - 8, 0) / 2;
       var jy = Math.max(cell.h - (w + 26) - 8, 0) / 2;
@@ -1617,7 +1629,7 @@ body.cover-open{overflow:hidden;}
       img.src = src; img.alt = "思い出の写真 " + (i + 1);
       el.appendChild(img);
       el.addEventListener("click", function(){
-        openLb(photos.map(function(q){ return { src:q, alt:"" }; }), i);
+        openLb(shots.map(function(q){ return { src:q, alt:"" }; }), i);
       });
       stStage.appendChild(el);
     });
