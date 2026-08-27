@@ -505,9 +505,9 @@ body.cover-open{overflow:hidden;}
 .story.show{opacity:1;visibility:visible;}
 .st-stage{
   position:absolute;
-  top:calc(58px + env(safe-area-inset-top));
-  bottom:calc(34px + env(safe-area-inset-bottom));
-  left:16px;right:16px;
+  top:calc(46px + env(safe-area-inset-top));
+  bottom:calc(26px + env(safe-area-inset-bottom));
+  left:10px;right:10px;
 }
 
 /* 散らした写真（ポラロイド風） */
@@ -530,8 +530,8 @@ body.cover-open{overflow:hidden;}
 /* 中央のメッセージ */
 .cl-center{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:min(78%,320px);z-index:5;text-align:center;
-  padding:26px 22px;border-radius:18px;
+  width:min(74%,296px);z-index:5;text-align:center;
+  padding:22px 18px;border-radius:18px;
   background:linear-gradient(160deg,rgba(255,253,249,.97),rgba(251,241,228,.97));
   border:1px solid rgba(194,161,92,.5);
   box-shadow:0 24px 50px -22px rgba(0,0,0,.85);
@@ -1575,20 +1575,28 @@ body.cover-open{overflow:hidden;}
     var shots = pickPhotos();
     var n = shots.length;
 
-    /* 中央のメッセージを囲むように、内側と外側の輪に振り分けて散らす */
-    var size = n <= 3 ? 40 : n <= 6 ? 33 : n <= 10 ? 27 : n <= 16 ? 22 : 18;   /* 幅% */
+    /* 画面の四隅まで使って散らす。角度ごとに「はみ出さない最大半径」を求め、
+       そこから3層＋ゆらぎで距離を決める（円ではなく長方形に沿って広がる） */
+    var Ws = stStage.clientWidth || 320, Hs = stStage.clientHeight || 560;
+    var size = n <= 3 ? 46 : n <= 6 ? 38 : n <= 10 ? 32 : n <= 16 ? 27 : 23;   /* 幅% */
+    var hw = size / 2 + 1;                                   /* 半分の幅（%） */
+    var hh = ((size / 100 * Ws) + 26) / Hs * 50 + 1;          /* 半分の高さ（%） */
 
     shots.forEach(function(src, i){
-      var ang  = -Math.PI / 2 + (i * 2 * Math.PI / n) + (i % 2 ? 0.2 : -0.2);
-      var ring = (n > 6 && i % 2) ? 0.30 : 0.43;
+      var ang = -Math.PI / 2 + (i * 2 * Math.PI / n) + (Math.sin(i * 7.13) * 0.26);
+      var cx = Math.cos(ang), sy = Math.sin(ang);
+      var rmax = Math.min((50 - hw) / Math.max(Math.abs(cx), 0.001),
+                          (50 - hh) / Math.max(Math.abs(sy), 0.001));
+      var layer = [0.60, 0.82, 1.0][i % 3];
+      var f = layer * (0.93 + Math.abs(Math.sin(i * 3.7)) * 0.1);
 
       var el = document.createElement("a");
       el.className = "cl-photo";
       el.style.width = size + "%";
-      el.style.left  = (50 + Math.cos(ang) * ring * 96) + "%";
-      el.style.top   = (50 + Math.sin(ang) * ring * 104) + "%";
+      el.style.left  = (50 + cx * rmax * f) + "%";
+      el.style.top   = (50 + sy * rmax * f) + "%";
       el.style.setProperty("--r", (Math.sin(i * 12.9898) * 11).toFixed(1) + "deg");
-      el.style.animationDelay = (i * 85) + "ms";
+      el.style.animationDelay = (i * 80) + "ms";
       el.style.zIndex = String(i % 3);
 
       var img = document.createElement("img");
