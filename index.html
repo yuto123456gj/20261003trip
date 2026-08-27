@@ -1562,46 +1562,81 @@ body.cover-open{overflow:hidden;}
   function buildCollage(){
     stStage.innerHTML = "";
     var n = photos.length;
-    var size = n <= 3 ? 40 : n <= 6 ? 33 : n <= 10 ? 27 : n <= 16 ? 22 : 18;  /* 幅% */
+    var W = stStage.clientWidth, H = stStage.clientHeight;
+
+    /* 中央のメッセージが占める領域（ここに重なるマスは使わない） */
+    var cw = Math.min(W * 0.78, 300), ch = 180;
+    var center = { x:W/2, y:H/2, w:cw, h:ch };
+
+    /* 画面を格子に区切り、全部が収まる いちばん粗い格子を選ぶ（= 写真が最大になる） */
+    var grid = null, last = null;
+    for(var cols = 2; cols <= 6; cols++){
+      var cellW = W / cols, cellH = cellW * 1.18;
+      var rows = Math.floor(H / cellH);
+      if(rows < 1) continue;
+      cellH = H / rows;
+
+      var cells = [];
+      for(var r = 0; r < rows; r++){
+        for(var c = 0; c < cols; c++){
+          var x = (c + 0.5) * cellW, y = (r + 0.5) * cellH;
+          var onCenter = Math.abs(x - center.x) < (cellW + center.w) / 2 - 6 &&
+                         Math.abs(y - center.y) < (cellH + center.h) / 2 - 6;
+          if(!onCenter) cells.push({ x:x, y:y, w:cellW, h:cellH });
+        }
+      }
+      last = { cellW:cellW, cellH:cellH, cells:cells };
+      if(cells.length >= n){ grid = last; break; }
+    }
+    if(!grid) grid = last;                       /* 枚数が多すぎるときは最も細かい格子で */
+
+    var w = Math.min(grid.cellW - 12, grid.cellH - 38, 150);
+    w = Math.max(w, 44);
+
+    /* マスをシャッフルして順に割り当てる（足りなければ使い回す） */
+    var cs = grid.cells.slice();
+    for(var i = cs.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = cs[i]; cs[i] = cs[j]; cs[j] = t;
+    }
 
     photos.forEach(function(src, i){
-      var ang  = -Math.PI / 2 + (i * 2 * Math.PI / n) + (i % 2 ? 0.2 : -0.2);
-      var ring = (n > 6 && i % 2) ? 0.30 : 0.43;
-      var rot  = (Math.sin(i * 12.9898) * 11).toFixed(1);
+      var cell = cs[i % cs.length];
+      var jx = Math.max(cell.w - w - 8, 0) / 2;
+      var jy = Math.max(cell.h - (w + 26) - 8, 0) / 2;
 
-      var a = document.createElement("a");
-      a.className = "cl-photo";
-      a.style.width = size + "%";
-      a.style.left  = (50 + Math.cos(ang) * ring * 96) + "%";
-      a.style.top   = (50 + Math.sin(ang) * ring * 104) + "%";
-      a.style.setProperty("--r", rot + "deg");
-      a.style.animationDelay = (i * 90) + "ms";
-      a.style.zIndex = String(i % 3);
+      var el = document.createElement("a");
+      el.className = "cl-photo";
+      el.style.width = w + "px";
+      el.style.left  = (cell.x + (Math.random() - 0.5) * 2 * jx) + "px";
+      el.style.top   = (cell.y + (Math.random() - 0.5) * 2 * jy) + "px";
+      el.style.setProperty("--r", (Math.random() * 16 - 8).toFixed(1) + "deg");
+      el.style.animationDelay = (i * 85) + "ms";
 
       var img = document.createElement("img");
       img.src = src; img.alt = "思い出の写真 " + (i + 1);
-      a.appendChild(img);
-      a.addEventListener("click", function(){
-        openLb(photos.map(function(p){ return { src:p, alt:"" }; }), i);
+      el.appendChild(img);
+      el.addEventListener("click", function(){
+        openLb(photos.map(function(q){ return { src:q, alt:"" }; }), i);
       });
-      stStage.appendChild(a);
+      stStage.appendChild(el);
     });
 
-    var c = document.createElement("div");
-    c.className = "cl-center";
-    c.style.animationDelay = (n * 90 + 200) + "ms";
-    c.innerHTML = '<p class="k">✦ FOR YOU ✦</p>' +
-                  '<h2>Happy Birthday<br>to my lovely wife!</h2>' +
-                  '<div class="rule"></div>' +
-                  '<p>2026.10.03 – 04</p>';
-    stStage.appendChild(c);
+    var c2 = document.createElement("div");
+    c2.className = "cl-center";
+    c2.style.animationDelay = (n * 85 + 200) + "ms";
+    c2.innerHTML = '<p class="k">✦ FOR YOU ✦</p>' +
+                   '<h2>Happy Birthday<br>to my lovely wife!</h2>' +
+                   '<div class="rule"></div>' +
+                   '<p>2026.10.03 – 04</p>';
+    stStage.appendChild(c2);
   }
 
   function openStory(){
     if(!photos.length) return;
-    buildCollage();
     story.classList.add("show");
     document.body.classList.add("is-locked-scroll");
+    requestAnimationFrame(buildCollage);   /* 表示後に実寸を測る */
   }
   function closeStory(){
     story.classList.remove("show");
