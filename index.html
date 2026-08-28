@@ -1211,6 +1211,9 @@ body.cover-open{overflow:hidden;}
     try{ localStorage.setItem(STORE, JSON.stringify(state)); }catch(e){}
   }
 
+  /* ?open 付きURL、またはローカル表示のときは、表紙も時間制限も解除する（動作確認用） */
+  var TEST = /[?&]open\b/.test(location.search) || location.protocol === "file:";
+
   var $  = function(s,c){ return (c||document).querySelector(s); };
   var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
 
@@ -1223,8 +1226,7 @@ body.cover-open{overflow:hidden;}
     var tapEl    = $("#coverTap");
     var countTxt = "", waitTimer;
 
-    var free = /[?&]open\b/.test(location.search) || location.protocol === "file:";
-    var waiting = !free && Date.now() < OPEN_AT;
+    var waiting = !TEST && Date.now() < OPEN_AT;
     if(waiting){
       cover.classList.add("wait");
       countTxt = "10.03 まで あと " + Math.max(1, Math.ceil((OPEN_AT - Date.now()) / 86400000)) + " 日";
@@ -1456,11 +1458,27 @@ body.cover-open{overflow:hidden;}
 
   setInterval(tick, 30000);
 
+  /* 予定の30分前になるまではタップでも開けない */
+  var EARLY = 30 * 60 * 1000;
+
+  function tooEarly(ev){
+    if(TEST) return null;
+    var at = ev.getAttribute("data-at");
+    if(!at) return null;
+    var t = Date.parse(at + "+09:00");
+    if(isNaN(t) || Date.now() >= t - EARLY) return null;
+    var d = new Date(t), now = new Date();
+    var hm = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+    return (d.getDate() !== now.getDate() ? (d.getMonth() + 1) + "/" + d.getDate() + " " : "") + hm;
+  }
+
   steps.forEach(function(ev, i){
     ev.addEventListener("click", function(){
       if(!ev.classList.contains("locked")) return;
-      if(i === state.step) advance(i);
-      else nudge($(".ev-card", ev), waitMsg());
+      if(i !== state.step){ nudge($(".ev-card", ev), waitMsg()); return; }
+      var when = tooEarly(ev);
+      if(when){ nudge($(".ev-card", ev), when + " になったらひらくよ🔒"); return; }
+      advance(i);
     });
   });
 
@@ -1761,6 +1779,7 @@ body.cover-open{overflow:hidden;}
   steps.forEach(function(ev, i){ if(i < state.step) openStep(ev, false); });
   refreshLocks();
   tick();
+  if(TEST) setTimeout(function(){ toast("テストモード：時間制限なしで開けます"); }, 900);
 })();
 </script>
 </body>
