@@ -1482,11 +1482,24 @@ body.cover-open{overflow:hidden;}
 
   setInterval(tick, 30000);
 
+  /* その日になるまでは開けない（＝2日目の予定は10/4の0:00から） */
+  function dayNotYet(ev){
+    if(TEST) return null;
+    var at = ev.getAttribute("data-at");
+    if(!at) return null;
+    var t = Date.parse(at.slice(0, 10) + "T00:00+09:00");
+    if(isNaN(t) || Date.now() >= t) return null;
+    var d = new Date(t);
+    return (d.getMonth() + 1) + "月" + d.getDate() + "日";
+  }
+
   steps.forEach(function(ev, i){
     ev.addEventListener("click", function(){
       if(!ev.classList.contains("locked")) return;
-      if(i === state.step) advance(i);
-      else nudge($(".ev-card", ev), waitMsg());
+      if(i !== state.step){ nudge($(".ev-card", ev), waitMsg()); return; }
+      var day = dayNotYet(ev);
+      if(day){ nudge($(".ev-card", ev), day + "になったらひらくよ🔒"); return; }
+      advance(i);
     });
   });
 
