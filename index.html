@@ -439,6 +439,17 @@ body.cover-open{overflow:hidden;}
   transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.3,1);
 }
 .grid img.in{opacity:1;transform:none;}
+.grid img.hide{display:none;}
+.album-more{
+  display:none;width:100%;margin-top:10px;padding:12px;
+  appearance:none;cursor:pointer;font-family:inherit;
+  border:1px solid rgba(194,161,92,.45);border-radius:12px;
+  background:rgba(227,196,182,.14);
+  font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--gold-d);
+  transition:transform .2s ease,background .25s ease;
+}
+.album-more.on{display:block;}
+.album-more:active{transform:scale(.99);background:rgba(227,196,182,.26);}
 .album-msg{
   margin:0;padding:26px 10px;text-align:center;
   font-size:12.5px;color:var(--ink-mute);line-height:2;
@@ -1083,6 +1094,7 @@ body.cover-open{overflow:hidden;}
       <div class="rule"></div>
     </div>
     <div class="grid" id="albumGrid"></div>
+    <button class="album-more" id="albumMore" type="button"></button>
     <button class="album-open" id="albumOpen" type="button">
       ✦ アルバムにする ✦
       <small>COLLAGE</small>
@@ -1509,9 +1521,26 @@ body.cover-open{overflow:hidden;}
       grid.appendChild(img);
     });
     albumCnt.textContent = names.length + " PHOTOS";
+    applyLimit(false);
     photos = names.map(function(n){ return base + "photos/" + encodeURIComponent(n); });
     stOpen.classList.toggle("on", photos.length > 0);
   }
+
+  /* 最初は4枚だけ見せて、残りはボタンで開く */
+  var GRID_LIMIT = 4, albumMore = $("#albumMore");
+
+  function applyLimit(expanded){
+    var imgs = $$("img", grid);
+    imgs.forEach(function(im, i){ im.classList.toggle("hide", !expanded && i >= GRID_LIMIT); });
+    var rest = imgs.length - GRID_LIMIT;
+    albumMore.classList.toggle("on", rest > 0);
+    albumMore.textContent = expanded ? "とじる" : "続きを見る（あと " + rest + " 枚）";
+    albumMore.dataset.open = expanded ? "1" : "";
+  }
+
+  albumMore.addEventListener("click", function(){
+    applyLimit(!albumMore.dataset.open);
+  });
 
   function loadAlbum(force){
     if(albumLoaded && !force) return;
@@ -1538,6 +1567,7 @@ body.cover-open{overflow:hidden;}
           albumCnt.textContent = "";
           photos = [];
           stOpen.classList.remove("on");
+          albumMore.classList.remove("on");
           return;
         }
         albumMsg.textContent = "";
