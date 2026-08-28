@@ -143,6 +143,25 @@ body.cover-open{overflow:hidden;}
   color:rgba(255,255,255,.8);
   opacity:0;animation:fadeUp .8s cubic-bezier(.2,.8,.3,1) forwards;
 }
+.cover-add{
+  margin:26px auto 0;max-width:290px;
+  padding:14px 16px;border-radius:14px;
+  border:1px solid rgba(226,199,140,.35);
+  background:rgba(255,255,255,.06);
+  opacity:0;animation:fadeUp .9s .62s cubic-bezier(.2,.8,.3,1) forwards;
+}
+.cover-add b{
+  display:block;font-size:12px;letter-spacing:.06em;
+  color:var(--gold-l);margin-bottom:7px;
+}
+.cover-add p{
+  margin:0;font-size:11px;line-height:1.95;letter-spacing:.02em;
+  color:rgba(255,255,255,.72);
+}
+.cover-add .dots{
+  display:inline-block;padding:1px 7px;border-radius:6px;
+  background:rgba(255,255,255,.16);color:#fff;font-weight:700;letter-spacing:.1em;
+}
 .cover-tap{
   position:absolute;left:0;right:0;
   bottom:calc(38px + env(safe-area-inset-bottom));
@@ -773,6 +792,12 @@ body.cover-open{overflow:hidden;}
     <div class="hero-rule"></div>
     <p class="hero-sub">2026.10.03〜04 SPECIAL TRIP</p>
     <p class="hero-note">みなとみらい ＆ 江ノ島 / 1泊2日</p>
+    <div class="cover-add">
+      <b>📱 ホーム画面に追加してね！</b>
+      <p>右下の <span class="dots">•••</span> を押す → 「共有」<br>
+        → 画面を下にスクロール<br>
+        → 「ホーム画面に追加」でやっといてね！！</p>
+    </div>
   </div>
   <span class="cover-tap" id="coverTap">TAP TO OPEN</span>
 </div>
