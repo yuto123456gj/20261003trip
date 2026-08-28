@@ -1575,27 +1575,54 @@ body.cover-open{overflow:hidden;}
     var shots = pickPhotos();
     var n = shots.length;
 
-    /* 画面の四隅まで使って散らす。角度ごとに「はみ出さない最大半径」を求め、
-       そこから3層＋ゆらぎで距離を決める（円ではなく長方形に沿って広がる） */
+    /* 画面全体を格子に分け、1枚ずつ別のマスに置いてから大きくゆらす。
+       写真はマスより大きいので自然に重なりつつ、全体へ均等に散る。 */
     var Ws = stStage.clientWidth || 320, Hs = stStage.clientHeight || 560;
     var size = n <= 3 ? 46 : n <= 6 ? 38 : n <= 10 ? 32 : n <= 16 ? 27 : 23;   /* 幅% */
-    var hw = size / 2 + 1;                                   /* 半分の幅（%） */
-    var hh = ((size / 100 * Ws) + 26) / Hs * 50 + 1;          /* 半分の高さ（%） */
+    var hw = size / 2;                                        /* 半分の幅（%） */
+    var hh = ((size / 100 * Ws) + 26) / Hs * 50;              /* 半分の高さ（%） */
+
+    var cols = Math.max(2, Math.round(Math.sqrt(n * Ws / Hs)));
+    var rows = Math.ceil(n / cols);
+
+    var cells = [];
+    for(var r = 0; r < rows; r++){
+      for(var c = 0; c < cols; c++) cells.push({ c:c, r:r });
+    }
+    for(var k = cells.length - 1; k > 0; k--){
+      var j2 = Math.floor(Math.random() * (k + 1));
+      var tmp = cells[k]; cells[k] = cells[j2]; cells[j2] = tmp;
+    }
+
+    /* 中央のメッセージが乗る範囲（ここに来た写真は外へ逃がす） */
+    var cardW = Math.min(Ws * 0.74, 296) / Ws * 50 + 2;
+    var cardH = 190 / Hs * 50 + 2;
 
     shots.forEach(function(src, i){
-      var ang = -Math.PI / 2 + (i * 2 * Math.PI / n) + (Math.sin(i * 7.13) * 0.26);
-      var cx = Math.cos(ang), sy = Math.sin(ang);
-      var rmax = Math.min((50 - hw) / Math.max(Math.abs(cx), 0.001),
-                          (50 - hh) / Math.max(Math.abs(sy), 0.001));
-      var layer = [0.60, 0.82, 1.0][i % 3];
-      var f = layer * (0.93 + Math.abs(Math.sin(i * 3.7)) * 0.1);
+      var cell = cells[i % cells.length];
+      var x = (cell.c + 0.5) / cols * 100 + (Math.random() - 0.5) * (100 / cols) * 0.9;
+      var y = (cell.r + 0.5) / rows * 100 + (Math.random() - 0.5) * (100 / rows) * 0.9;
+
+      x = Math.max(hw, Math.min(100 - hw, x));
+      y = Math.max(hh, Math.min(100 - hh, y));
+
+      var dx = x - 50, dy = y - 50;
+      if(Math.abs(dx) < cardW && Math.abs(dy) < cardH){       /* カードの真下なら外へ */
+        if(Math.abs(dx) / cardW > Math.abs(dy) / cardH){
+          x = 50 + (dx >= 0 ? cardW : -cardW);
+        }else{
+          y = 50 + (dy >= 0 ? cardH : -cardH);
+        }
+        x = Math.max(hw, Math.min(100 - hw, x));
+        y = Math.max(hh, Math.min(100 - hh, y));
+      }
 
       var el = document.createElement("a");
       el.className = "cl-photo";
       el.style.width = size + "%";
-      el.style.left  = (50 + cx * rmax * f) + "%";
-      el.style.top   = (50 + sy * rmax * f) + "%";
-      el.style.setProperty("--r", (Math.sin(i * 12.9898) * 11).toFixed(1) + "deg");
+      el.style.left  = x + "%";
+      el.style.top   = y + "%";
+      el.style.setProperty("--r", (Math.random() * 18 - 9).toFixed(1) + "deg");
       el.style.animationDelay = (i * 80) + "ms";
       el.style.zIndex = String(i % 3);
 
