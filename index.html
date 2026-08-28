@@ -1578,7 +1578,7 @@ body.cover-open{overflow:hidden;}
     /* 画面全体を格子に分け、1枚ずつ別のマスに置いてから大きくゆらす。
        写真はマスより大きいので自然に重なりつつ、全体へ均等に散る。 */
     var Ws = stStage.clientWidth || 320, Hs = stStage.clientHeight || 560;
-    var size = n <= 3 ? 46 : n <= 6 ? 38 : n <= 10 ? 32 : n <= 16 ? 27 : 23;   /* 幅% */
+    var size = n <= 3 ? 52 : n <= 6 ? 42 : n <= 10 ? 35 : n <= 16 ? 30 : 26;   /* 幅% */
     var hw = size / 2;                                        /* 半分の幅（%） */
     var hh = ((size / 100 * Ws) + 26) / Hs * 50;              /* 半分の高さ（%） */
 
@@ -1600,8 +1600,8 @@ body.cover-open{overflow:hidden;}
 
     shots.forEach(function(src, i){
       var cell = cells[i % cells.length];
-      var x = (cell.c + 0.5) / cols * 100 + (Math.random() - 0.5) * (100 / cols) * 0.9;
-      var y = (cell.r + 0.5) / rows * 100 + (Math.random() - 0.5) * (100 / rows) * 0.9;
+      var x = (cell.c + 0.5) / cols * 100 + (Math.random() - 0.5) * (100 / cols) * 0.5;
+      var y = (cell.r + 0.5) / rows * 100 + (Math.random() - 0.5) * (100 / rows) * 0.5;
 
       x = Math.max(hw, Math.min(100 - hw, x));
       y = Math.max(hh, Math.min(100 - hh, y));
