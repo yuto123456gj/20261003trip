@@ -860,7 +860,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked key">
+      <article class="ev locked key" data-at="2026-10-03T15:15">
         <div class="ev-time">15:15</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -876,7 +876,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-03T16:00">
         <div class="ev-time">16:00</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -892,7 +892,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-03T18:30">
         <div class="ev-time">18:30</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -908,7 +908,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-03T19:00">
         <div class="ev-time">19:00</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -924,7 +924,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-03T20:00">
         <div class="ev-time">20:00</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -939,7 +939,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked" data-opens="secret">
+      <article class="ev locked" data-opens="secret" data-at="2026-10-03T21:00">
         <div class="ev-time">21:00</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -983,7 +983,7 @@ body.cover-open{overflow:hidden;}
 
     <div class="timeline">
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-04T08:30">
         <div class="ev-time">08:30</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -998,7 +998,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-04T11:00">
         <div class="ev-time">11:00</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -1013,7 +1013,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-04T12:15">
         <div class="ev-time">12:15</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -1029,7 +1029,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-04T14:30">
         <div class="ev-time">14:30</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -1045,7 +1045,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-04T15:05">
         <div class="ev-time">15:05</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -1061,7 +1061,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-04T15:30">
         <div class="ev-time">15:30</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -1077,7 +1077,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked">
+      <article class="ev locked" data-at="2026-10-04T16:45">
         <div class="ev-time">16:45</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -1093,7 +1093,7 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked" data-opens="album">
+      <article class="ev locked" data-opens="album" data-at="2026-10-04T18:00">
         <div class="ev-time">18:00</div>
         <div class="ev-card">
           <div class="ev-lock">
@@ -1429,6 +1429,33 @@ body.cover-open{overflow:hidden;}
     return next ? "つぎは " + labelOf(next) + " だよ🔒" : "";
   }
 
+  /* 予定の時刻が過ぎたカードは自動でひらく（最初の1枚だけはタップ専用） */
+  function autoStep(){
+    var now = Date.now(), k = 0;
+    for(var i = 0; i < steps.length; i++){
+      var at = steps[i].getAttribute("data-at");
+      if(!at) break;
+      if(Date.parse(at + "+09:00") <= now) k = i + 1;
+      else break;
+    }
+    return k;
+  }
+
+  function tick(){
+    if(state.step < 1) return;              /* チェックインをタップするまでは動かさない */
+    var k = autoStep();
+    if(k <= state.step) return;
+    for(var i = state.step; i < k; i++){
+      steps[i].style.setProperty("--d", ((i - state.step) * 110) + "ms");
+      openStep(steps[i], true);
+    }
+    state.step = k;
+    save();
+    refreshLocks();
+  }
+
+  setInterval(tick, 30000);
+
   steps.forEach(function(ev, i){
     ev.addEventListener("click", function(){
       if(!ev.classList.contains("locked")) return;
@@ -1733,6 +1760,7 @@ body.cover-open{overflow:hidden;}
   state.step = Math.max(0, Math.min(state.step, steps.length));
   steps.forEach(function(ev, i){ if(i < state.step) openStep(ev, false); });
   refreshLocks();
+  tick();
 })();
 </script>
 </body>
