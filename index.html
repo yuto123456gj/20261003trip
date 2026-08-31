@@ -35,6 +35,7 @@
   --r:18px;
   --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Times New Roman",serif;
   --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --round:"Hiragino Maru Gothic ProN","ヒラギノ丸ゴ ProN W4","Hiragino Sans","Yu Gothic",sans-serif;
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -152,49 +153,52 @@ body.cover-open{overflow:hidden;}
 .greet{
   position:fixed;inset:0;z-index:9790;
   display:flex;align-items:center;justify-content:center;
-  padding:40px 28px;cursor:pointer;overflow:hidden;
-  background:radial-gradient(130% 85% at 50% 28%,#26364A 0%,#1A2431 62%,#141C26 100%);
-  color:#fff;
+  padding:40px 30px;cursor:pointer;overflow:hidden;
+  background:
+    radial-gradient(90% 55% at 50% 34%, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 70%),
+    linear-gradient(170deg, #FDF6EF 0%, #F7E6DC 52%, #F2DCD2 100%);
   opacity:0;visibility:hidden;
-  transition:opacity .95s ease,visibility .95s;
+  transition:opacity 1.1s ease,visibility 1.1s;
 }
 .greet.show{opacity:1;visibility:visible;}
+.greet::before,.greet::after{
+  content:"";position:absolute;border-radius:50%;pointer-events:none;filter:blur(18px);
+}
 .greet::before{
-  content:"";position:absolute;width:420px;height:420px;
-  top:50%;left:50%;transform:translate(-50%,-58%);pointer-events:none;
-  background:radial-gradient(circle,rgba(226,199,140,.20),rgba(226,199,140,0) 66%);
+  width:300px;height:300px;top:-60px;left:-70px;
+  background:radial-gradient(circle,rgba(227,196,182,.55),rgba(227,196,182,0) 70%);
+}
+.greet::after{
+  width:260px;height:260px;bottom:-70px;right:-60px;
+  background:radial-gradient(circle,rgba(226,199,140,.42),rgba(226,199,140,0) 70%);
 }
 .greet .in{position:relative;z-index:1;text-align:center;}
 .greet .k{
-  font-size:10px;letter-spacing:.42em;text-indent:.42em;
-  color:var(--gold-l);font-weight:700;margin:0 0 20px;
-  opacity:0;animation:fadeUp .9s .25s cubic-bezier(.2,.8,.3,1) forwards;
+  font-size:19px;margin:0 0 14px;color:var(--pink-d);
+  opacity:0;animation:softIn 1.3s .2s cubic-bezier(.25,.7,.3,1) forwards;
 }
 .greet h2{
-  font-family:var(--serif);font-weight:600;
-  font-size:clamp(26px,8.4vw,38px);line-height:1.3;margin:0;
-  letter-spacing:.07em;
-  background:linear-gradient(100deg,#F4E3BE 0%,#C2A15C 44%,#F7EBD2 66%,#C2A15C 100%);
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:transparent;
-  opacity:0;animation:fadeUp 1s .5s cubic-bezier(.2,.8,.3,1) forwards;
+  font-family:var(--round);font-weight:600;
+  font-size:clamp(25px,7.6vw,34px);line-height:1.4;margin:0;
+  letter-spacing:.03em;color:#C9A05F;
+  opacity:0;animation:softIn 1.5s .5s cubic-bezier(.25,.7,.3,1) forwards;
 }
 .greet .name{
-  font-family:var(--serif);font-weight:600;
-  font-size:clamp(38px,13vw,58px);line-height:1.2;
-  margin:14px 0 0;letter-spacing:.14em;text-indent:.14em;color:#fff;
-  opacity:0;animation:nameIn 1.2s .95s cubic-bezier(.2,.9,.3,1) forwards;
+  font-family:var(--round);font-weight:600;
+  font-size:clamp(40px,13vw,58px);line-height:1.25;
+  margin:10px 0 0;letter-spacing:.06em;color:#5A4A44;
+  opacity:0;animation:softIn 1.6s 1.05s cubic-bezier(.25,.7,.3,1) forwards;
 }
-@keyframes nameIn{
-  0%{opacity:0;transform:translateY(16px) scale(.94);}
+.greet .sub{
+  margin:20px 0 0;font-family:var(--round);
+  font-size:13px;line-height:2;letter-spacing:.04em;color:#9B8177;
+  opacity:0;animation:softIn 1.6s 1.7s cubic-bezier(.25,.7,.3,1) forwards;
+}
+@keyframes softIn{
+  0%{opacity:0;transform:translateY(10px);}
   100%{opacity:1;transform:none;}
 }
-.greet .rule{
-  width:0;height:1px;margin:24px auto 0;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  animation:ruleIn 1.1s 1.5s cubic-bezier(.2,.8,.3,1) forwards;
-}
-@keyframes ruleIn{to{width:110px;}}
+
 .cover-add{
   margin:26px auto 0;max-width:290px;
   padding:14px 16px;border-radius:14px;
@@ -857,10 +861,10 @@ body.cover-open{overflow:hidden;}
 <!-- ============ GREETING ============ -->
 <div class="greet" id="greet">
   <div class="in">
-    <p class="k">✦ FOR YOU ✦</p>
+    <p class="k">♡</p>
     <h2>Happy Birthday</h2>
     <p class="name">彩音</p>
-    <div class="rule"></div>
+    <p class="sub">すてきな2日間にしようね</p>
   </div>
 </div>
 
@@ -1306,8 +1310,21 @@ body.cover-open{overflow:hidden;}
         waitTimer = setTimeout(function(){ tapEl.textContent = countTxt; }, 2600);
         return;
       }
-      /* 表紙 → お祝い画面 → しおり */
-      var greet = $("#greet"), closed = false;
+      /* 表紙 → お祝い画面 → しおり（お祝いは初回だけ） */
+      var greet = $("#greet"), closed = false, seen = false;
+      try{ seen = !!localStorage.getItem("bday-greet-v1"); }catch(e){}
+
+      if(seen && !TEST){
+        cover.classList.add("gone");
+        document.body.classList.remove("cover-open");
+        cover.removeEventListener("click", enter);
+        setTimeout(function(){
+          if(cover.parentNode) cover.parentNode.removeChild(cover);
+          if(greet.parentNode) greet.parentNode.removeChild(greet);
+        }, 950);
+        return;
+      }
+      try{ localStorage.setItem("bday-greet-v1", "1"); }catch(e){}
       greet.classList.add("show");
       cover.classList.add("gone");
       cover.removeEventListener("click", enter);
