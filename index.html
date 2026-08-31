@@ -175,25 +175,43 @@ body.cover-open{overflow:hidden;}
 .greet .in{position:relative;z-index:1;text-align:center;}
 .greet .k{
   font-size:19px;margin:0 0 14px;color:var(--pink-d);
-  opacity:0;animation:softIn 1.3s .2s cubic-bezier(.25,.7,.3,1) forwards;
+  opacity:0;animation:softIn 1.2s 1.9s cubic-bezier(.25,.7,.3,1) forwards;
 }
 .greet h2{
   font-family:var(--round);font-weight:600;
-  font-size:clamp(25px,7.6vw,34px);line-height:1.4;margin:0;
+  font-size:clamp(21px,6.4vw,28px);line-height:1.4;margin:0;
   letter-spacing:.03em;color:#C9A05F;
-  opacity:0;animation:softIn 1.5s .5s cubic-bezier(.25,.7,.3,1) forwards;
+  opacity:0;animation:softIn 1.4s .9s cubic-bezier(.25,.7,.3,1) forwards;
 }
 .greet .name{
   font-family:var(--round);font-weight:600;
-  font-size:clamp(40px,13vw,58px);line-height:1.25;
-  margin:10px 0 0;letter-spacing:.06em;color:#5A4A44;
-  opacity:0;animation:softIn 1.6s 1.05s cubic-bezier(.25,.7,.3,1) forwards;
+  font-size:clamp(32px,10.4vw,46px);line-height:1.25;
+  margin:8px 0 0;letter-spacing:.06em;color:#5A4A44;
+  opacity:0;animation:softIn 1.5s 1.45s cubic-bezier(.25,.7,.3,1) forwards;
 }
 .greet .sub{
-  margin:20px 0 0;font-family:var(--round);
+  margin:14px 0 0;font-family:var(--round);
   font-size:13px;line-height:2;letter-spacing:.04em;color:#9B8177;
-  opacity:0;animation:softIn 1.6s 1.7s cubic-bezier(.25,.7,.3,1) forwards;
+  opacity:0;animation:softIn 1.5s 2.3s cubic-bezier(.25,.7,.3,1) forwards;
 }
+/* 文字を囲むハート（下から一筆書き） */
+.greet .heart{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-53%);
+  width:min(92vw,370px);height:auto;
+  overflow:visible;pointer-events:none;z-index:0;
+}
+.greet .heart path{
+  fill:none;stroke:url(#heartline);
+  stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:var(--len,900);
+  stroke-dashoffset:var(--len,900);
+}
+.greet.show .heart path{
+  animation:drawHeart 2.1s .2s cubic-bezier(.42,0,.3,1) forwards;
+}
+@keyframes drawHeart{ to{ stroke-dashoffset:0; } }
+
 @keyframes softIn{
   0%{opacity:0;transform:translateY(10px);}
   100%{opacity:1;transform:none;}
@@ -861,6 +879,16 @@ body.cover-open{overflow:hidden;}
 <!-- ============ GREETING ============ -->
 <div class="greet" id="greet">
   <div class="in">
+    <svg class="heart" viewBox="0 0 100 92" aria-hidden="true">
+      <defs>
+        <linearGradient id="heartline" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stop-color="#C99C89"></stop>
+          <stop offset="50%" stop-color="#E2C78C"></stop>
+          <stop offset="100%" stop-color="#C9A05F"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M50 88 C22 66 6 47 6 30 C6 13 22 4 34 11 C41 15 46 21 50 29 C54 21 59 15 66 11 C78 4 94 13 94 30 C94 47 78 66 50 88 Z"></path>
+    </svg>
     <p class="k">♡</p>
     <h2>Happy Birthday</h2>
     <p class="name">彩音</p>
@@ -1338,7 +1366,11 @@ body.cover-open{overflow:hidden;}
         document.body.classList.remove("cover-open");
         setTimeout(function(){ if(greet.parentNode) greet.parentNode.removeChild(greet); }, 1000);
       };
-      var hold = setTimeout(finish, 3400);
+      var hp = $(".greet .heart path");
+      if(hp && hp.getTotalLength){
+        try{ hp.style.setProperty("--len", hp.getTotalLength()); }catch(e){}
+      }
+      var hold = setTimeout(finish, 5200);
       setTimeout(function(){ greet.addEventListener("click", finish); }, 900);   /* 誤タップ防止 */
     };
     cover.addEventListener("click", enter);
