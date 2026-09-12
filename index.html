@@ -360,8 +360,9 @@ body.cover-open{overflow:hidden;}
 }
 
 /* --- locked state --- */
-.ev.locked .ev-card{
-  position:relative;overflow:hidden;cursor:pointer;
+.ev.locked .ev-card,
+.ev.opening .ev-card{
+  position:relative;overflow:hidden;cursor:pointer;perspective:700px;
   padding:52px 18px 20px;
   background:linear-gradient(165deg,#FCF6EC 0%,#F6EADA 58%,#F1E2CE 100%);
   border:1px solid rgba(194,161,92,.34);
@@ -369,15 +370,19 @@ body.cover-open{overflow:hidden;}
 }
 /* 封筒のフタ（金の折り目つき） */
 .ev.locked .ev-card::before,
-.ev.locked .ev-card::after{
+.ev.locked .ev-card::after,
+.ev.opening .ev-card::before,
+.ev.opening .ev-card::after{
   content:"";position:absolute;top:0;left:0;right:0;pointer-events:none;
 }
-.ev.locked .ev-card::before{
+.ev.locked .ev-card::before,
+.ev.opening .ev-card::before{
   height:40px;
   background:rgba(194,161,92,.42);
   clip-path:polygon(0 0,100% 0,50% 100%);
 }
-.ev.locked .ev-card::after{
+.ev.locked .ev-card::after,
+.ev.opening .ev-card::after{
   height:38.6px;
   background:linear-gradient(180deg,#FBF2E3,#F5E8D6);
   clip-path:polygon(0 0,100% 0,50% 100%);
@@ -385,7 +390,8 @@ body.cover-open{overflow:hidden;}
 .ev.locked .ev-body{display:none;}
 
 .ev-lock{display:none;position:relative;z-index:1;align-items:center;gap:14px;}
-.ev.locked .ev-lock{display:flex;}
+.ev.locked .ev-lock,
+.ev.opening .ev-lock{display:flex;}
 
 /* 封蝋 */
 .ev-lock .lk{
@@ -406,6 +412,25 @@ body.cover-open{overflow:hidden;}
   color:var(--gold-d);margin-top:3px;
 }
 .ev.locked .ev-card:active{transform:scale(.985);}
+
+/* 開封のアニメーション */
+.ev.opening .ev-card{animation:none;}
+.ev.opening .ev-card::before,
+.ev.opening .ev-card::after{
+  transform-origin:top center;
+  animation:flapOpen .5s .14s cubic-bezier(.32,.86,.4,1) forwards;
+}
+@keyframes flapOpen{
+  0%{transform:rotateX(0deg);opacity:1;}
+  60%{opacity:1;}
+  100%{transform:rotateX(-168deg);opacity:0;}
+}
+.ev.opening .ev-lock{animation:sealBreak .42s cubic-bezier(.3,.85,.4,1) forwards;}
+@keyframes sealBreak{
+  0%{opacity:1;transform:none;}
+  22%{transform:scale(1.09) rotate(-4deg);}
+  100%{opacity:0;transform:scale(.88) translateY(8px);}
+}
 
 /* 次に開ける1枚 */
 .ev.key.locked .ev-card{
@@ -1499,18 +1524,29 @@ body.cover-open{overflow:hidden;}
   }
 
   function openStep(ev, animate){
-    ev.classList.remove("locked", "key");
-    if(animate){
-      ev.style.setProperty("--d", "0ms");
-      ev.classList.add("reveal");
-    }
-    var opens = ev.getAttribute("data-opens");
-    if(opens === "album"){
-      albumEl.classList.remove("locked-panel");
-      loadAlbum(false);
-    }else if(opens === "secret"){
-      secretBtn.classList.remove("is-locked");
-      secretSub.textContent = "✦ TAP TO OPEN ✦";
+    var sealed = ev.classList.contains("locked");
+
+    var reveal = function(){
+      ev.classList.remove("locked", "key", "opening");
+      if(animate){
+        ev.style.setProperty("--d", "0ms");
+        ev.classList.add("reveal");
+      }
+      var opens = ev.getAttribute("data-opens");
+      if(opens === "album"){
+        albumEl.classList.remove("locked-panel");
+        loadAlbum(false);
+      }else if(opens === "secret"){
+        secretBtn.classList.remove("is-locked");
+        secretSub.textContent = "✦ TAP TO OPEN ✦";
+      }
+    };
+
+    if(animate && sealed){
+      ev.classList.add("opening");        /* 封蝋が外れ、フタが開く */
+      setTimeout(reveal, 620);
+    }else{
+      reveal();
     }
   }
 
