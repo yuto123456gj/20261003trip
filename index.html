@@ -1404,23 +1404,9 @@ body.cover-open{overflow:hidden;}
     }
   }
 
-  function party(big){
-    if(!hasLib){ fallbackBurst(big ? 90 : 34); return; }
-    if(!big){
-      shoot({ particleCount:70, spread:70, startVelocity:38, origin:{ y:0.7 }, scalar:0.9 });
-      return;
-    }
-    shoot({ particleCount:110, spread:95, startVelocity:46, origin:{ y:0.64 } });
-    setTimeout(function(){ shoot({ particleCount:45, angle:60,  spread:60, origin:{ x:0, y:0.78 } }); }, 180);
-    setTimeout(function(){ shoot({ particleCount:45, angle:120, spread:60, origin:{ x:1, y:0.78 } }); }, 280);
-
-    /* 左右からの流し込みは短めに（フレームごと1粒ずつ） */
-    var end = Date.now() + 1200;
-    (function frame(){
-      shoot({ particleCount:1, angle:60,  spread:70, origin:{ x:0, y:0.88 }, scalar:0.8 });
-      shoot({ particleCount:1, angle:120, spread:70, origin:{ x:1, y:0.88 }, scalar:0.8 });
-      if(Date.now() < end) requestAnimationFrame(frame);
-    })();
+  function party(){
+    if(!hasLib){ fallbackBurst(34); return; }
+    shoot({ particleCount:70, spread:70, startVelocity:38, origin:{ y:0.7 }, scalar:0.9 });
   }
 
   /* タップしたカードの位置から小さく弾けさせる */
@@ -1520,17 +1506,10 @@ body.cover-open{overflow:hidden;}
     state.step = i + 1;
     save();
 
-    if(i === 0){
-      /* 最初の1枚（15:15 チェックイン）だけは特別 — 全画面の紙吹雪 */
-      party(true);
-      if(navigator.vibrate){ try{ navigator.vibrate([18,50,18,50,30]); }catch(e){} }
-      setTimeout(function(){ openStep(ev, true); refreshLocks(); }, 420);
-    }else{
-      burstAt(ev);
-      if(navigator.vibrate){ try{ navigator.vibrate(14); }catch(e){} }
-      openStep(ev, true);
-      refreshLocks();
-    }
+    burstAt(ev);
+    if(navigator.vibrate){ try{ navigator.vibrate(14); }catch(e){} }
+    openStep(ev, true);
+    refreshLocks();
 
     /* 次の1枚が別の日のタブにあるときだけ案内する */
     var next = steps[state.step];
@@ -1604,7 +1583,7 @@ body.cover-open{overflow:hidden;}
   function openModal(){
     modal.classList.add("show");
     document.body.classList.add("is-locked-scroll");
-    setTimeout(function(){ party(false); }, 380);
+    setTimeout(function(){ party(); }, 380);
   }
   function closeModal(){
     modal.classList.remove("show");
