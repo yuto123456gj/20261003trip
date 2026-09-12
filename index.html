@@ -1458,12 +1458,17 @@ body.cover-open{overflow:hidden;}
     shoot({ particleCount:70, spread:70, startVelocity:38, origin:{ y:0.7 }, scalar:0.9 });
   }
 
-  /* タップしたカードの位置から小さく弾けさせる */
-  function burstAt(el){
-    if(!hasLib){ fallbackBurst(22); return; }
-    var r = el.getBoundingClientRect();
-    shoot({
-      particleCount:60, spread:70, startVelocity:30, scalar:0.85, decay:0.9,
+  /* 封蝋が割れて、金色のかけらが数粒だけ散る */
+  var SEAL_COLORS = ["#C2A15C", "#E2C78C", "#9E8144"];
+
+  function sealCrack(ev){
+    if(!hasLib) return;
+    var seal = ev.querySelector(".ev-lock .lk");
+    var r = (seal || ev).getBoundingClientRect();
+    window.confetti({
+      particleCount:11, spread:58, startVelocity:16,
+      scalar:0.45, decay:0.86, gravity:1.4, ticks:70,
+      colors:SEAL_COLORS, zIndex:9999,
       origin:{
         x:(r.left + r.width / 2) / window.innerWidth,
         y:(r.top + r.height / 2) / window.innerHeight
@@ -1566,7 +1571,7 @@ body.cover-open{overflow:hidden;}
     state.step = i + 1;
     save();
 
-    burstAt(ev);
+    setTimeout(function(){ sealCrack(ev); }, 200);   /* 封蝋が割れる瞬間に合わせる */
     if(navigator.vibrate){ try{ navigator.vibrate(14); }catch(e){} }
     openStep(ev, true);
     refreshLocks();
