@@ -757,36 +757,6 @@ body.cover-open{overflow:hidden;}
 /* ============================================================
    Celebration overlay
    ============================================================ */
-.celebrate{
-  position:fixed;inset:0;z-index:9000;
-  display:flex;align-items:center;justify-content:center;padding:26px;
-  background:rgba(24,34,46,.62);
-  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-  opacity:0;visibility:hidden;
-  transition:opacity .45s ease,visibility .45s;
-}
-.celebrate.show{opacity:1;visibility:visible;}
-.celebrate-card{
-  width:100%;max-width:340px;text-align:center;
-  padding:38px 26px 32px;border-radius:26px;
-  background:linear-gradient(160deg,#FFFDF9,#FBF1E4);
-  border:1px solid rgba(194,161,92,.4);
-  box-shadow:0 30px 70px -30px rgba(0,0,0,.7);
-  transform:scale(.86) translateY(16px);opacity:0;
-  transition:transform .6s cubic-bezier(.2,1.2,.35,1),opacity .5s ease;
-}
-.celebrate.show .celebrate-card{transform:none;opacity:1;}
-.celebrate-card .cake{font-size:44px;display:block;animation:pop .8s cubic-bezier(.2,1.5,.4,1) .1s backwards;}
-@keyframes pop{0%{transform:scale(0) rotate(-25deg);opacity:0}100%{transform:none;opacity:1}}
-.celebrate-card h2{
-  font-family:var(--serif);font-size:25px;margin:12px 0 0;letter-spacing:.08em;font-weight:600;
-  background:linear-gradient(100deg,#C2A15C,#E2C78C 45%,#9E8144);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
-}
-.celebrate-card .hr{width:52px;height:1px;margin:14px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.celebrate-card p{margin:0;font-size:14px;color:var(--navy);letter-spacing:.04em;}
-.celebrate-card .tip{margin-top:20px;font-size:10.5px;letter-spacing:.2em;color:var(--ink-mute);}
-
 /* ============================================================
    Modal
    ============================================================ */
@@ -1231,17 +1201,6 @@ body.cover-open{overflow:hidden;}
   <button class="reset" id="resetBtn">↺ 最初の状態にもどす</button>
 </div>
 
-<!-- ============ CELEBRATION OVERLAY ============ -->
-<div class="celebrate" id="celebrate">
-  <div class="celebrate-card">
-    <span class="cake">🎂</span>
-    <h2>HAPPY BIRTHDAY!</h2>
-    <div class="hr"></div>
-    <p>本日のホテルへようこそ！</p>
-    <p class="tip">TAP TO CONTINUE</p>
-  </div>
-</div>
-
 <!-- ============ MODAL ============ -->
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-card">
@@ -1461,7 +1420,6 @@ body.cover-open{overflow:hidden;}
   });
 
   /* ---------------- unlock ---------------- */
-  var celebrateEl = $("#celebrate");
   var secretBtn   = $("#secretBtn");
   var secretSub   = $("#secretSub");
 
@@ -1524,28 +1482,14 @@ body.cover-open{overflow:hidden;}
     });
   }
 
-  function showCelebration(){
-    celebrateEl.classList.add("show");
-    document.body.classList.add("is-locked-scroll");
-    var close = function(){
-      celebrateEl.classList.remove("show");
-      document.body.classList.remove("is-locked-scroll");
-      celebrateEl.removeEventListener("click", close);
-      clearTimeout(autoClose);
-    };
-    var autoClose = setTimeout(close, 5000);
-    celebrateEl.addEventListener("click", close);
-  }
-
   function advance(i){
     var ev = steps[i];
     state.step = i + 1;
     save();
 
     if(i === 0){
-      /* 最初の1枚（15:15 チェックイン）だけは特別 — 全画面の紙吹雪とお祝い */
+      /* 最初の1枚（15:15 チェックイン）だけは特別 — 全画面の紙吹雪 */
       party(true);
-      showCelebration();
       if(navigator.vibrate){ try{ navigator.vibrate([18,50,18,50,30]); }catch(e){} }
       setTimeout(function(){ openStep(ev, true); refreshLocks(); }, 420);
     }else{
