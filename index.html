@@ -418,7 +418,7 @@ body.cover-open{overflow:hidden;}
 .ev.opening .ev-card::before,
 .ev.opening .ev-card::after{
   transform-origin:top center;
-  animation:flapOpen .85s .28s cubic-bezier(.25,.78,.35,1) forwards;
+  animation:flapOpen .7s .2s cubic-bezier(.25,.78,.35,1) forwards;
 }
 @keyframes flapOpen{
   0%{transform:rotateX(0deg);opacity:1;}
@@ -467,7 +467,7 @@ body.cover-open{overflow:hidden;}
 }
 .ev.reveal .ev-body{
   animation:fadeUp .6s cubic-bezier(.2,.8,.3,1) backwards;
-  animation-delay:calc(var(--d,0ms) + 90ms);
+  animation-delay:calc(var(--d,0ms) + 20ms);
 }
 @keyframes cardPop{
   0%{opacity:.2;transform:translateY(10px) scale(.96);}
@@ -1533,7 +1533,7 @@ body.cover-open{overflow:hidden;}
     if(animate && sealed){
       ev.classList.remove("key");
       ev.classList.add("opening");        /* 封蝋が外れ、フタが開く */
-      setTimeout(reveal, 1180);
+      setTimeout(reveal, 930);
     }else{
       reveal();
     }
