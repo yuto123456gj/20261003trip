@@ -361,47 +361,71 @@ body.cover-open{overflow:hidden;}
 
 /* --- locked state --- */
 .ev.locked .ev-card{
-  background:linear-gradient(150deg,#F3EFEB,#EDE7E1);
-  border-style:dashed;
-  border-color:rgba(30,42,56,.16);
-  cursor:pointer;
-  box-shadow:none;
+  position:relative;overflow:hidden;cursor:pointer;
+  padding:34px 18px 20px;
+  background:linear-gradient(165deg,#FCF6EC 0%,#F6EADA 58%,#F1E2CE 100%);
+  border:1px solid rgba(194,161,92,.34);
+  box-shadow:0 8px 20px -14px rgba(158,129,68,.85);
+}
+/* 封筒のフタ（金の折り目つき） */
+.ev.locked .ev-card::before,
+.ev.locked .ev-card::after{
+  content:"";position:absolute;top:0;left:0;right:0;pointer-events:none;
+}
+.ev.locked .ev-card::before{
+  height:58px;
+  background:rgba(194,161,92,.42);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+}
+.ev.locked .ev-card::after{
+  height:56.6px;
+  background:linear-gradient(180deg,#FBF2E3,#F5E8D6);
+  clip-path:polygon(0 0,100% 0,50% 100%);
 }
 .ev.locked .ev-body{display:none;}
-.ev-lock{display:none;align-items:center;gap:12px;}
+
+.ev-lock{display:none;position:relative;z-index:1;align-items:center;gap:14px;}
 .ev.locked .ev-lock{display:flex;}
+
+/* 封蝋 */
 .ev-lock .lk{
-  width:19px;height:19px;color:var(--navy-soft);
-  transition:transform .4s ease,color .4s ease;
+  width:16px;height:16px;padding:9px;box-sizing:content-box;
+  border-radius:50%;color:#FFF8EA;stroke-width:1.8;
+  background:radial-gradient(circle at 33% 28%,#DDB87C 0%,#C2A15C 52%,#96793F 100%);
+  box-shadow:0 4px 10px -4px rgba(150,121,63,.9),
+             inset 0 1px 2px rgba(255,255,255,.55),
+             inset 0 -2px 4px rgba(120,95,45,.35);
+  transition:transform .4s ease;
 }
 .ev-lock .txt b{
-  display:block;font-size:15px;letter-spacing:.14em;color:var(--navy-soft);font-weight:700;
+  display:block;font-family:var(--serif);font-size:17px;
+  letter-spacing:.2em;color:#96805F;font-weight:600;
 }
 .ev-lock .txt small{
-  display:block;font-size:11px;letter-spacing:.08em;color:var(--ink-mute);margin-top:1px;
+  display:block;font-size:10.5px;letter-spacing:.14em;
+  color:var(--gold-d);margin-top:3px;
 }
 .ev.locked .ev-card:active{transform:scale(.985);}
 
-/* the key card that starts the party */
+/* 次に開ける1枚 */
 .ev.key.locked .ev-card{
-  background:linear-gradient(150deg,#FFF9EE,#F7E9CE);
-  border:1px solid rgba(194,161,92,.5);
-  border-style:solid;
-  box-shadow:0 8px 26px -12px rgba(194,161,92,.75);
-  animation:breathe 2.6s ease-in-out infinite;
+  background:linear-gradient(165deg,#FFFBF2 0%,#FBEFD9 58%,#F6E4C6 100%);
+  border-color:rgba(194,161,92,.62);
+  box-shadow:0 10px 26px -14px rgba(194,161,92,.9);
+  animation:breathe 2.8s ease-in-out infinite;
 }
 @keyframes breathe{
-  0%,100%{box-shadow:0 8px 26px -12px rgba(194,161,92,.75);}
-  50%{box-shadow:0 12px 34px -10px rgba(194,161,92,1);}
+  0%,100%{box-shadow:0 10px 26px -14px rgba(194,161,92,.9);}
+  50%{box-shadow:0 14px 34px -12px rgba(194,161,92,1);}
 }
-.ev.key.locked .ev-lock .lk{animation:wiggle 2.2s ease-in-out infinite;}
-@keyframes wiggle{
-  0%,88%,100%{transform:rotate(0) scale(1);}
-  91%{transform:rotate(-12deg) scale(1.12);}
-  95%{transform:rotate(12deg) scale(1.12);}
+.ev.key.locked .ev-card::before{background:rgba(194,161,92,.6);}
+.ev.key.locked .ev-lock .lk{animation:seal 3s ease-in-out infinite;}
+@keyframes seal{
+  0%,86%,100%{transform:scale(1) rotate(0);}
+  91%{transform:scale(1.09) rotate(-7deg);}
+  95%{transform:scale(1.09) rotate(7deg);}
 }
 .ev.key.locked .ev-lock .txt b{color:var(--gold-d);}
-.ev.key.locked .ev-lock .lk{color:var(--gold-d);}
 .ev.key.locked::after{
   content:"TAP ME";
   position:absolute;top:-9px;right:12px;
