@@ -425,21 +425,6 @@ body.cover-open{overflow:hidden;}
   60%{opacity:1;}
   100%{transform:rotateX(-168deg);opacity:0;}
 }
-.ev.opening .ev-lock .lk{animation:sealRing .62s cubic-bezier(.2,.8,.3,1) forwards;}
-@keyframes sealRing{
-  0%{
-    box-shadow:0 4px 10px -4px rgba(150,121,63,.9),
-               inset 0 1px 2px rgba(255,255,255,.55),
-               inset 0 -2px 4px rgba(120,95,45,.35),
-               0 0 0 0 rgba(194,161,92,.55);
-  }
-  100%{
-    box-shadow:0 4px 10px -4px rgba(150,121,63,0),
-               inset 0 1px 2px rgba(255,255,255,0),
-               inset 0 -2px 4px rgba(120,95,45,0),
-               0 0 0 30px rgba(194,161,92,0);
-  }
-}
 .ev.opening .ev-lock{animation:sealBreak .62s cubic-bezier(.28,.8,.4,1) forwards;}
 @keyframes sealBreak{
   0%{opacity:1;transform:none;}
@@ -1473,23 +1458,6 @@ body.cover-open{overflow:hidden;}
     shoot({ particleCount:70, spread:70, startVelocity:38, origin:{ y:0.7 }, scalar:0.9 });
   }
 
-  /* 封蝋が割れて、金色のかけらが数粒だけ散る */
-  var SEAL_COLORS = ["#C2A15C", "#E2C78C", "#9E8144"];
-
-  function sealCrack(ev){
-    if(!hasLib) return;
-    var seal = ev.querySelector(".ev-lock .lk");
-    var r = (seal || ev).getBoundingClientRect();
-    window.confetti({
-      particleCount:30, spread:82, startVelocity:26,
-      scalar:0.62, decay:0.88, gravity:1.15, ticks:95,
-      colors:SEAL_COLORS, zIndex:9999,
-      origin:{
-        x:(r.left + r.width / 2) / window.innerWidth,
-        y:(r.top + r.height / 2) / window.innerHeight
-      }
-    });
-  }
 
   /* ---------------- tabs ---------------- */
   $$(".tab").forEach(function(tab){
@@ -1587,7 +1555,6 @@ body.cover-open{overflow:hidden;}
     state.step = i + 1;
     save();
 
-    setTimeout(function(){ sealCrack(ev); }, 200);   /* 封蝋が割れる瞬間に合わせる */
     if(navigator.vibrate){ try{ navigator.vibrate(14); }catch(e){} }
     openStep(ev, true);
     refreshLocks();
@@ -1595,7 +1562,7 @@ body.cover-open{overflow:hidden;}
     /* 次の1枚が別の日のタブにあるときだけ案内する */
     var next = steps[state.step];
     if(next && next.parentNode.parentNode.id !== ev.parentNode.parentNode.id){
-      setTimeout(function(){ toast("つづきは " + labelOf(next) + " から！"); }, i === 0 ? 5400 : 900);
+      setTimeout(function(){ toast("つづきは " + labelOf(next) + " から！"); }, 1500);
     }
   }
 
