@@ -1410,20 +1410,17 @@ body.cover-open{overflow:hidden;}
       shoot({ particleCount:70, spread:70, startVelocity:38, origin:{ y:0.7 }, scalar:0.9 });
       return;
     }
-    shoot({ particleCount:140, spread:100, startVelocity:48, origin:{ y:0.62 } });
-    setTimeout(function(){ shoot({ particleCount:70, angle:60,  spread:60, origin:{ x:0, y:0.75 } }); }, 160);
-    setTimeout(function(){ shoot({ particleCount:70, angle:120, spread:60, origin:{ x:1, y:0.75 } }); }, 260);
+    shoot({ particleCount:110, spread:95, startVelocity:46, origin:{ y:0.64 } });
+    setTimeout(function(){ shoot({ particleCount:45, angle:60,  spread:60, origin:{ x:0, y:0.78 } }); }, 180);
+    setTimeout(function(){ shoot({ particleCount:45, angle:120, spread:60, origin:{ x:1, y:0.78 } }); }, 280);
 
-    var end = Date.now() + 2200;
+    /* 左右からの流し込みは短めに（フレームごと1粒ずつ） */
+    var end = Date.now() + 1200;
     (function frame(){
-      shoot({ particleCount:3, angle:60,  spread:75, origin:{ x:0, y:0.85 }, scalar:0.85 });
-      shoot({ particleCount:3, angle:120, spread:75, origin:{ x:1, y:0.85 }, scalar:0.85 });
+      shoot({ particleCount:1, angle:60,  spread:70, origin:{ x:0, y:0.88 }, scalar:0.8 });
+      shoot({ particleCount:1, angle:120, spread:70, origin:{ x:1, y:0.88 }, scalar:0.8 });
       if(Date.now() < end) requestAnimationFrame(frame);
     })();
-
-    setTimeout(function(){
-      shoot({ particleCount:90, spread:120, startVelocity:30, decay:0.92, scalar:1.15, origin:{ y:0.4 } });
-    }, 900);
   }
 
   /* タップしたカードの位置から小さく弾けさせる */
