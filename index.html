@@ -118,6 +118,14 @@ body.is-locked-scroll{overflow:hidden;}
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
+.icon-defs{position:absolute;width:0;height:0;overflow:hidden;}
+.icn{
+  width:1em;height:1em;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round;
+  vertical-align:-.14em;
+}
+
 /* ============================================================
    Cover（表紙）
    ============================================================ */
@@ -363,8 +371,8 @@ body.cover-open{overflow:hidden;}
 .ev-lock{display:none;align-items:center;gap:12px;}
 .ev.locked .ev-lock{display:flex;}
 .ev-lock .lk{
-  font-size:19px;filter:grayscale(.2);
-  transition:transform .4s ease;
+  width:19px;height:19px;color:var(--navy-soft);
+  transition:transform .4s ease,color .4s ease;
 }
 .ev-lock .txt b{
   display:block;font-size:15px;letter-spacing:.14em;color:var(--navy-soft);font-weight:700;
@@ -393,6 +401,7 @@ body.cover-open{overflow:hidden;}
   95%{transform:rotate(12deg) scale(1.12);}
 }
 .ev.key.locked .ev-lock .txt b{color:var(--gold-d);}
+.ev.key.locked .ev-lock .lk{color:var(--gold-d);}
 .ev.key.locked::after{
   content:"TAP ME";
   position:absolute;top:-9px;right:12px;
@@ -462,7 +471,7 @@ body.cover-open{overflow:hidden;}
   transition:transform .25s cubic-bezier(.2,.8,.3,1),box-shadow .3s ease;
 }
 .shot-btn:active{transform:scale(.985);box-shadow:0 3px 10px -10px rgba(158,129,68,.9);}
-.shot-btn .ic{flex:0 0 auto;font-size:18px;}
+.shot-btn .ic{width:19px;height:19px;color:var(--gold-d);}
 .shot-btn .tx{flex:1;min-width:0;}
 .shot-btn .tx b{
   display:block;font-size:13px;font-weight:700;
@@ -788,7 +797,7 @@ body.cover-open{overflow:hidden;}
   padding:6px 16px;border-radius:999px;white-space:nowrap;
   box-shadow:0 6px 16px -8px rgba(158,129,68,1);
 }
-.modal-card .gift{font-size:46px;display:block;animation:float 2.6s ease-in-out infinite;}
+.modal-card .gift{width:46px;height:46px;display:block;margin:0 auto;color:var(--gold-d);stroke-width:1.2;animation:float 2.6s ease-in-out infinite;}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
 .modal-card h2{
   font-family:var(--serif);font-size:21px;margin:14px 0 0;letter-spacing:.08em;color:var(--navy);font-weight:600;
@@ -823,6 +832,33 @@ body.cover-open{overflow:hidden;}
 </head>
 <body class="cover-open">
 
+<svg class="icon-defs" aria-hidden="true"><defs>
+  <symbol id="i-train" viewBox="0 0 24 24">
+    <rect x="5" y="3" width="14" height="14.5" rx="3.2"/><path d="M5 10.2h14"/>
+    <path d="M9.5 17.5 7.2 21M14.5 17.5l2.3 3.5"/><path d="M9.2 13.8h.01M14.8 13.8h.01"/>
+  </symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24">
+    <path d="M12 21.2c3.6-4.2 6.4-7.4 6.4-10.7a6.4 6.4 0 1 0-12.8 0c0 3.3 2.8 6.5 6.4 10.7Z"/>
+    <circle cx="12" cy="10.2" r="2.4"/>
+  </symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24">
+    <path d="M3.2 8.9A2.6 2.6 0 0 1 5.8 6.3h1.9l1.4-2.1h5.8l1.4 2.1h1.9a2.6 2.6 0 0 1 2.6 2.6v8.4a2.6 2.6 0 0 1-2.6 2.6H5.8a2.6 2.6 0 0 1-2.6-2.6Z"/>
+    <circle cx="12" cy="12.9" r="3.4"/>
+  </symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24">
+    <rect x="4.6" y="10.4" width="14.8" height="10" rx="2.6"/>
+    <path d="M8.1 10.4V7.2a3.9 3.9 0 0 1 7.8 0v3.2"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24">
+    <rect x="6.8" y="2.4" width="10.4" height="19.2" rx="2.6"/><path d="M10.4 18.6h3.2"/>
+  </symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24">
+    <rect x="3.4" y="9.4" width="17.2" height="11.4" rx="2"/><path d="M2.6 9.4h18.8M12 9.4v11.4"/>
+    <path d="M12 9.4S10.6 3.6 7.9 3.6a2.2 2.2 0 0 0 0 4.4c2.7 0 4.1 1.4 4.1 1.4Z"/>
+    <path d="M12 9.4s1.4-5.8 4.1-5.8a2.2 2.2 0 0 1 0 4.4c-2.7 0-4.1 1.4-4.1 1.4Z"/>
+  </symbol>
+</defs></svg>
+
 <!-- ============ COVER ============ -->
 <div class="cover" id="cover">
   <div class="inner" id="coverInner">
@@ -833,7 +869,7 @@ body.cover-open{overflow:hidden;}
     <p class="hero-sub">2026.10.03〜04 SPECIAL TRIP</p>
     <p class="hero-note">みなとみらい ＆ 江ノ島 / 1泊2日</p>
     <div class="cover-add">
-      <b>📱 ホーム画面に追加してね！</b>
+      <b><svg class="icn"><use href="#i-phone"/></svg> ホーム画面に追加してね！</b>
       <p>右下の <span class="dots">•••</span> を押す → 「共有」<br>
         → 画面を下にスクロール<br>
         → 「ホーム画面に追加」でやっといてね！！</p>
@@ -891,7 +927,7 @@ body.cover-open{overflow:hidden;}
       <div class="dh-row">
         <h2>海風と夜景の街へ</h2>
         <div class="dh-add">
-          <a class="add-photo" href="upload.html">📸 写真を追加</a>
+          <a class="add-photo" href="upload.html"><svg class="icn"><use href="#i-camera"/></svg> 写真を追加</a>
           <span class="add-note">旅の写真をあげてね</span>
         </div>
       </div>
@@ -906,10 +942,10 @@ body.cover-open{overflow:hidden;}
             <span class="ev-tag">MEET UP</span>
             <h3>集合（みなとみらい駅）</h3>
             <p>改札を出たあたりで待ち合わせ。着いたら連絡してね。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E9%A7%85" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E9%A7%85" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
             <figure class="shot">
               <button class="shot-btn" type="button">
-                <span class="ic">🚃</span>
+                <svg class="icn ic"><use href="#i-train"/></svg>
                 <span class="tx"><b>来る電車はこれだよ</b><small>タップで乗換案内を表示</small></span>
                 <span class="ar">VIEW</span>
               </button>
@@ -923,14 +959,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">15:15</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">CHECK IN</span>
             <h3>ホテルチェックイン</h3>
             <p>フロントで鍵を受け取ってお部屋へ。荷物を置いたら、出かける前に少し休憩しよう。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%89%E4%BA%95%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3%E3%83%9B%E3%83%86%E3%83%AB%E6%A8%AA%E6%B5%9C%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%89%E4%BA%95%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3%E3%83%9B%E3%83%86%E3%83%AB%E6%A8%AA%E6%B5%9C%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -939,14 +975,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">16:00</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">MUSEUM</span>
             <h3>カップヌードルミュージアム横浜</h3>
             <p>自分だけのオリジナルカップヌードルが作れるミュージアム。ホテルから歩いていける距離だよ。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E3%82%AB%E3%83%83%E3%83%97%E3%83%8C%E3%83%BC%E3%83%89%E3%83%AB%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%82%A2%E3%83%A0%E6%A8%AA%E6%B5%9C" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E3%82%AB%E3%83%83%E3%83%97%E3%83%8C%E3%83%BC%E3%83%89%E3%83%AB%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%82%A2%E3%83%A0%E6%A8%AA%E6%B5%9C" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -955,14 +991,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">18:30</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">SIGHTSEEING</span>
             <h3>赤レンガ倉庫</h3>
             <p>ライトアップされた赤レンガと、広場のイベントの賑わいを見に。写真をたくさん撮ろう。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%A8%AA%E6%B5%9C%E8%B5%A4%E3%83%AC%E3%83%B3%E3%82%AC%E5%80%89%E5%BA%AB" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%A8%AA%E6%B5%9C%E8%B5%A4%E3%83%AC%E3%83%B3%E3%82%AC%E5%80%89%E5%BA%AB" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -971,14 +1007,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">19:00</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">NIGHT VIEW</span>
             <h3>ロープウェイで夜景</h3>
             <p>運河パークから桜木町までの空中散歩。みなとみらいの夜景がいちばんきれいに見える時間だよ。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=YOKOHAMA%20AIR%20CABIN%20%E9%81%8B%E6%B2%B3%E3%83%91%E3%83%BC%E3%82%AF%E9%A7%85" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=YOKOHAMA%20AIR%20CABIN%20%E9%81%8B%E6%B2%B3%E3%83%91%E3%83%BC%E3%82%AF%E9%A7%85" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -987,7 +1023,7 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">20:00</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
@@ -1002,14 +1038,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">21:00</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">BACK</span>
             <h3>ホテルへもどる</h3>
             <p>歩いて数分。今日はたくさん歩いたね。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%89%E4%BA%95%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3%E3%83%9B%E3%83%86%E3%83%AB%E6%A8%AA%E6%B5%9C%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%89%E4%BA%95%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3%E3%83%9B%E3%83%86%E3%83%AB%E6%A8%AA%E6%B5%9C%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -1022,7 +1058,7 @@ body.cover-open{overflow:hidden;}
     <p class="lead-sub">押してみてね。</p>
     <button class="secret-btn is-locked" id="secretBtn">
       <span>あけてみて</span>
-      <small id="secretSub">🔒 21:00 を解放してから</small>
+      <small id="secretSub"><svg class="icn"><use href="#i-lock"/></svg> 21:00 を解放してから</small>
     </button>
   </div>
   </section>
@@ -1034,7 +1070,7 @@ body.cover-open{overflow:hidden;}
       <div class="dh-row">
         <h2>潮風と夕日の島へ</h2>
         <div class="dh-add">
-          <a class="add-photo" href="upload.html">📸 写真を追加</a>
+          <a class="add-photo" href="upload.html"><svg class="icn"><use href="#i-camera"/></svg> 写真を追加</a>
           <span class="add-note">旅の写真をあげてね</span>
         </div>
       </div>
@@ -1046,7 +1082,7 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">08:30</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
@@ -1061,7 +1097,7 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">11:00</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
@@ -1076,14 +1112,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">12:15</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">AQUARIUM</span>
             <h3>新江ノ島水族館</h3>
             <p>片瀬江ノ島駅からすぐ。イルカショーと、ゆらゆら光るクラゲの水槽が名物だよ。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%96%B0%E6%B1%9F%E3%83%8E%E5%B3%B6%E6%B0%B4%E6%97%8F%E9%A4%A8" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%96%B0%E6%B1%9F%E3%83%8E%E5%B3%B6%E6%B0%B4%E6%97%8F%E9%A4%A8" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -1092,14 +1128,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">14:30</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">STREET FOOD</span>
             <h3>仲見世で食べ歩き</h3>
             <p>橋を渡って島へ。参道の仲見世通りで、つまみ食いしながら進もう。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B1%9F%E3%81%AE%E5%B3%B6%20%E4%BB%B2%E8%A6%8B%E4%B8%96%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B1%9F%E3%81%AE%E5%B3%B6%20%E4%BB%B2%E8%A6%8B%E4%B8%96%E9%80%9A%E3%82%8A" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -1108,14 +1144,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">15:05</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">SHRINE</span>
             <h3>江島神社</h3>
             <p>辺津宮・中津宮・奥津宮と、上りながら参拝。坂と階段はエスカーを使うと楽だよ。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B1%9F%E5%B3%B6%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B1%9F%E5%B3%B6%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -1124,14 +1160,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">15:30</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">REST</span>
             <h3>魚見亭でひと休み</h3>
             <p>海を見下ろす高台のお店。名物のしらす丼を食べながら、景色を眺めてのんびりしよう。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E9%AD%9A%E8%A6%8B%E4%BA%AD%20%E6%B1%9F%E3%81%AE%E5%B3%B6" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E9%AD%9A%E8%A6%8B%E4%BA%AD%20%E6%B1%9F%E3%81%AE%E5%B3%B6" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -1140,14 +1176,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">16:45</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">SUNSET</span>
             <h3>江の島シーキャンドルで夕日</h3>
             <p>展望灯台にのぼって、海に沈む夕日を。晴れていれば富士山のシルエットも見えるよ。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B1%9F%E3%81%AE%E5%B3%B6%E3%82%B7%E3%83%BC%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%89%E3%83%AB" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B1%9F%E3%81%AE%E5%B3%B6%E3%82%B7%E3%83%BC%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%89%E3%83%AB" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -1156,14 +1192,14 @@ body.cover-open{overflow:hidden;}
         <div class="ev-time">18:00</div>
         <div class="ev-card">
           <div class="ev-lock">
-            <span class="lk">🔒</span>
+            <svg class="icn lk"><use href="#i-lock"/></svg>
             <span class="txt"><b>??????</b><small>タップで解放</small></span>
           </div>
           <div class="ev-body">
             <span class="ev-tag">GOING HOME</span>
             <h3>帰りみち</h3>
             <p>島を下りて駅へ。2日間おつかれさま、いっしょに帰ろう。</p>
-            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E7%89%87%E7%80%AC%E6%B1%9F%E3%83%8E%E5%B3%B6%E9%A7%85" target="_blank" rel="noopener">📍 地図で開く</a>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E7%89%87%E7%80%AC%E6%B1%9F%E3%83%8E%E5%B3%B6%E9%A7%85" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
@@ -1175,7 +1211,7 @@ body.cover-open{overflow:hidden;}
   <!-- ============ ALBUM ============ -->
   <section class="panel album locked-panel" id="album">
     <div class="veil">
-      <b>🔒 ??????</b>
+      <b><svg class="icn"><use href="#i-lock"/></svg> ??????</b>
       <small>旅のさいごにひらきます</small>
     </div>
     <div class="album-head">
@@ -1205,7 +1241,7 @@ body.cover-open{overflow:hidden;}
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-card">
     <span class="ribbon">LAST SECRET</span>
-    <span class="gift">🎁</span>
+    <svg class="icn gift"><use href="#i-gift"/></svg>
     <h2 id="modalTitle">Happy Birthday！</h2>
     <div class="hr"></div>
     <p>あーちゃんと出会えて毎日幸せです♡♡<br>
@@ -1515,7 +1551,7 @@ body.cover-open{overflow:hidden;}
 
   function waitMsg(){
     var next = steps[state.step];
-    return next ? "つぎは " + labelOf(next) + " だよ🔒" : "";
+    return next ? "つぎは " + labelOf(next) + " だよ" : "";
   }
 
   /* 予定の時刻が過ぎたカードは自動でひらく（最初の1枚だけはタップ専用） */
@@ -1561,7 +1597,7 @@ body.cover-open{overflow:hidden;}
       if(!ev.classList.contains("locked")) return;
       if(i !== state.step){ nudge($(".ev-card", ev), waitMsg()); return; }
       var day = dayNotYet(ev);
-      if(day){ nudge($(".ev-card", ev), day + "になったらひらくよ🔒"); return; }
+      if(day){ nudge($(".ev-card", ev), day + "になったらひらくよ"); return; }
       advance(i);
     });
   });
@@ -1579,7 +1615,7 @@ body.cover-open{overflow:hidden;}
   }
   secretBtn.addEventListener("click", function(){
     if(secretBtn.classList.contains("is-locked")){
-      nudge(secretBtn, "DAY 1 の 21:00 を解放すると開けます🔒");
+      nudge(secretBtn, "DAY 1 の 21:00 を解放すると開けます");
       return;
     }
     openModal();
@@ -1724,7 +1760,7 @@ body.cover-open{overflow:hidden;}
           .map(function(f){ return f.name; })
           .sort();
         if(!names.length){
-          albumMsg.textContent = "写真はこれから増えていきます📸";
+          albumMsg.textContent = "写真はこれから増えていきます";
           albumCnt.textContent = "";
           photos = [];
           stOpen.classList.remove("on");
