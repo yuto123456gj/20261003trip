@@ -418,14 +418,14 @@ body.cover-open{overflow:hidden;}
 .ev.opening .ev-card::before,
 .ev.opening .ev-card::after{
   transform-origin:top center;
-  animation:flapOpen .5s .14s cubic-bezier(.32,.86,.4,1) forwards;
+  animation:flapOpen .85s .28s cubic-bezier(.25,.78,.35,1) forwards;
 }
 @keyframes flapOpen{
   0%{transform:rotateX(0deg);opacity:1;}
   60%{opacity:1;}
   100%{transform:rotateX(-168deg);opacity:0;}
 }
-.ev.opening .ev-lock{animation:sealBreak .42s cubic-bezier(.3,.85,.4,1) forwards;}
+.ev.opening .ev-lock{animation:sealBreak .62s cubic-bezier(.28,.8,.4,1) forwards;}
 @keyframes sealBreak{
   0%{opacity:1;transform:none;}
   22%{transform:scale(1.09) rotate(-4deg);}
@@ -1544,7 +1544,7 @@ body.cover-open{overflow:hidden;}
 
     if(animate && sealed){
       ev.classList.add("opening");        /* 封蝋が外れ、フタが開く */
-      setTimeout(reveal, 620);
+      setTimeout(reveal, 1180);
     }else{
       reveal();
     }
