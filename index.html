@@ -1066,8 +1066,24 @@ body.cover-open{overflow:hidden;}
         </div>
       </article>
 
-      <article class="ev locked" data-at="2026-10-03T19:00">
+      <article class="ev locked">
         <div class="ev-time">19:00</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">DINNER</span>
+            <h3>シュラスコで夕食</h3>
+            <p>赤レンガのすぐそば。目の前で切り分けてくれるお肉のお店を予約しました。おなかを空かせておいてね。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=BUTCHER%20REPUBLIC%20%E6%A8%AA%E6%B5%9C%E8%B5%A4%E3%83%AC%E3%83%B3%E3%82%AC" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-03T19:00">
+        <div class="ev-time">20:45</div>
         <div class="ev-card">
           <div class="ev-lock">
             <svg class="icn lk"><use href="#i-lock"/></svg>
@@ -1076,29 +1092,14 @@ body.cover-open{overflow:hidden;}
           <div class="ev-body">
             <span class="ev-tag">NIGHT VIEW</span>
             <h3>ロープウェイで夜景</h3>
-            <p>運河パークから桜木町までの空中散歩。みなとみらいの夜景がいちばんきれいに見える時間だよ。</p>
+            <p>食後に赤レンガから歩いて乗り場へ。運河パークから桜木町までの空中散歩で、夜景がいちばんきれいな時間だよ。</p>
             <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=YOKOHAMA%20AIR%20CABIN%20%E9%81%8B%E6%B2%B3%E3%83%91%E3%83%BC%E3%82%AF%E9%A7%85" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
       </article>
 
-      <article class="ev locked" data-at="2026-10-03T20:00">
-        <div class="ev-time">20:00</div>
-        <div class="ev-card">
-          <div class="ev-lock">
-            <svg class="icn lk"><use href="#i-lock"/></svg>
-            <span class="txt"><b>??????</b><small>タップで解放</small></span>
-          </div>
-          <div class="ev-body">
-            <span class="ev-tag">DINNER</span>
-            <h3>夕食</h3>
-            <p>桜木町から動く歩道でみなとみらい方面へ。お店は当日ふたりで決めよう。</p>
-          </div>
-        </div>
-      </article>
-
       <article class="ev locked" data-opens="secret" data-at="2026-10-03T21:00">
-        <div class="ev-time">21:00</div>
+        <div class="ev-time">21:30</div>
         <div class="ev-card">
           <div class="ev-lock">
             <svg class="icn lk"><use href="#i-lock"/></svg>
@@ -1107,7 +1108,7 @@ body.cover-open{overflow:hidden;}
           <div class="ev-body">
             <span class="ev-tag">BACK</span>
             <h3>ホテルへもどる</h3>
-            <p>歩いて数分。今日はたくさん歩いたね。</p>
+            <p>桜木町から動く歩道でホテルへ。今日はたくさん歩いたね。</p>
             <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%89%E4%BA%95%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3%E3%83%9B%E3%83%86%E3%83%AB%E6%A8%AA%E6%B5%9C%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
           </div>
         </div>
@@ -1117,11 +1118,11 @@ body.cover-open{overflow:hidden;}
 
   <!-- ============ FINALE ============ -->
   <div class="finale">
-    <p class="lead">21:00 — OPEN ME</p>
+    <p class="lead">21:30 — OPEN ME</p>
     <p class="lead-sub">押してみてね。</p>
     <button class="secret-btn is-locked" id="secretBtn">
       <span>あけてみて</span>
-      <small id="secretSub"><svg class="icn"><use href="#i-lock"/></svg> 21:00 を解放してから</small>
+      <small id="secretSub"><svg class="icn"><use href="#i-lock"/></svg> 21:30 を解放してから</small>
     </button>
   </div>
 
@@ -1516,9 +1517,9 @@ body.cover-open{overflow:hidden;}
     "2026-10-03T15:15",   /* DAY1  ホテルチェックイン ※ここだけタップ待ち（紙吹雪） */
     "2026-10-03T16:00",   /* DAY1  カップヌードルミュージアム横浜 */
     "2026-10-03T18:30",   /* DAY1  赤レンガ倉庫 */
-    "2026-10-03T19:00",   /* DAY1  ロープウェイで夜景 */
-    "2026-10-03T20:00",   /* DAY1  夕食 */
-    "2026-10-03T21:00",   /* DAY1  ホテルへもどる（→ あけてみて が押せるように） */
+    "2026-10-03T19:00",   /* DAY1  シュラスコで夕食（19:00 予約） */
+    "2026-10-03T20:45",   /* DAY1  ロープウェイで夜景 */
+    "2026-10-03T21:30",   /* DAY1  ホテルへもどる（→ あけてみて が押せるように） */
     "2026-10-04T08:30",   /* DAY2  朝ごはん */
     "2026-10-04T11:00",   /* DAY2  チェックアウト */
     "2026-10-04T12:15",   /* DAY2  新江ノ島水族館 */
@@ -1668,7 +1669,7 @@ body.cover-open{overflow:hidden;}
   }
   secretBtn.addEventListener("click", function(){
     if(secretBtn.classList.contains("is-locked")){
-      nudge(secretBtn, "DAY 1 の 21:00 を解放すると開けます");
+      nudge(secretBtn, "DAY 1 の 21:30 を解放すると開けます");
       return;
     }
     openModal();
