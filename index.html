@@ -1383,13 +1383,23 @@ body.cover-open{overflow:hidden;}
     var countTxt = "", waitTimer;
 
     var waiting = !TEST && Date.now() < OPEN_AT;
-    if(waiting){
+
+    /* ?skip 付き（写真追加ページからの戻りなど）は表紙を飛ばす */
+    if(/[?&]skip\b/.test(location.search) && !waiting){
+      var greetEl = $("#greet");
+      cover.parentNode.removeChild(cover);
+      if(greetEl && greetEl.parentNode) greetEl.parentNode.removeChild(greetEl);
+      document.body.classList.remove("cover-open");
+      cover = null;
+    }
+
+    if(cover && waiting){
       cover.classList.add("wait");
       countTxt = "10.03 まで あと " + Math.max(1, Math.ceil((OPEN_AT - Date.now()) / 86400000)) + " 日";
       tapEl.textContent = countTxt;
     }
 
-    var enter = function(){
+    var enter = cover ? function(){
       if(waiting){
         var inner = $("#coverInner");
         inner.classList.remove("shake");
@@ -1434,8 +1444,8 @@ body.cover-open{overflow:hidden;}
       }
       var hold = setTimeout(finish, 5200);
       setTimeout(function(){ greet.addEventListener("click", finish); }, 900);   /* 誤タップ防止 */
-    };
-    cover.addEventListener("click", enter);
+    } : null;
+    if(cover) cover.addEventListener("click", enter);
   }
 
   /* ---------------- 一番上にもどる ---------------- */

@@ -183,7 +183,7 @@ a{color:var(--gold-d);}
     showUI();
   });
   $("#toAlbum").addEventListener("click", function(){
-    location.href = info ? info.base : "index.html";
+    location.href = (info ? info.base : "index.html") + "?skip";
   });
   showUI();
 
