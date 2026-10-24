@@ -1,0 +1,1976 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1E2A38">
+<meta name="robots" content="noindex, nofollow">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="icon" href="../../icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Birthday Trip">
+<title>Happy Birthday Trip</title>
+<style>
+/* ============================================================
+   Palette / Tokens
+   ============================================================ */
+:root{
+  --navy:#1E2A38;
+  --navy-2:#2B3B4E;
+  --navy-soft:#5A6B7D;
+  --gold:#C2A15C;
+  --gold-l:#E2C78C;
+  --gold-d:#9E8144;
+  --pink:#E3C4B6;
+  --pink-d:#C99C89;
+  --cream:#FBF5F0;
+  --card:#FFFFFF;
+  --ink:#33404E;
+  --ink-mute:#8A96A3;
+  --line:rgba(30,42,56,.10);
+  --shadow:0 10px 30px -12px rgba(30,42,56,.28);
+  --shadow-s:0 4px 14px -6px rgba(30,42,56,.22);
+  --r:18px;
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --round:"Hiragino Maru Gothic ProN","ヒラギノ丸ゴ ProN W4","Hiragino Sans","Yu Gothic",sans-serif;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--cream);
+  background-image:
+    radial-gradient(120% 60% at 50% 0%, rgba(227,196,182,.35) 0%, rgba(251,245,240,0) 60%),
+    radial-gradient(90% 50% at 100% 100%, rgba(194,161,92,.14) 0%, rgba(251,245,240,0) 70%);
+  background-attachment:fixed;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body.is-locked-scroll{overflow:hidden;}
+
+.app{
+  max-width:480px;
+  margin:0 auto;
+  padding:0 18px calc(48px + env(safe-area-inset-bottom));
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+.hero{
+  position:relative;
+  margin:0 -18px 26px;
+  padding:calc(46px + env(safe-area-inset-top)) 26px 44px;
+  background:linear-gradient(165deg,#243244 0%,#1E2A38 55%,#18222E 100%);
+  color:#fff;
+  overflow:hidden;
+  border-radius:0 0 30px 30px;
+  box-shadow:0 18px 40px -22px rgba(30,42,56,.7);
+}
+.hero::before,.hero::after{
+  content:"";position:absolute;border-radius:50%;pointer-events:none;
+}
+.hero::before{
+  width:260px;height:260px;top:-120px;right:-90px;
+  background:radial-gradient(circle,rgba(226,199,140,.30),rgba(226,199,140,0) 68%);
+}
+.hero::after{
+  width:220px;height:220px;bottom:-110px;left:-70px;
+  background:radial-gradient(circle,rgba(227,196,182,.28),rgba(227,196,182,0) 68%);
+}
+.hero-inner{position:relative;z-index:1;text-align:center;}
+.hero-kicker{
+  font-size:10px;letter-spacing:.42em;text-indent:.42em;
+  color:var(--gold-l);margin:0 0 16px;font-weight:600;
+  opacity:0;animation:fadeUp .8s .05s cubic-bezier(.2,.8,.3,1) forwards;
+}
+.hero-title{
+  font-family:var(--serif);
+  font-size:clamp(27px,8.4vw,38px);
+  line-height:1.24;
+  margin:0;
+  letter-spacing:.06em;
+  font-weight:600;
+  background:linear-gradient(100deg,#F4E3BE 0%,#C2A15C 42%,#F7EBD2 62%,#C2A15C 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  opacity:0;animation:fadeUp .9s .18s cubic-bezier(.2,.8,.3,1) forwards;
+}
+.hero-rule{
+  width:64px;height:1px;margin:18px auto 16px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;animation:fadeUp .9s .3s cubic-bezier(.2,.8,.3,1) forwards;
+}
+.hero-sub{
+  margin:0;font-size:11.5px;letter-spacing:.28em;text-indent:.28em;
+  color:rgba(255,255,255,.72);
+  opacity:0;animation:fadeUp .9s .4s cubic-bezier(.2,.8,.3,1) forwards;
+}
+.hero-note{
+  margin:14px 0 0;font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.05em;
+  opacity:0;animation:fadeUp .9s .5s cubic-bezier(.2,.8,.3,1) forwards;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.icon-defs{position:absolute;width:0;height:0;overflow:hidden;}
+.icn{
+  width:1em;height:1em;flex:0 0 auto;
+  fill:none;stroke:currentColor;stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round;
+  vertical-align:-.14em;
+}
+
+/* ============================================================
+   Cover（表紙）
+   ============================================================ */
+body.cover-open{overflow:hidden;}
+.cover{
+  position:fixed;inset:0;z-index:9800;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 28px;cursor:pointer;overflow:hidden;
+  background:linear-gradient(165deg,#243244 0%,#1E2A38 55%,#18222E 100%);
+  color:#fff;
+  transition:opacity .85s ease,visibility .85s,transform .85s cubic-bezier(.4,0,.2,1);
+}
+.cover::before,.cover::after{content:"";position:absolute;border-radius:50%;pointer-events:none;}
+.cover::before{
+  width:340px;height:340px;top:-130px;right:-110px;
+  background:radial-gradient(circle,rgba(226,199,140,.28),rgba(226,199,140,0) 68%);
+}
+.cover::after{
+  width:300px;height:300px;bottom:-120px;left:-90px;
+  background:radial-gradient(circle,rgba(227,196,182,.26),rgba(227,196,182,0) 68%);
+}
+.cover.gone{opacity:0;visibility:hidden;transform:scale(1.05);pointer-events:none;}
+.cover .inner{position:relative;z-index:1;text-align:center;}
+.cover .hero-title{font-size:clamp(31px,10.5vw,46px);}
+.cover .hero-rule{margin:22px auto 18px;width:76px;}
+.cover .hero-note{margin-top:16px;}
+.cover-to{
+  margin:0 0 20px;font-family:var(--serif);
+  font-size:13px;letter-spacing:.24em;text-indent:.24em;font-weight:600;
+  color:rgba(255,255,255,.8);
+  opacity:0;animation:fadeUp .8s cubic-bezier(.2,.8,.3,1) forwards;
+}
+.greet{
+  position:fixed;inset:0;z-index:9790;
+  display:flex;align-items:center;justify-content:center;
+  padding:40px 30px;cursor:pointer;overflow:hidden;
+  background:
+    radial-gradient(90% 55% at 50% 34%, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 70%),
+    linear-gradient(170deg, #FDF6EF 0%, #F7E6DC 52%, #F2DCD2 100%);
+  opacity:0;visibility:hidden;
+  transition:opacity 1.1s ease,visibility 1.1s;
+}
+.greet.show{opacity:1;visibility:visible;}
+.greet::before,.greet::after{
+  content:"";position:absolute;border-radius:50%;pointer-events:none;filter:blur(18px);
+}
+.greet::before{
+  width:300px;height:300px;top:-60px;left:-70px;
+  background:radial-gradient(circle,rgba(227,196,182,.55),rgba(227,196,182,0) 70%);
+}
+.greet::after{
+  width:260px;height:260px;bottom:-70px;right:-60px;
+  background:radial-gradient(circle,rgba(226,199,140,.42),rgba(226,199,140,0) 70%);
+}
+.greet .in{position:relative;z-index:1;text-align:center;}
+.greet h2{
+  font-family:var(--round);font-weight:600;
+  font-size:clamp(21px,6.4vw,28px);line-height:1.4;margin:0;
+  letter-spacing:.03em;color:#C9A05F;
+  opacity:0;animation:softIn 1.4s .9s cubic-bezier(.25,.7,.3,1) forwards;
+}
+.greet .name{
+  font-family:var(--round);font-weight:600;
+  font-size:clamp(32px,10.4vw,46px);line-height:1.25;
+  margin:8px 0 0;letter-spacing:.06em;color:#5A4A44;
+  opacity:0;animation:softIn 1.5s 1.45s cubic-bezier(.25,.7,.3,1) forwards;
+}
+.greet .sub{
+  margin:14px 0 0;font-family:var(--round);
+  font-size:13px;line-height:2;letter-spacing:.04em;color:#9B8177;
+  opacity:0;animation:softIn 1.5s 2.3s cubic-bezier(.25,.7,.3,1) forwards;
+}
+/* 文字を囲むハート（下から一筆書き） */
+.greet .heart{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-53%);
+  width:min(92vw,370px);height:auto;
+  overflow:visible;pointer-events:none;z-index:0;
+}
+.greet .heart path{
+  fill:none;stroke:url(#heartline);
+  stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:var(--len,900);
+  stroke-dashoffset:var(--len,900);
+}
+.greet.show .heart path{
+  animation:drawHeart 2.1s .2s cubic-bezier(.42,0,.3,1) forwards;
+}
+@keyframes drawHeart{ to{ stroke-dashoffset:0; } }
+
+@keyframes softIn{
+  0%{opacity:0;transform:translateY(10px);}
+  100%{opacity:1;transform:none;}
+}
+
+.cover-add{
+  margin:26px auto 0;max-width:290px;
+  padding:14px 16px;border-radius:14px;
+  border:1px solid rgba(226,199,140,.35);
+  background:rgba(255,255,255,.06);
+  opacity:0;animation:fadeUp .9s .62s cubic-bezier(.2,.8,.3,1) forwards;
+}
+.cover-add b{
+  display:block;font-size:12px;letter-spacing:.06em;
+  color:var(--gold-l);margin-bottom:7px;
+}
+.cover-add p{
+  margin:0;font-size:11px;line-height:1.95;letter-spacing:.02em;
+  color:rgba(255,255,255,.72);
+}
+.cover-add .dots{
+  display:inline-block;padding:1px 7px;border-radius:6px;
+  background:rgba(255,255,255,.16);color:#fff;font-weight:700;letter-spacing:.1em;
+}
+.cover-tap{
+  position:absolute;left:0;right:0;
+  bottom:calc(38px + env(safe-area-inset-bottom));
+  text-align:center;font-size:10px;letter-spacing:.34em;text-indent:.34em;
+  color:rgba(255,255,255,.55);
+  opacity:0;animation:tapIn 1s 1.3s forwards, tapPulse 2.6s 2.3s ease-in-out infinite;
+}
+/* 10月3日まではカウントダウン表示（点滅させない） */
+.cover.wait .cover-tap{
+  font-size:11px;letter-spacing:.22em;text-indent:.22em;
+  color:var(--gold-l);
+  animation:tapIn 1s .9s forwards;
+}
+@keyframes tapIn{to{opacity:1}}
+@keyframes tapPulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ============================================================
+   Tabs
+   ============================================================ */
+.tabs{
+  position:sticky;top:10px;z-index:40;
+  display:flex;gap:6px;
+  padding:6px;margin:0 0 24px;
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);
+  border-radius:999px;
+  box-shadow:var(--shadow-s);
+}
+.tab{
+  flex:1;appearance:none;border:0;cursor:pointer;
+  padding:11px 8px 10px;border-radius:999px;
+  background:transparent;color:var(--navy-soft);
+  font-family:inherit;text-align:center;
+  transition:color .3s ease,background .35s ease,box-shadow .35s ease;
+}
+.tab b{display:block;font-size:11px;letter-spacing:.2em;font-weight:700;}
+.tab span{display:block;font-size:12.5px;letter-spacing:.06em;margin-top:2px;}
+.tab.active{
+  background:linear-gradient(160deg,var(--navy-2),var(--navy));
+  color:#fff;
+  box-shadow:0 8px 18px -10px rgba(30,42,56,.85);
+}
+.tab.active b{color:var(--gold-l);}
+.tab:active{transform:scale(.98);}
+
+/* ============================================================
+   Day sections
+   ============================================================ */
+.day{display:none;}
+.day.active{display:block;animation:dayIn .5s cubic-bezier(.2,.8,.3,1);}
+@keyframes dayIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.day-head{margin:0 2px 20px;}
+.day-head .label{
+  font-size:10px;letter-spacing:.34em;color:var(--gold-d);font-weight:700;
+}
+.day-head h2{
+  font-family:var(--serif);font-size:22px;margin:4px 0 4px;
+  letter-spacing:.08em;color:var(--navy);font-weight:600;
+}
+.day-head p{margin:0;font-size:12.5px;color:var(--ink-mute);}
+
+/* ============================================================
+   Timeline
+   ============================================================ */
+.timeline{position:relative;padding-left:74px;}
+.timeline::before{
+  content:"";position:absolute;left:56px;top:12px;bottom:12px;width:1px;
+  background:linear-gradient(180deg,rgba(194,161,92,0),rgba(194,161,92,.55) 12%,rgba(194,161,92,.55) 88%,rgba(194,161,92,0));
+}
+.ev{position:relative;margin-bottom:16px;}
+.ev-time{
+  position:absolute;left:-74px;top:16px;width:44px;text-align:right;
+  font-size:13px;font-weight:700;letter-spacing:.03em;color:var(--navy);
+  font-variant-numeric:tabular-nums;
+  transition:color .4s ease;
+}
+.ev::before{ /* dot */
+  content:"";position:absolute;left:-22px;top:22px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--cream);border:2px solid var(--gold);
+  box-shadow:0 0 0 4px var(--cream);
+  transition:background .4s ease,transform .4s ease,border-color .4s ease;
+  z-index:1;
+}
+.ev.locked .ev-time{color:var(--ink-mute);}
+.ev.locked::before{border-color:#C9CFD6;}
+.ev.key::before{background:var(--gold);transform:scale(1.15);}
+
+.ev-card{
+  position:relative;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:16px 18px;
+  box-shadow:var(--shadow-s);
+  transition:transform .35s cubic-bezier(.2,.8,.3,1),box-shadow .35s ease,background .4s ease,border-color .4s ease;
+}
+.ev-card h3{
+  font-family:var(--serif);font-size:16.5px;margin:0 0 6px;
+  letter-spacing:.04em;color:var(--navy);font-weight:600;
+}
+.ev-card p{margin:0;font-size:13px;color:var(--ink);opacity:.86;}
+.ev-tag{
+  display:inline-block;margin:0 0 8px;
+  font-size:10px;letter-spacing:.18em;font-weight:700;
+  color:var(--gold-d);
+}
+.ev-meta{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;
+}
+.ev-meta span{
+  font-size:11px;letter-spacing:.04em;
+  background:rgba(227,196,182,.28);
+  color:#8A6B5C;
+  padding:4px 10px;border-radius:999px;
+}
+
+/* --- locked state --- */
+.ev.locked .ev-card,
+.ev.opening .ev-card{
+  position:relative;overflow:hidden;cursor:pointer;perspective:700px;
+  padding:52px 18px 20px;
+  background:linear-gradient(165deg,#FCF6EC 0%,#F6EADA 58%,#F1E2CE 100%);
+  border:1px solid rgba(194,161,92,.34);
+  box-shadow:0 8px 20px -14px rgba(158,129,68,.85);
+}
+/* 封筒のフタ（金の折り目つき） */
+.ev.locked .ev-card::before,
+.ev.locked .ev-card::after,
+.ev.opening .ev-card::before,
+.ev.opening .ev-card::after{
+  content:"";position:absolute;top:0;left:0;right:0;pointer-events:none;
+}
+.ev.locked .ev-card::before,
+.ev.opening .ev-card::before{
+  height:40px;
+  background:rgba(194,161,92,.42);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+}
+.ev.locked .ev-card::after,
+.ev.opening .ev-card::after{
+  height:38.6px;
+  background:linear-gradient(180deg,#FBF2E3,#F5E8D6);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+}
+.ev.locked .ev-body{display:none;}
+
+.ev-lock{display:none;position:relative;z-index:1;align-items:center;gap:14px;}
+.ev.locked .ev-lock,
+.ev.opening .ev-lock{display:flex;}
+
+/* 封蝋 */
+.ev-lock .lk{
+  width:16px;height:16px;padding:9px;box-sizing:content-box;
+  border-radius:50%;color:#FFF8EA;stroke-width:1.8;
+  background:radial-gradient(circle at 33% 28%,#DDB87C 0%,#C2A15C 52%,#96793F 100%);
+  box-shadow:0 4px 10px -4px rgba(150,121,63,.9),
+             inset 0 1px 2px rgba(255,255,255,.55),
+             inset 0 -2px 4px rgba(120,95,45,.35);
+  transition:transform .4s ease;
+}
+.ev-lock .txt b{
+  display:block;font-family:var(--serif);font-size:17px;
+  letter-spacing:.2em;color:#96805F;font-weight:600;
+}
+.ev-lock .txt small{
+  display:block;font-size:10.5px;letter-spacing:.14em;
+  color:var(--gold-d);margin-top:3px;
+}
+.ev.locked .ev-card:active{transform:scale(.985);}
+
+/* 開封のアニメーション */
+.ev.opening .ev-card{animation:none;}
+.ev.opening .ev-card::before,
+.ev.opening .ev-card::after{
+  transform-origin:top center;
+  animation:flapOpen .85s .28s cubic-bezier(.25,.78,.35,1) forwards;
+}
+@keyframes flapOpen{
+  0%{transform:rotateX(0deg);opacity:1;}
+  60%{opacity:1;}
+  100%{transform:rotateX(-168deg);opacity:0;}
+}
+.ev.opening .ev-lock{animation:sealBreak .62s cubic-bezier(.28,.8,.4,1) forwards;}
+@keyframes sealBreak{
+  0%{opacity:1;transform:none;}
+  22%{transform:scale(1.09) rotate(-4deg);}
+  100%{opacity:0;transform:scale(.88) translateY(8px);}
+}
+
+/* 次に開ける1枚 */
+.ev.key.locked .ev-card{
+  background:linear-gradient(165deg,#FFFBF2 0%,#FBEFD9 58%,#F6E4C6 100%);
+  border-color:rgba(194,161,92,.62);
+  box-shadow:0 10px 26px -14px rgba(194,161,92,.9);
+  animation:breathe 2.8s ease-in-out infinite;
+}
+@keyframes breathe{
+  0%,100%{box-shadow:0 10px 26px -14px rgba(194,161,92,.9);}
+  50%{box-shadow:0 14px 34px -12px rgba(194,161,92,1);}
+}
+.ev.key.locked .ev-card::before{background:rgba(194,161,92,.6);}
+.ev.key.locked .ev-lock .lk{animation:seal 3s ease-in-out infinite;}
+@keyframes seal{
+  0%,86%,100%{transform:scale(1) rotate(0);}
+  91%{transform:scale(1.09) rotate(-7deg);}
+  95%{transform:scale(1.09) rotate(7deg);}
+}
+.ev.key.locked .ev-lock .txt b{color:var(--gold-d);}
+.ev.key.locked::after{
+  content:"TAP ME";
+  position:absolute;top:-9px;right:12px;
+  font-size:9px;letter-spacing:.2em;font-weight:700;
+  color:#fff;background:linear-gradient(120deg,var(--gold),var(--gold-d));
+  padding:3px 10px;border-radius:999px;
+  box-shadow:0 4px 10px -4px rgba(158,129,68,.9);
+}
+
+/* --- reveal animation --- */
+.ev.reveal .ev-card{
+  animation:cardPop .65s cubic-bezier(.2,.9,.3,1) backwards;
+  animation-delay:var(--d,0ms);
+}
+.ev.reveal .ev-body{
+  animation:fadeUp .6s cubic-bezier(.2,.8,.3,1) backwards;
+  animation-delay:calc(var(--d,0ms) + 20ms);
+}
+@keyframes cardPop{
+  0%{opacity:.2;transform:translateY(10px) scale(.96);}
+  60%{transform:translateY(0) scale(1.015);}
+  100%{opacity:1;transform:none;}
+}
+.shake{animation:shake .45s cubic-bezier(.36,.07,.19,.97);}
+@keyframes shake{
+  10%,90%{transform:translateX(-2px)}
+  20%,80%{transform:translateX(3px)}
+  30%,50%,70%{transform:translateX(-5px)}
+  40%,60%{transform:translateX(5px)}
+}
+
+/* ============================================================
+   Checklist
+   ============================================================ */
+.panel{
+  position:relative;
+  margin-top:26px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:20px 18px 18px;
+  box-shadow:var(--shadow-s);
+  overflow:hidden;
+}
+.map-link{
+  display:inline-block;margin-top:12px;padding:7px 13px;
+  border-radius:999px;text-decoration:none;
+  font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--gold-d);
+  border:1px solid rgba(194,161,92,.45);
+  background:rgba(227,196,182,.16);
+  transition:transform .2s ease,background .25s ease;
+}
+.map-link:active{transform:scale(.97);background:rgba(227,196,182,.3);}
+
+/* ============================================================
+   Route screenshot
+   ============================================================ */
+.shot{margin:14px 0 0;padding:0;}
+.shot img{display:none;} /* 実体はライトボックスで表示する */
+.shot-btn{
+  width:100%;display:flex;align-items:center;gap:11px;
+  appearance:none;cursor:pointer;font-family:inherit;text-align:left;
+  padding:12px 14px;border-radius:14px;
+  border:1px solid rgba(194,161,92,.45);
+  background:linear-gradient(135deg,#FFFCF6,#F8EEDC);
+  box-shadow:0 6px 16px -12px rgba(158,129,68,.9);
+  transition:transform .25s cubic-bezier(.2,.8,.3,1),box-shadow .3s ease;
+}
+.shot-btn:active{transform:scale(.985);box-shadow:0 3px 10px -10px rgba(158,129,68,.9);}
+.shot-btn .ic{width:19px;height:19px;color:var(--gold-d);}
+.shot-btn .tx{flex:1;min-width:0;}
+.shot-btn .tx b{
+  display:block;font-size:13px;font-weight:700;
+  letter-spacing:.03em;color:var(--navy);
+}
+.shot-btn .tx small{
+  display:block;font-size:10.5px;letter-spacing:.04em;
+  color:var(--ink-mute);margin-top:1px;
+}
+.shot-btn .ar{
+  flex:0 0 auto;font-size:10px;font-weight:700;letter-spacing:.14em;
+  color:var(--gold-d);
+}
+
+.lightbox{
+  position:fixed;inset:0;z-index:9750;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  background:rgba(18,26,35,.94);
+  opacity:0;visibility:hidden;
+  transition:opacity .3s ease,visibility .3s;
+}
+.lightbox.show{opacity:1;visibility:visible;}
+.lightbox img{
+  width:100%;max-width:520px;height:auto;
+  border-radius:10px;margin:auto 0;
+}
+.lightbox .lb-hint{
+  position:fixed;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom));
+  text-align:center;font-size:10.5px;letter-spacing:.18em;
+  color:rgba(255,255,255,.6);pointer-events:none;
+}
+.lb-nav{
+  position:fixed;left:0;right:0;bottom:calc(42px + env(safe-area-inset-bottom));
+  display:none;align-items:center;justify-content:center;gap:18px;
+}
+.lightbox.multi .lb-nav{display:flex;}
+.lb-nav button{
+  appearance:none;border:0;cursor:pointer;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.12);color:#fff;font-size:17px;
+  display:grid;place-items:center;
+  transition:background .25s ease,transform .2s ease;
+}
+.lb-nav button:active{transform:scale(.92);background:rgba(255,255,255,.22);}
+.lb-nav .n{
+  font-size:11px;letter-spacing:.14em;color:rgba(255,255,255,.75);
+  font-variant-numeric:tabular-nums;min-width:52px;text-align:center;
+}
+
+/* ============================================================
+   Album
+   ============================================================ */
+.album{margin-top:34px;}
+.album-head{text-align:center;margin-bottom:16px;}
+.album-head .label{
+  font-size:10px;letter-spacing:.34em;color:var(--gold-d);font-weight:700;
+}
+.album-head h3{
+  font-family:var(--serif);font-size:20px;margin:6px 0 2px;
+  letter-spacing:.08em;color:var(--navy);font-weight:600;
+}
+.album-head .sub{margin:0;font-size:11px;letter-spacing:.2em;color:var(--ink-mute);}
+.album-head .rule{
+  width:48px;height:1px;margin:12px auto 0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.grid img{
+  width:100%;aspect-ratio:1/1;object-fit:cover;display:block;
+  border-radius:11px;background:#EFE8E2;cursor:zoom-in;
+  opacity:0;transform:scale(.96);
+  transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.3,1);
+}
+.grid img.in{opacity:1;transform:none;}
+.grid img.hide{display:none;}
+.album-more{
+  display:none;width:100%;margin-top:10px;padding:12px;
+  appearance:none;cursor:pointer;font-family:inherit;
+  border:1px solid rgba(194,161,92,.45);border-radius:12px;
+  background:rgba(227,196,182,.14);
+  font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--gold-d);
+  transition:transform .2s ease,background .25s ease;
+}
+.album-more.on{display:block;}
+.album-more:active{transform:scale(.99);background:rgba(227,196,182,.26);}
+.album-msg{
+  margin:0;padding:26px 10px;text-align:center;
+  font-size:12.5px;color:var(--ink-mute);line-height:2;
+}
+.album-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+}
+.album-foot .cnt{font-size:10px;letter-spacing:.2em;color:var(--ink-mute);}
+.dh-row{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.dh-row h2{margin:4px 0;}
+.dh-add{flex:0 0 auto;text-align:center;}
+.add-note{
+  display:block;margin-top:5px;
+  font-size:10px;letter-spacing:.04em;color:var(--ink-mute);
+}
+.add-photo{
+  display:inline-block;white-space:nowrap;text-decoration:none;
+  padding:8px 13px;border-radius:999px;
+  font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--navy);
+  border:1px solid rgba(194,161,92,.45);
+  background:linear-gradient(135deg,#FFFCF6,#F8EEDC);
+  box-shadow:0 5px 14px -10px rgba(158,129,68,.9);
+  transition:transform .25s cubic-bezier(.2,.8,.3,1);
+}
+.add-photo:active{transform:scale(.985);}
+.album-foot .rl{
+  appearance:none;border:0;background:none;cursor:pointer;font-family:inherit;
+  font-size:10px;letter-spacing:.16em;color:var(--gold-d);font-weight:700;padding:4px;
+}
+
+.to-top{
+  display:block;margin:30px auto 4px;padding:11px 20px;
+  appearance:none;cursor:pointer;font-family:inherit;
+  border:1px solid var(--line);border-radius:999px;
+  background:rgba(255,255,255,.7);
+  font-size:11.5px;font-weight:700;letter-spacing:.1em;color:var(--navy-soft);
+  transition:transform .2s ease,background .25s ease,color .25s ease;
+}
+.to-top .icn{width:13px;height:13px;margin-right:2px;}
+.to-top:active{transform:scale(.97);background:#fff;color:var(--gold-d);}
+
+/* ============================================================
+   Album story viewer（おしゃれアルバム）
+   ============================================================ */
+.album-open{
+  display:none;width:100%;margin-top:16px;padding:16px;
+  appearance:none;border:0;cursor:pointer;position:relative;overflow:hidden;
+  border-radius:16px;font-family:var(--serif);
+  font-size:15px;font-weight:600;letter-spacing:.14em;color:#fff;
+  background:linear-gradient(135deg,#2B3B4E,#1E2A38);
+  box-shadow:0 14px 30px -16px rgba(30,42,56,.9);
+  transition:transform .25s cubic-bezier(.2,.8,.3,1);
+}
+.album-open.on{display:block;}
+.album-open:active{transform:scale(.985);}
+.album-open small{
+  display:block;font-family:var(--sans);font-size:9.5px;
+  letter-spacing:.3em;color:var(--gold-l);margin-top:5px;font-weight:700;
+}
+.album-open::after{
+  content:"";position:absolute;top:0;left:-140%;width:55%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.2),transparent);
+  transform:skewX(-18deg);animation:sheen 3.6s ease-in-out infinite;
+}
+
+.story{
+  position:fixed;inset:0;z-index:9700;
+  background:radial-gradient(120% 80% at 50% 0%,#22303F 0%,#121820 62%);
+  opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s;
+  overflow:hidden;
+}
+.story.show{opacity:1;visibility:visible;}
+.st-stage{
+  position:absolute;
+  top:calc(46px + env(safe-area-inset-top));
+  bottom:calc(26px + env(safe-area-inset-bottom));
+  left:10px;right:10px;
+}
+
+/* 散らした写真（ポラロイド風） */
+.cl-photo{
+  position:absolute;display:block;
+  background:#fff;padding:6px 6px 20px;border-radius:3px;
+  box-shadow:0 14px 30px -12px rgba(0,0,0,.75);
+  opacity:0;
+  animation:clIn .75s cubic-bezier(.2,1.25,.4,1) forwards;
+}
+.cl-photo img{
+  display:block;width:100%;aspect-ratio:1/1;object-fit:cover;
+  background:#EFE8E2;border-radius:1px;
+}
+@keyframes clIn{
+  from{opacity:0;transform:translate(-50%,-50%) scale(.55) rotate(var(--r));}
+  to  {opacity:1;transform:translate(-50%,-50%) scale(1)   rotate(var(--r));}
+}
+
+/* 中央のメッセージ */
+.cl-center{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(74%,296px);z-index:5;text-align:center;
+  padding:22px 18px;border-radius:18px;
+  background:linear-gradient(160deg,rgba(255,253,249,.97),rgba(251,241,228,.97));
+  border:1px solid rgba(194,161,92,.5);
+  box-shadow:0 24px 50px -22px rgba(0,0,0,.85);
+  opacity:0;animation:clCenter .9s cubic-bezier(.2,1.1,.35,1) forwards;
+}
+.cl-center .k{
+  font-size:9px;letter-spacing:.36em;text-indent:.36em;
+  color:var(--gold-d);font-weight:700;margin:0 0 12px;
+}
+.cl-center h2{
+  font-family:var(--serif);font-size:clamp(19px,5.6vw,25px);line-height:1.45;
+  margin:0;letter-spacing:.04em;font-weight:600;
+  background:linear-gradient(100deg,#B8933F,#E2C78C 42%,#9E8144);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.cl-center .rule{width:54px;height:1px;margin:14px auto 12px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.cl-center p{margin:0;font-size:11.5px;letter-spacing:.18em;color:var(--ink-mute);}
+@keyframes clCenter{
+  from{opacity:0;transform:translate(-50%,-50%) scale(.88);}
+  to  {opacity:1;transform:translate(-50%,-50%) scale(1);}
+}
+
+.st-close{
+  position:absolute;top:calc(16px + env(safe-area-inset-top));right:16px;z-index:8;
+  width:40px;height:40px;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(255,255,255,.14);color:#fff;font-size:16px;
+  display:grid;place-items:center;
+}
+.st-hint{
+  position:absolute;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom));
+  text-align:center;font-size:9.5px;letter-spacing:.24em;
+  color:rgba(255,255,255,.45);pointer-events:none;
+}
+
+/* veil over locked panels */
+.veil{
+  position:absolute;inset:0;z-index:2;
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  background:linear-gradient(150deg,rgba(243,239,235,.94),rgba(237,231,225,.96));
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  cursor:pointer;text-align:center;padding:16px;
+}
+.locked-panel .veil{display:flex;}
+.veil b{font-size:15px;letter-spacing:.14em;color:var(--navy-soft);}
+.veil small{font-size:11px;letter-spacing:.08em;color:var(--ink-mute);}
+
+/* ============================================================
+   Final secret button
+   ============================================================ */
+.finale{margin:34px 0 0;text-align:center;}
+.finale .lead{
+  font-size:12px;letter-spacing:.18em;color:var(--gold-d);font-weight:700;margin:0 0 4px;
+}
+.finale .lead-sub{font-size:12px;color:var(--ink-mute);margin:0 0 16px;}
+.secret-btn{
+  position:relative;width:100%;appearance:none;border:0;cursor:pointer;
+  font-family:var(--serif);font-size:16px;font-weight:600;letter-spacing:.1em;
+  color:#fff;padding:20px 18px;border-radius:20px;
+  background:linear-gradient(135deg,#2B3B4E 0%,#1E2A38 100%);
+  box-shadow:0 16px 34px -16px rgba(30,42,56,.9);
+  overflow:hidden;
+  transition:transform .25s cubic-bezier(.2,.8,.3,1),box-shadow .3s ease,filter .3s ease;
+}
+.secret-btn span{position:relative;z-index:1;}
+.secret-btn small{
+  position:relative;z-index:1;display:block;
+  font-family:var(--sans);font-size:10px;letter-spacing:.3em;
+  color:var(--gold-l);margin-top:6px;font-weight:700;
+}
+.secret-btn::after{
+  content:"";position:absolute;top:0;left:-140%;width:60%;height:100%;z-index:0;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:skewX(-18deg);
+  animation:sheen 3.4s ease-in-out infinite;
+}
+@keyframes sheen{0%{left:-140%}55%,100%{left:150%}}
+.secret-btn:active{transform:scale(.98);}
+.secret-btn.is-locked{
+  filter:grayscale(.75);opacity:.62;
+  box-shadow:0 8px 20px -14px rgba(30,42,56,.8);
+}
+.secret-btn.is-locked::after{animation:none;}
+
+.foot{
+  margin:38px 0 0;text-align:center;
+  font-size:10px;letter-spacing:.28em;color:rgba(30,42,56,.28);
+}
+.reset{
+  display:block;margin:12px auto 0;background:none;border:0;
+  font-family:inherit;font-size:10px;letter-spacing:.14em;
+  color:rgba(30,42,56,.22);cursor:pointer;padding:6px;
+}
+
+/* ============================================================
+   Toast
+   ============================================================ */
+.toast{
+  position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));
+  transform:translate(-50%,20px);
+  z-index:9200;
+  background:rgba(30,42,56,.94);color:#fff;
+  font-size:12.5px;letter-spacing:.04em;
+  padding:11px 20px;border-radius:999px;
+  box-shadow:0 12px 30px -12px rgba(30,42,56,.9);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease,transform .35s cubic-bezier(.2,.8,.3,1);
+  max-width:88vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0);}
+
+/* ============================================================
+   Celebration overlay
+   ============================================================ */
+/* ============================================================
+   Modal
+   ============================================================ */
+.modal{
+  position:fixed;inset:0;z-index:9500;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  background:rgba(24,34,46,.68);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;visibility:hidden;
+  transition:opacity .4s ease,visibility .4s;
+}
+.modal.show{opacity:1;visibility:visible;}
+.modal-card{
+  position:relative;width:100%;max-width:340px;
+  background:linear-gradient(165deg,#FFFDFA 0%,#FBF2E8 100%);
+  border:1px solid rgba(194,161,92,.42);
+  border-radius:26px;
+  padding:40px 26px 30px;
+  text-align:center;
+  box-shadow:0 30px 70px -28px rgba(0,0,0,.72);
+  transform:translateY(26px) scale(.95);opacity:0;
+  transition:transform .55s cubic-bezier(.2,1.15,.35,1),opacity .45s ease;
+}
+.modal.show .modal-card{transform:none;opacity:1;}
+.modal-card .ribbon{
+  position:absolute;top:0;left:50%;transform:translate(-50%,-50%);
+  font-size:9px;letter-spacing:.3em;font-weight:700;color:#fff;
+  background:linear-gradient(120deg,var(--gold),var(--gold-d));
+  padding:6px 16px;border-radius:999px;white-space:nowrap;
+  box-shadow:0 6px 16px -8px rgba(158,129,68,1);
+}
+.modal-card .gift{width:46px;height:46px;display:block;margin:0 auto;color:var(--gold-d);stroke-width:1.2;animation:float 2.6s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+.modal-card h2{
+  font-family:var(--serif);font-size:21px;margin:14px 0 0;letter-spacing:.08em;color:var(--navy);font-weight:600;
+}
+.modal-card .hr{width:52px;height:1px;margin:14px auto;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.modal-card p{margin:0;font-size:14px;line-height:2;color:var(--ink);letter-spacing:.03em;}
+.modal-card .hint{
+  margin-top:18px;padding:12px 14px;border-radius:14px;
+  background:rgba(227,196,182,.26);
+  font-size:13px;color:#7E5D4E;letter-spacing:.03em;
+}
+.modal-close{
+  margin-top:22px;appearance:none;border:0;cursor:pointer;
+  width:100%;padding:14px;border-radius:14px;
+  font-family:inherit;font-size:13px;letter-spacing:.16em;font-weight:700;
+  color:#fff;background:linear-gradient(135deg,#2B3B4E,#1E2A38);
+  transition:transform .2s ease;
+}
+.modal-close:active{transform:scale(.98);}
+
+/* fallback confetti (used only if the CDN is unreachable) */
+.fc{position:fixed;top:-14px;width:8px;height:13px;z-index:9990;pointer-events:none;border-radius:1px;}
+@keyframes fcFall{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1}
+  100%{transform:translateY(105vh) rotate(720deg);opacity:.9}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.12s !important;}
+}
+</style>
+</head>
+<body class="cover-open">
+
+<svg class="icon-defs" aria-hidden="true"><defs>
+  <symbol id="i-train" viewBox="0 0 24 24">
+    <rect x="5" y="3" width="14" height="14.5" rx="3.2"/><path d="M5 10.2h14"/>
+    <path d="M9.5 17.5 7.2 21M14.5 17.5l2.3 3.5"/><path d="M9.2 13.8h.01M14.8 13.8h.01"/>
+  </symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24">
+    <path d="M12 21.2c3.6-4.2 6.4-7.4 6.4-10.7a6.4 6.4 0 1 0-12.8 0c0 3.3 2.8 6.5 6.4 10.7Z"/>
+    <circle cx="12" cy="10.2" r="2.4"/>
+  </symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24">
+    <path d="M3.2 8.9A2.6 2.6 0 0 1 5.8 6.3h1.9l1.4-2.1h5.8l1.4 2.1h1.9a2.6 2.6 0 0 1 2.6 2.6v8.4a2.6 2.6 0 0 1-2.6 2.6H5.8a2.6 2.6 0 0 1-2.6-2.6Z"/>
+    <circle cx="12" cy="12.9" r="3.4"/>
+  </symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24">
+    <rect x="4.6" y="10.4" width="14.8" height="10" rx="2.6"/>
+    <path d="M8.1 10.4V7.2a3.9 3.9 0 0 1 7.8 0v3.2"/>
+  </symbol>
+  <symbol id="i-up" viewBox="0 0 24 24">
+    <path d="M12 19.5V5M5.5 11.5 12 5l6.5 6.5"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24">
+    <rect x="6.8" y="2.4" width="10.4" height="19.2" rx="2.6"/><path d="M10.4 18.6h3.2"/>
+  </symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24">
+    <rect x="3.4" y="9.4" width="17.2" height="11.4" rx="2"/><path d="M2.6 9.4h18.8M12 9.4v11.4"/>
+    <path d="M12 9.4S10.6 3.6 7.9 3.6a2.2 2.2 0 0 0 0 4.4c2.7 0 4.1 1.4 4.1 1.4Z"/>
+    <path d="M12 9.4s1.4-5.8 4.1-5.8a2.2 2.2 0 0 1 0 4.4c-2.7 0-4.1 1.4-4.1 1.4Z"/>
+  </symbol>
+</defs></svg>
+
+<!-- ============ COVER ============ -->
+<div class="cover" id="cover">
+  <div class="inner" id="coverInner">
+    <p class="cover-to">あーちゃんへ</p>
+    <p class="hero-kicker">✦ FOR YOU ✦</p>
+    <h1 class="hero-title">Happy<br>Birthday Trip</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">2026.10.03〜04 SPECIAL TRIP</p>
+    <p class="hero-note">みなとみらい ＆ 江ノ島 / 1泊2日</p>
+    <div class="cover-add">
+      <b><svg class="icn"><use href="#i-phone"/></svg> ホーム画面に追加してね！</b>
+      <p>右下の <span class="dots">•••</span> を押す → 「共有」<br>
+        → 画面を下にスクロール<br>
+        → 「ホーム画面に追加」でやっといてね！！</p>
+    </div>
+  </div>
+  <span class="cover-tap" id="coverTap">TAP TO OPEN</span>
+</div>
+
+<!-- ============ GREETING ============ -->
+<div class="greet" id="greet">
+  <div class="in">
+    <svg class="heart" viewBox="0 0 100 92" aria-hidden="true">
+      <defs>
+        <linearGradient id="heartline" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stop-color="#C99C89"></stop>
+          <stop offset="50%" stop-color="#E2C78C"></stop>
+          <stop offset="100%" stop-color="#C9A05F"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M50 88 C22 66 6 47 6 30 C6 13 22 4 34 11 C41 15 46 21 50 29 C54 21 59 15 66 11 C78 4 94 13 94 30 C94 47 78 66 50 88 Z"></path>
+    </svg>
+    <h2>Happy Birthday</h2>
+    <p class="name">彩音</p>
+    <p class="sub">すてきな2日間にしようね</p>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- ============ HEADER ============ -->
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-kicker">✦ FOR YOU ✦</p>
+      <h1 class="hero-title">Happy<br>Birthday Trip</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">2026.10.03〜04 SPECIAL TRIP</p>
+      <p class="hero-note">みなとみらい ＆ 江ノ島 / 1泊2日</p>
+    </div>
+  </header>
+
+  <!-- ============ TABS ============ -->
+  <nav class="tabs" role="tablist">
+    <button class="tab active" role="tab" data-day="1" aria-selected="true">
+      <b>DAY 1</b><span>みなとみらい</span>
+    </button>
+    <button class="tab" role="tab" data-day="2" aria-selected="false">
+      <b>DAY 2</b><span>江ノ島</span>
+    </button>
+  </nav>
+
+  <!-- ============ DAY 1 ============ -->
+  <section class="day active" id="day-1" role="tabpanel">
+    <div class="day-head">
+      <div class="label">DAY 1 — MINATO MIRAI</div>
+      <div class="dh-row">
+        <h2>海風と夜景の街へ</h2>
+        <div class="dh-add">
+          <a class="add-photo" href="upload.html"><svg class="icn"><use href="#i-camera"/></svg> 写真を追加</a>
+          <span class="add-note">旅の写真をあげてね</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+
+      <article class="ev">
+        <div class="ev-time">15:00</div>
+        <div class="ev-card">
+          <div class="ev-body">
+            <span class="ev-tag">MEET UP</span>
+            <h3>集合（みなとみらい駅）</h3>
+            <p>中央改札を出たあたりで待ち合わせ。着いたら連絡してね。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E9%A7%85" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+            <figure class="shot">
+              <button class="shot-btn" type="button">
+                <svg class="icn ic"><use href="#i-train"/></svg>
+                <span class="tx"><b>来る電車はこれだよ</b><small>タップで乗換案内を表示</small></span>
+                <span class="ar">VIEW</span>
+              </button>
+              <img src="route.jpg" alt="13:51 ときわ台発 → 14:56 みなとみらい着の乗換案内">
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked key" data-at="2026-10-03T15:15">
+        <div class="ev-time">15:15</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">CHECK IN</span>
+            <h3>ホテルチェックイン</h3>
+            <p>フロントで鍵を受け取ってお部屋へ。荷物を置いたら、出かける前に少し休憩しよう。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%89%E4%BA%95%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3%E3%83%9B%E3%83%86%E3%83%AB%E6%A8%AA%E6%B5%9C%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-03T16:00">
+        <div class="ev-time">16:00</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">MUSEUM</span>
+            <h3>カップヌードルミュージアム横浜</h3>
+            <p>自分だけのオリジナルカップヌードルが作れるミュージアム。ホテルから歩いていける距離だよ。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E3%82%AB%E3%83%83%E3%83%97%E3%83%8C%E3%83%BC%E3%83%89%E3%83%AB%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%82%A2%E3%83%A0%E6%A8%AA%E6%B5%9C" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-03T18:30">
+        <div class="ev-time">18:30</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">SIGHTSEEING</span>
+            <h3>赤レンガ倉庫</h3>
+            <p>ライトアップされた赤レンガと、広場のイベントの賑わいを見に。写真をたくさん撮ろう。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%A8%AA%E6%B5%9C%E8%B5%A4%E3%83%AC%E3%83%B3%E3%82%AC%E5%80%89%E5%BA%AB" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-03T19:00">
+        <div class="ev-time">19:00</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">DINNER</span>
+            <h3>シュラスコで夕食</h3>
+            <p>赤レンガのすぐそば。目の前で切り分けてくれるお肉のお店を予約しました。おなかを空かせておいてね。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=BUTCHER%20REPUBLIC%20%E6%A8%AA%E6%B5%9C%E8%B5%A4%E3%83%AC%E3%83%B3%E3%82%AC" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-03T20:45">
+        <div class="ev-time">20:45</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">NIGHT VIEW</span>
+            <h3>ロープウェイで夜景</h3>
+            <p>食後に赤レンガから歩いて乗り場へ。運河パークから桜木町までの空中散歩で、夜景がいちばんきれいな時間だよ。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=YOKOHAMA%20AIR%20CABIN%20%E9%81%8B%E6%B2%B3%E3%83%91%E3%83%BC%E3%82%AF%E9%A7%85" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-opens="secret" data-at="2026-10-03T21:30">
+        <div class="ev-time">21:30</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">BACK</span>
+            <h3>ホテルへもどる</h3>
+            <p>桜木町から動く歩道でホテルへ。今日はたくさん歩いたね。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E4%B8%89%E4%BA%95%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3%E3%83%9B%E3%83%86%E3%83%AB%E6%A8%AA%E6%B5%9C%E3%81%BF%E3%81%AA%E3%81%A8%E3%81%BF%E3%82%89%E3%81%84%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+  <!-- ============ FINALE ============ -->
+  <div class="finale">
+    <p class="lead">21:30 — OPEN ME</p>
+    <p class="lead-sub">押してみてね。</p>
+    <button class="secret-btn is-locked" id="secretBtn">
+      <span>あけてみて</span>
+      <small id="secretSub"><svg class="icn"><use href="#i-lock"/></svg> 21:30 を解放してから</small>
+    </button>
+  </div>
+
+    <button class="to-top" type="button">
+      <svg class="icn"><use href="#i-up"/></svg> 一番上にもどる
+    </button>
+  </section>
+
+  <!-- ============ DAY 2 ============ -->
+  <section class="day" id="day-2" role="tabpanel">
+    <div class="day-head">
+      <div class="label">DAY 2 — ENOSHIMA</div>
+      <div class="dh-row">
+        <h2>潮風と夕日の島へ</h2>
+        <div class="dh-add">
+          <a class="add-photo" href="upload.html"><svg class="icn"><use href="#i-camera"/></svg> 写真を追加</a>
+          <span class="add-note">旅の写真をあげてね</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+
+      <article class="ev locked" data-at="2026-10-04T08:30">
+        <div class="ev-time">08:30</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">BREAKFAST</span>
+            <h3>朝ごはん</h3>
+            <p>ホテルでゆっくり朝食。今日の予定を話しながら、のんびり食べよう。</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-04T11:00">
+        <div class="ev-time">11:00</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">CHECK OUT</span>
+            <h3>チェックアウト</h3>
+            <p>朝はゆっくりめ。江ノ島に着いたら、荷物はコインロッカーに預けよう。</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-04T12:15">
+        <div class="ev-time">12:15</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">AQUARIUM</span>
+            <h3>新江ノ島水族館</h3>
+            <p>片瀬江ノ島駅からすぐ。イルカショーと、ゆらゆら光るクラゲの水槽が名物だよ。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%96%B0%E6%B1%9F%E3%83%8E%E5%B3%B6%E6%B0%B4%E6%97%8F%E9%A4%A8" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-04T14:30">
+        <div class="ev-time">14:30</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">STREET FOOD</span>
+            <h3>仲見世で食べ歩き</h3>
+            <p>橋を渡って島へ。参道の仲見世通りで、つまみ食いしながら進もう。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B1%9F%E3%81%AE%E5%B3%B6%20%E4%BB%B2%E8%A6%8B%E4%B8%96%E9%80%9A%E3%82%8A" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-04T15:05">
+        <div class="ev-time">15:05</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">SHRINE</span>
+            <h3>江島神社</h3>
+            <p>辺津宮・中津宮・奥津宮と、上りながら参拝。坂と階段はエスカーを使うと楽だよ。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B1%9F%E5%B3%B6%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-04T15:30">
+        <div class="ev-time">15:30</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">REST</span>
+            <h3>魚見亭でひと休み</h3>
+            <p>海を見下ろす高台のお店。名物のしらす丼を食べながら、景色を眺めてのんびりしよう。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E9%AD%9A%E8%A6%8B%E4%BA%AD%20%E6%B1%9F%E3%81%AE%E5%B3%B6" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-at="2026-10-04T16:45">
+        <div class="ev-time">16:45</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">SUNSET</span>
+            <h3>江の島シーキャンドルで夕日</h3>
+            <p>展望灯台にのぼって、海に沈む夕日を。晴れていれば富士山のシルエットも見えるよ。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E6%B1%9F%E3%81%AE%E5%B3%B6%E3%82%B7%E3%83%BC%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%89%E3%83%AB" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ev locked" data-opens="album" data-at="2026-10-04T18:00">
+        <div class="ev-time">18:00</div>
+        <div class="ev-card">
+          <div class="ev-lock">
+            <svg class="icn lk"><use href="#i-lock"/></svg>
+            <span class="txt"><b>??????</b><small>タップで解放</small></span>
+          </div>
+          <div class="ev-body">
+            <span class="ev-tag">GOING HOME</span>
+            <h3>帰りみち</h3>
+            <p>島を下りて駅へ。2日間おつかれさま、いっしょに帰ろう。</p>
+            <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=%E7%89%87%E7%80%AC%E6%B1%9F%E3%83%8E%E5%B3%B6%E9%A7%85" target="_blank" rel="noopener"><svg class="icn"><use href="#i-pin"/></svg> 地図で開く</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <button class="to-top" type="button">
+      <svg class="icn"><use href="#i-up"/></svg> 一番上にもどる
+    </button>
+
+  </section>
+
+  <!-- ============ ALBUM ============ -->
+  <section class="panel album locked-panel" id="album">
+    <div class="veil">
+      <b><svg class="icn"><use href="#i-lock"/></svg> ??????</b>
+      <small>旅のさいごにひらきます</small>
+    </div>
+    <div class="album-head">
+      <div class="label">THE ALBUM</div>
+      <h3>ふたりの2日間</h3>
+      <p class="sub">2026.10.03 – 04</p>
+      <div class="rule"></div>
+    </div>
+    <div class="grid" id="albumGrid"></div>
+    <button class="album-more" id="albumMore" type="button"></button>
+    <button class="album-open" id="albumOpen" type="button">
+      ✦ アルバムにする ✦
+      <small>COLLAGE</small>
+    </button>
+    <p class="album-msg" id="albumMsg">読み込み中…</p>
+    <div class="album-foot">
+      <span class="cnt" id="albumCnt"></span>
+      <button class="rl" id="albumReload" type="button">↻ 更新</button>
+    </div>
+  </section>
+
+  <p class="foot">MADE WITH ♡ FOR YOUR BIRTHDAY</p>
+  <button class="reset" id="resetBtn">↺ 最初の状態にもどす</button>
+</div>
+
+<!-- ============ MODAL ============ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <span class="ribbon">LAST SECRET</span>
+    <svg class="icn gift"><use href="#i-gift"/></svg>
+    <h2 id="modalTitle">Happy Birthday！</h2>
+    <div class="hr"></div>
+    <p>あーちゃんと出会えて毎日幸せです♡♡<br>
+      出会ってもう少しで1年、あっという間すぎた！<br>
+      あーちゃんのおかげで毎日楽しい日々を送ってるよん<br>
+      いつもありがとう。<br>
+      たまには怒らせてしまう時もあるけど<br>
+      これからもずっと一緒にいてね<br>
+      ILoveYou♡</p>
+    <button class="modal-close" id="modalClose">とじる</button>
+  </div>
+</div>
+
+<!-- ============ ALBUM STORY ============ -->
+<div class="story" id="story">
+  <div class="st-stage" id="stStage"></div>
+  <button class="st-close" id="stClose" type="button" aria-label="とじる">✕</button>
+  <p class="st-hint">TAP A PHOTO TO ZOOM</p>
+</div>
+
+<!-- ============ IMAGE LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox">
+  <img src="" alt="">
+  <div class="lb-nav">
+    <button type="button" id="lbPrev" aria-label="前の写真">‹</button>
+    <span class="n" id="lbCount"></span>
+    <button type="button" id="lbNext" aria-label="次の写真">›</button>
+  </div>
+  <span class="lb-hint">TAP TO CLOSE</span>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var STORE = "bday-quest-v2";   /* 予定を組み替えたので進捗をリセット */
+  var COLORS = ["#C2A15C","#E2C78C","#E3C4B6","#C99C89","#FBF5F0","#2B3B4E"];
+
+  var state = { step:0 };
+  try{
+    var saved = JSON.parse(localStorage.getItem(STORE) || "{}");
+    if(saved && typeof saved === "object"){
+      state.step = (typeof saved.step === "number") ? saved.step : 0;
+    }
+  }catch(e){}
+
+  function save(){
+    try{ localStorage.setItem(STORE, JSON.stringify(state)); }catch(e){}
+  }
+
+  /* ?open 付きURL、またはローカル表示のときは、表紙も時間制限も解除する（動作確認用） */
+  var TEST = /[?&]open\b/.test(location.search) || location.protocol === "file:";
+
+  var $  = function(s,c){ return (c||document).querySelector(s); };
+  var $$ = function(s,c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+
+  /* ---------------- cover ----------------
+     10/3 0:00（日本時間）まで表紙は開かない。
+     素通りできるのは ?open 付きURLとローカル表示のときだけ（記憶はしない）。 */
+  var cover = $("#cover");
+  if(cover){
+    var OPEN_AT  = Date.UTC(2026, 9, 2, 15, 0, 0);   /* = 2026-10-03 00:00 JST */
+    var tapEl    = $("#coverTap");
+    var countTxt = "", waitTimer;
+
+    var waiting = !TEST && Date.now() < OPEN_AT;
+
+    /* ?skip 付き（写真追加ページからの戻りなど）は表紙を飛ばす */
+    if(/[?&]skip\b/.test(location.search) && !waiting){
+      var greetEl = $("#greet");
+      cover.parentNode.removeChild(cover);
+      if(greetEl && greetEl.parentNode) greetEl.parentNode.removeChild(greetEl);
+      document.body.classList.remove("cover-open");
+      cover = null;
+    }
+
+    if(cover && waiting){
+      cover.classList.add("wait");
+      countTxt = "10.03 まで あと " + Math.max(1, Math.ceil((OPEN_AT - Date.now()) / 86400000)) + " 日";
+      tapEl.textContent = countTxt;
+    }
+
+    var enter = cover ? function(){
+      if(waiting){
+        var inner = $("#coverInner");
+        inner.classList.remove("shake");
+        void inner.offsetWidth;
+        inner.classList.add("shake");
+        tapEl.textContent = "10月3日にひらきます";
+        clearTimeout(waitTimer);
+        waitTimer = setTimeout(function(){ tapEl.textContent = countTxt; }, 2600);
+        return;
+      }
+      /* 表紙 → お祝い画面 → しおり（お祝いは初回だけ） */
+      var greet = $("#greet"), closed = false, seen = false;
+      try{ seen = !!localStorage.getItem("bday-greet-v1"); }catch(e){}
+
+      if(seen && !TEST){
+        cover.classList.add("gone");
+        document.body.classList.remove("cover-open");
+        cover.removeEventListener("click", enter);
+        setTimeout(function(){
+          if(cover.parentNode) cover.parentNode.removeChild(cover);
+          if(greet.parentNode) greet.parentNode.removeChild(greet);
+        }, 950);
+        return;
+      }
+      try{ localStorage.setItem("bday-greet-v1", "1"); }catch(e){}
+      greet.classList.add("show");
+      cover.classList.add("gone");
+      cover.removeEventListener("click", enter);
+      setTimeout(function(){ if(cover.parentNode) cover.parentNode.removeChild(cover); }, 950);
+
+      var finish = function(){
+        if(closed) return;
+        closed = true;
+        clearTimeout(hold);
+        greet.classList.remove("show");
+        document.body.classList.remove("cover-open");
+        setTimeout(function(){ if(greet.parentNode) greet.parentNode.removeChild(greet); }, 1000);
+      };
+      var hp = $(".greet .heart path");
+      if(hp && hp.getTotalLength){
+        try{ hp.style.setProperty("--len", hp.getTotalLength()); }catch(e){}
+      }
+      var hold = setTimeout(finish, 5200);
+      setTimeout(function(){ greet.addEventListener("click", finish); }, 900);   /* 誤タップ防止 */
+    } : null;
+    if(cover) cover.addEventListener("click", enter);
+  }
+
+  /* ---------------- 一番上にもどる ---------------- */
+  $$(".to-top").forEach(function(b){
+    b.addEventListener("click", function(){
+      window.scrollTo({ top:0, behavior:"smooth" });
+    });
+  });
+
+  /* ---------------- toast ---------------- */
+  var toastEl = $("#toast"), toastTimer;
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove("show"); }, 2200);
+  }
+
+  /* ---------------- confetti ---------------- */
+  var hasLib = (typeof window.confetti === "function");
+
+  function fallbackBurst(n){
+    for(var i=0;i<n;i++){
+      (function(i){
+        setTimeout(function(){
+          var d = document.createElement("div");
+          d.className = "fc";
+          d.style.left = Math.random()*100 + "vw";
+          d.style.background = COLORS[Math.floor(Math.random()*COLORS.length)];
+          var dur = 2.4 + Math.random()*2;
+          d.style.animation = "fcFall " + dur + "s linear forwards";
+          d.style.opacity = 0.85 + Math.random()*0.15;
+          document.body.appendChild(d);
+          setTimeout(function(){ d.remove(); }, dur*1000 + 200);
+        }, i*22);
+      })(i);
+    }
+  }
+
+  function shoot(opts){
+    if(hasLib){
+      opts.zIndex = 9999;
+      opts.colors = COLORS;
+      window.confetti(opts);
+    }
+  }
+
+  function party(){
+    if(!hasLib){ fallbackBurst(34); return; }
+    shoot({ particleCount:70, spread:70, startVelocity:38, origin:{ y:0.7 }, scalar:0.9 });
+  }
+
+
+  /* ---------------- tabs ---------------- */
+  $$(".tab").forEach(function(tab){
+    tab.addEventListener("click", function(){
+      var d = tab.getAttribute("data-day");
+      $$(".tab").forEach(function(t){
+        var on = (t === tab);
+        t.classList.toggle("active", on);
+        t.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      $$(".day").forEach(function(sec){
+        sec.classList.toggle("active", sec.id === "day-" + d);
+      });
+      window.scrollTo({ top:0, behavior:"smooth" });
+    });
+  });
+
+  /* ---------------- unlock ---------------- */
+  var secretBtn   = $("#secretBtn");
+  var secretSub   = $("#secretSub");
+
+  /* ============================================================
+     自動で開く時刻（日本時間）。上から順に、しおりのカードと対応しています。
+     ここの時刻を書き換えるだけで、開くタイミングを変えられます。
+     ============================================================ */
+  var OPEN_TIMES = [
+    "2026-10-03T15:15",   /* DAY1  ホテルチェックイン ※ここだけタップ待ち（紙吹雪） */
+    "2026-10-03T16:00",   /* DAY1  カップヌードルミュージアム横浜 */
+    "2026-10-03T18:30",   /* DAY1  赤レンガ倉庫 */
+    "2026-10-03T19:00",   /* DAY1  シュラスコで夕食（19:00 予約） */
+    "2026-10-03T20:45",   /* DAY1  ロープウェイで夜景 */
+    "2026-10-03T21:30",   /* DAY1  ホテルへもどる（→ あけてみて が押せるように） */
+    "2026-10-04T08:30",   /* DAY2  朝ごはん */
+    "2026-10-04T11:00",   /* DAY2  チェックアウト */
+    "2026-10-04T12:15",   /* DAY2  新江ノ島水族館 */
+    "2026-10-04T14:30",   /* DAY2  仲見世で食べ歩き */
+    "2026-10-04T15:05",   /* DAY2  江島神社 */
+    "2026-10-04T15:30",   /* DAY2  魚見亭でひと休み */
+    "2026-10-04T16:45",   /* DAY2  江の島シーキャンドルで夕日 */
+    "2026-10-04T18:00"    /* DAY2  帰りみち（→ アルバム解放） */
+  ];
+
+  /* 施錠されたカードを DOM 順（= 時系列順）に保持し、先頭から1枚ずつしか開けない */
+  var steps = $$(".ev.locked");
+  steps.forEach(function(ev, i){
+    if(OPEN_TIMES[i]) ev.setAttribute("data-at", OPEN_TIMES[i]);
+  });
+
+  function labelOf(ev){
+    var day = ev.parentNode.parentNode.id === "day-1" ? "DAY 1" : "DAY 2";
+    return day + " の " + $(".ev-time", ev).textContent.trim();
+  }
+
+  function openStep(ev, animate){
+    var sealed = ev.classList.contains("locked");
+
+    var reveal = function(){
+      ev.classList.remove("locked", "key", "opening");
+      if(animate){
+        ev.style.setProperty("--d", "0ms");
+        ev.classList.add("reveal");
+      }
+      var opens = ev.getAttribute("data-opens");
+      if(opens === "album"){
+        albumEl.classList.remove("locked-panel");
+        loadAlbum(false);
+      }else if(opens === "secret"){
+        secretBtn.classList.remove("is-locked");
+        secretSub.textContent = "✦ TAP TO OPEN ✦";
+      }
+    };
+
+    if(animate && sealed){
+      ev.classList.remove("key");
+      ev.classList.add("opening");        /* 封蝋が外れ、フタが開く */
+      setTimeout(reveal, 1180);
+    }else{
+      reveal();
+    }
+  }
+
+  /* 次に開ける1枚だけを金色（key）にし、それ以外の鍵の文言を落とす */
+  function refreshLocks(){
+    steps.forEach(function(ev, i){
+      if(i < state.step) return;
+      var next = (i === state.step);
+      ev.classList.toggle("key", next);
+      var small = $(".ev-lock .txt small", ev);
+      if(small) small.textContent = next ? "タップで解放" : "まだ ひみつ";
+    });
+  }
+
+  function advance(i){
+    var ev = steps[i];
+    state.step = i + 1;
+    save();
+
+    if(navigator.vibrate){ try{ navigator.vibrate(14); }catch(e){} }
+    openStep(ev, true);
+    refreshLocks();
+
+    /* 次の1枚が別の日のタブにあるときだけ案内する */
+    var next = steps[state.step];
+    if(next && next.parentNode.parentNode.id !== ev.parentNode.parentNode.id){
+      setTimeout(function(){ toast("つづきは " + labelOf(next) + " から！"); }, 1500);
+    }
+  }
+
+  function nudge(el, msg){
+    el.classList.remove("shake");
+    void el.offsetWidth;
+    el.classList.add("shake");
+    toast(msg);
+  }
+
+  function waitMsg(){
+    var next = steps[state.step];
+    return next ? "つぎは " + labelOf(next) + " だよ" : "";
+  }
+
+  /* 予定の時刻が過ぎたカードは自動でひらく（最初の1枚だけはタップ専用） */
+  function autoStep(){
+    var now = Date.now(), k = 0;
+    for(var i = 0; i < steps.length; i++){
+      var at = steps[i].getAttribute("data-at");
+      if(!at) break;
+      if(Date.parse(at + "+09:00") <= now) k = i + 1;
+      else break;
+    }
+    return k;
+  }
+
+  function tick(){
+    if(state.step < 1) return;              /* チェックインをタップするまでは動かさない */
+    var k = autoStep();
+    if(k <= state.step) return;
+    for(var i = state.step; i < k; i++){
+      steps[i].style.setProperty("--d", ((i - state.step) * 110) + "ms");
+      openStep(steps[i], true);
+    }
+    state.step = k;
+    save();
+    refreshLocks();
+  }
+
+  setInterval(tick, 30000);
+
+  /* その日になるまでは開けない（＝2日目の予定は10/4の0:00から） */
+  function dayNotYet(ev){
+    if(TEST) return null;
+    var at = ev.getAttribute("data-at");
+    if(!at) return null;
+    var t = Date.parse(at.slice(0, 10) + "T00:00+09:00");
+    if(isNaN(t) || Date.now() >= t) return null;
+    var d = new Date(t);
+    return (d.getMonth() + 1) + "月" + d.getDate() + "日";
+  }
+
+  steps.forEach(function(ev, i){
+    ev.addEventListener("click", function(){
+      if(!ev.classList.contains("locked")) return;
+      if(i !== state.step){ nudge($(".ev-card", ev), waitMsg()); return; }
+      var day = dayNotYet(ev);
+      if(day){ nudge($(".ev-card", ev), day + "になったらひらくよ"); return; }
+      advance(i);
+    });
+  });
+
+  /* ---------------- modal ---------------- */
+  var modal = $("#modal");
+  function openModal(){
+    modal.classList.add("show");
+    document.body.classList.add("is-locked-scroll");
+    setTimeout(function(){ party(); }, 380);
+  }
+  function closeModal(){
+    modal.classList.remove("show");
+    document.body.classList.remove("is-locked-scroll");
+  }
+  secretBtn.addEventListener("click", function(){
+    if(secretBtn.classList.contains("is-locked")){
+      nudge(secretBtn, "DAY 1 の 21:30 を解放すると開けます");
+      return;
+    }
+    openModal();
+  });
+  $("#modalClose").addEventListener("click", closeModal);
+  modal.addEventListener("click", function(e){ if(e.target === modal) closeModal(); });
+  document.addEventListener("keydown", function(e){
+    if(e.key !== "Escape") return;
+    closeModal();
+    if(typeof closeLb === "function") closeLb();
+    if(typeof closeStory === "function") closeStory();
+  });
+
+  /* ---------------- lightbox ---------------- */
+  var lb     = $("#lightbox"),
+      lbImg  = $("#lightbox img"),
+      lbCnt  = $("#lbCount"),
+      lbList = [],
+      lbIdx  = 0;
+
+  function lbShow(i){
+    if(!lbList.length) return;
+    lbIdx = (i + lbList.length) % lbList.length;
+    var it = lbList[lbIdx];
+    if(lbImg.src !== it.src) lbImg.src = it.src;
+    lbImg.alt = it.alt || "";
+    lbCnt.textContent = (lbIdx + 1) + " / " + lbList.length;
+    lb.scrollTop = 0;
+  }
+  function openLb(list, i){
+    lbList = list;
+    lb.classList.toggle("multi", list.length > 1);
+    lbShow(i);
+    lb.classList.add("show");
+    document.body.classList.add("is-locked-scroll");
+  }
+  function closeLb(){
+    lb.classList.remove("show");
+    document.body.classList.remove("is-locked-scroll");
+  }
+
+  $("#lbPrev").addEventListener("click", function(e){ e.stopPropagation(); lbShow(lbIdx - 1); });
+  $("#lbNext").addEventListener("click", function(e){ e.stopPropagation(); lbShow(lbIdx + 1); });
+  lbImg.addEventListener("click", function(e){ e.stopPropagation(); });
+  lb.addEventListener("click", closeLb);
+
+  /* 横スワイプで送る */
+  var swX = 0, swY = 0;
+  lb.addEventListener("touchstart", function(e){
+    swX = e.touches[0].clientX; swY = e.touches[0].clientY;
+  }, { passive:true });
+  lb.addEventListener("touchend", function(e){
+    if(lbList.length < 2) return;
+    var dx = e.changedTouches[0].clientX - swX,
+        dy = e.changedTouches[0].clientY - swY;
+    if(Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) lbShow(lbIdx + (dx < 0 ? 1 : -1));
+  }, { passive:true });
+
+  $$(".shot-btn").forEach(function(btn){
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var img = $("img", btn.parentNode);
+      if(img) openLb([{ src:img.src, alt:img.alt }], 0);
+    });
+  });
+
+  /* ---------------- album ----------------
+     GitHub Pages 上では URL から owner / repo を自動判別し、
+     photos/ フォルダの中身をそのまま並べる（一覧の手書きは不要）。 */
+  var albumEl  = $("#album"),
+      grid     = $("#albumGrid"),
+      albumMsg = $("#albumMsg"),
+      albumCnt = $("#albumCnt"),
+      albumLoaded = false;
+
+  function repoInfo(){
+    var h = location.hostname;
+    if(!/\.github\.io$/i.test(h)) return null;
+    var owner = h.replace(/\.github\.io$/i, "");
+    var parts = location.pathname.split("/").filter(Boolean);
+    if(parts.length && /\.html?$/i.test(parts[parts.length - 1])) parts.pop();
+    var repo = parts.length ? parts.shift() : (owner + ".github.io");
+    var dir  = parts.join("/");                    /* 旅ごとのフォルダ */
+    return {
+      owner:owner, repo:repo,
+      base:"/" + repo + "/" + (dir ? dir + "/" : ""),
+      path:(dir ? dir + "/" : "") + "photos"       /* この旅の写真置き場 */
+    };
+  }
+
+  function renderAlbum(names, base){
+    grid.innerHTML = "";
+    names.forEach(function(name, i){
+      var img = document.createElement("img");
+      img.loading = "lazy";
+      img.alt = "思い出の写真 " + (i + 1);
+      img.src = base + "photos/" + encodeURIComponent(name);
+      img.addEventListener("load", function(){
+        setTimeout(function(){ img.classList.add("in"); }, Math.min(i, 8) * 60);
+      });
+      img.addEventListener("error", function(){ img.remove(); });
+      img.addEventListener("click", function(){
+        var list = $$("img", grid).map(function(el){ return { src:el.src, alt:el.alt }; });
+        openLb(list, list.map(function(o){ return o.src; }).indexOf(img.src));
+      });
+      grid.appendChild(img);
+    });
+    albumCnt.textContent = names.length + " PHOTOS";
+    applyLimit(false);
+    photos = names.map(function(n){ return base + "photos/" + encodeURIComponent(n); });
+    stOpen.classList.toggle("on", photos.length > 0);
+  }
+
+  /* 最初は4枚だけ見せて、残りはボタンで開く */
+  var GRID_LIMIT = 4, albumMore = $("#albumMore");
+
+  function applyLimit(expanded){
+    var imgs = $$("img", grid);
+    imgs.forEach(function(im, i){ im.classList.toggle("hide", !expanded && i >= GRID_LIMIT); });
+    var rest = imgs.length - GRID_LIMIT;
+    albumMore.classList.toggle("on", rest > 0);
+    albumMore.textContent = expanded ? "とじる" : "続きを見る（あと " + rest + " 枚）";
+    albumMore.dataset.open = expanded ? "1" : "";
+  }
+
+  albumMore.addEventListener("click", function(){
+    applyLimit(!albumMore.dataset.open);
+  });
+
+  function loadAlbum(force){
+    if(albumLoaded && !force) return;
+    var info = repoInfo();
+    if(!info){
+      albumMsg.textContent = "写真はサイトを公開してから表示されます。";
+      albumCnt.textContent = "";
+      return;
+    }
+    albumLoaded = true;
+    albumMsg.textContent = "読み込み中…";
+    fetch("https://api.github.com/repos/" + info.owner + "/" + info.repo + "/contents/" + info.path + "?t=" + Date.now())
+      .then(function(r){
+        if(r.status === 404) return [];   /* photos/ がまだ無い＝写真ゼロ */
+        return r.ok ? r.json() : Promise.reject(r.status);
+      })
+      .then(function(list){
+        var names = (list || [])
+          .filter(function(f){ return f.type === "file" && /\.(jpe?g|png|gif|webp|heic)$/i.test(f.name); })
+          .map(function(f){ return f.name; })
+          .sort();
+        if(!names.length){
+          albumMsg.textContent = "写真はこれから増えていきます";
+          albumCnt.textContent = "";
+          photos = [];
+          stOpen.classList.remove("on");
+          albumMore.classList.remove("on");
+          return;
+        }
+        albumMsg.textContent = "";
+        renderAlbum(names, info.base);
+      })
+      .catch(function(){
+        albumLoaded = false;
+        albumMsg.textContent = "写真を読み込めませんでした。\n通信環境のいいところで「↻ 更新」を押してみてね。";
+        albumCnt.textContent = "";
+      });
+  }
+
+  $("#albumReload").addEventListener("click", function(){ loadAlbum(true); });
+
+  /* ---------------- album collage ----------------
+     中央にメッセージ、まわりに写真を散らしたコラージュを全画面で見せる。 */
+  var story   = $("#story"),
+      stStage = $("#stStage"),
+      stOpen  = $("#albumOpen"),
+      photos  = [];
+
+  var COLLAGE_MAX = 18;   /* コラージュに出す枚数の上限 */
+
+  function pickPhotos(){
+    var a = photos.slice();
+    for(var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a.slice(0, COLLAGE_MAX);
+  }
+
+  function buildCollage(){
+    stStage.innerHTML = "";
+    var shots = pickPhotos();
+    var n = shots.length;
+
+    /* 画面全体を格子に分け、1枚ずつ別のマスに置いてから大きくゆらす。
+       写真はマスより大きいので自然に重なりつつ、全体へ均等に散る。 */
+    var Ws = stStage.clientWidth || 320, Hs = stStage.clientHeight || 560;
+    var size = n <= 3 ? 52 : n <= 6 ? 42 : n <= 10 ? 35 : n <= 16 ? 30 : 26;   /* 幅% */
+    var hw = size / 2;                                        /* 半分の幅（%） */
+    var hh = ((size / 100 * Ws) + 26) / Hs * 50;              /* 半分の高さ（%） */
+
+    var cols = Math.max(2, Math.round(Math.sqrt(n * Ws / Hs)));
+    var rows = Math.ceil(n / cols);
+
+    var cells = [];
+    for(var r = 0; r < rows; r++){
+      for(var c = 0; c < cols; c++) cells.push({ c:c, r:r });
+    }
+    for(var k = cells.length - 1; k > 0; k--){
+      var j2 = Math.floor(Math.random() * (k + 1));
+      var tmp = cells[k]; cells[k] = cells[j2]; cells[j2] = tmp;
+    }
+
+    /* 中央のメッセージが乗る範囲（ここに来た写真は外へ逃がす） */
+    var cardW = Math.min(Ws * 0.74, 296) / Ws * 50 + 2;
+    var cardH = 190 / Hs * 50 + 2;
+
+    shots.forEach(function(src, i){
+      var cell = cells[i % cells.length];
+      var x = (cell.c + 0.5) / cols * 100 + (Math.random() - 0.5) * (100 / cols) * 0.5;
+      var y = (cell.r + 0.5) / rows * 100 + (Math.random() - 0.5) * (100 / rows) * 0.5;
+
+      x = Math.max(hw, Math.min(100 - hw, x));
+      y = Math.max(hh, Math.min(100 - hh, y));
+
+      var dx = x - 50, dy = y - 50;
+      if(Math.abs(dx) < cardW && Math.abs(dy) < cardH){       /* カードの真下なら外へ */
+        if(Math.abs(dx) / cardW > Math.abs(dy) / cardH){
+          x = 50 + (dx >= 0 ? cardW : -cardW);
+        }else{
+          y = 50 + (dy >= 0 ? cardH : -cardH);
+        }
+        x = Math.max(hw, Math.min(100 - hw, x));
+        y = Math.max(hh, Math.min(100 - hh, y));
+      }
+
+      var el = document.createElement("a");
+      el.className = "cl-photo";
+      el.style.width = size + "%";
+      el.style.left  = x + "%";
+      el.style.top   = y + "%";
+      el.style.setProperty("--r", (Math.random() * 18 - 9).toFixed(1) + "deg");
+      el.style.animationDelay = (i * 80) + "ms";
+      el.style.zIndex = String(i % 3);
+
+      var img = document.createElement("img");
+      img.src = src; img.alt = "思い出の写真 " + (i + 1);
+      el.appendChild(img);
+      el.addEventListener("click", function(){
+        openLb(shots.map(function(q){ return { src:q, alt:"" }; }), i);
+      });
+      stStage.appendChild(el);
+    });
+
+    var c2 = document.createElement("div");
+    c2.className = "cl-center";
+    c2.style.animationDelay = (n * 85 + 200) + "ms";
+    c2.innerHTML = '<p class="k">✦ FOR YOU ✦</p>' +
+                   '<h2>Happy Birthday<br>to my lovely wife!</h2>' +
+                   '<div class="rule"></div>' +
+                   '<p>2026.10.03 – 04</p>';
+    stStage.appendChild(c2);
+  }
+
+  function openStory(){
+    if(!photos.length) return;
+    story.classList.add("show");
+    document.body.classList.add("is-locked-scroll");
+    requestAnimationFrame(buildCollage);   /* 表示後に実寸を測る */
+  }
+  function closeStory(){
+    story.classList.remove("show");
+    document.body.classList.remove("is-locked-scroll");
+    setTimeout(function(){ stStage.innerHTML = ""; }, 500);
+  }
+
+  stOpen.addEventListener("click", openStory);
+  $("#stClose").addEventListener("click", closeStory);
+
+  /* ---------------- reset ---------------- */
+  $("#resetBtn").addEventListener("click", function(){
+    if(!confirm("すべてのロックとチェックを最初の状態にもどしますか？")) return;
+    try{ localStorage.removeItem(STORE); }catch(e){}
+    location.reload();
+  });
+
+  /* ---------------- restore ---------------- */
+  state.step = Math.max(0, Math.min(state.step, steps.length));
+  steps.forEach(function(ev, i){ if(i < state.step) openStep(ev, false); });
+  refreshLocks();
+  tick();
+  if(TEST) setTimeout(function(){ toast("テストモード：時間制限なしで開けます"); }, 900);
+})();
+</script>
+</body>
+</html>
